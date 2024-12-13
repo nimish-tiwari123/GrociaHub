@@ -1,0 +1,16 @@
+.outline {
+  outline: none;
+}
+
+.outline:focus {
+  outline: 1px solid var(--primary);
+  color: #253d4e;
+}
+.text-decoration-none {
+  text-decoration: none;
+}
+/* font sizes */
+
+.fs-7 {
+  font-size: 14px;
+}

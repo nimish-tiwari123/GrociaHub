@@ -1,5 +1,11 @@
+import { Navbar, Footer } from "../../../components/user";
 const HomeLayout = () => {
-  return <div>HomeLayout</div>;
+  return (
+    <div>
+      <Navbar />
+      <Footer />
+    </div>
+  );
 };
 
 export default HomeLayout;

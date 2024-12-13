@@ -1,0 +1,8 @@
+.cart-badge{
+   left: 16px;
+   top: -5px;
+   outline: 3px solid white;
+   width: 12px;
+   height: 12px;
+   font-size: 6px;
+}
