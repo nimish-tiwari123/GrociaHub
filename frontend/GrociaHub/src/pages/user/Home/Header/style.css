@@ -1,0 +1,9 @@
+.header-container{
+    background-color: #00983326;
+    height: 80vh;
+}
+.bg-img-hero {
+    background-image: url("../../../../assets/home/hero.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}

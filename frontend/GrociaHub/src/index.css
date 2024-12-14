@@ -2,9 +2,11 @@
 :root {
   --primary: #009833;
   --secondary: #f3f3f3;
+  --dark: #253D4E;
 }
 body {
   font-family: "Quicksand", sans-serif !important;
+  color:var(--dark)
 }
 /* Colors */
 
@@ -17,3 +19,4 @@ body {
 .text-custom-primary {
   color: var(--primary);
 }
+

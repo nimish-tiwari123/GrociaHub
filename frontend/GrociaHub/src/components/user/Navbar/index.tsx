@@ -1,28 +1,48 @@
 import { Container, Navbar } from "react-bootstrap";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { logo } from "../../../assets";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineLocalFireDepartment } from "react-icons/md";
 import { GrCart } from "react-icons/gr";
-import { FiHome } from "react-icons/fi";
-import { TfiAnnouncement } from "react-icons/tfi";
 import { FiPhone } from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
 import { MdOutlineGridView } from "react-icons/md";
+import { TfiAnnouncement } from "react-icons/tfi";
 import { Button } from "../../common";
+import { SlMenu } from "react-icons/sl";
+import ResponsiveMenuBar from "./ResponsiveMenuBar";
 import "./style.css";
 
 const CustomNavbar = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <>
       <Navbar expand="lg" className="border-bottom">
         <Container>
           <Navbar.Brand href="#home">
-            <img src={logo} alt="Logo" />
+            <img src={logo} alt="Logo" className="logo-nav" />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <div className="d-flex gap-3 d-lg-none">
+        <div className="cart position-relative">
+                  <GrCart size={20} />
+                  <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
+                    2
+                  </span>
+                </div>
+          <button
+            className="bg-transparent border-0 "
+            onClick={handleShow}
+          >
+            <SlMenu size={20} />
+          </button>
+        </div>
           <Navbar.Collapse id="basic-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between w-100">
-              <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0">
+              <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
                 <input
                   type="text"
                   placeholder="Search for items..."
@@ -50,9 +70,8 @@ const CustomNavbar = () => {
         </Container>
       </Navbar>
 
-      <Navbar expand="lg">
+      <Navbar expand="lg" className="py-lg-3 py-0">
         <Container>
-          <Navbar.Toggle aria-controls="secondary-navbar-nav" />
           <Navbar.Collapse id="secondary-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
               <Button
@@ -96,13 +115,20 @@ const CustomNavbar = () => {
 
               <div className="d-flex align-items-center mt-3 mt-lg-0">
                 <FiPhone className="text-custom-primary" />
-                <span className="text-custom-primary fw-bold ms-1">1233-7777</span>
+                <span className="text-custom-primary fw-bold ms-1">
+                  1233-7777
+                </span>
                 <span className="fs-7 ms-2 fw-medium">24/7 support center</span>
               </div>
             </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <ResponsiveMenuBar
+        show={show}
+        handleClose={handleClose}
+        handleShow={handleShow}
+      />
     </>
   );
 };
