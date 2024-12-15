@@ -1,9 +1,21 @@
-.header-container{
-    background-color: #00983326;
-    height: 80vh;
+.header-container {
+  background-color: #00983326;
+  height: 80vh;
 }
 .bg-img-hero {
-    background-image: url("../../../../assets/home/hero.png");
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-image: url("../../../../assets/home/hero.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+.custom-w-75 {
+  width: 80%;
+}
+.text-shadow{
+    text-shadow: 1px 1px 4px rgba(128, 128, 128, 0.452);
+}
+@media screen and (max-width: 500px) {
+  .custom-w-75 {
+    width: 100%;
+  }
 }

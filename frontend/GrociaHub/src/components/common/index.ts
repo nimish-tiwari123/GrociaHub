@@ -1,3 +1,3 @@
 import Button from "./Button";
-
-export {Button};
+import NotFound from "./NotFound";
+export { Button, NotFound };

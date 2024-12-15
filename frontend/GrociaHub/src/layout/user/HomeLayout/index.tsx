@@ -1,9 +1,10 @@
 import { Navbar, Footer } from "../../../components/user";
-const HomeLayout = ({children}) => {
+import { Outlet } from "react-router-dom";
+const HomeLayout = () => {
   return (
     <div>
       <Navbar />
-      {children}
+      <Outlet />
       <Footer />
     </div>
   );

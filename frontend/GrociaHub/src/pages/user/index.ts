@@ -1,4 +1,6 @@
 import Home from "./Home";
-import AllProducts from "./AllProducts";
-
-export { Home, AllProducts };
+import NewProducts from "./NewProducts";
+import AllCategories from "./AllCategories";
+import Cart from "./Cart";
+import HotDeals from "./HotDeals";
+export { Home, NewProducts, AllCategories, Cart, HotDeals };

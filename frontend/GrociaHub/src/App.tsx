@@ -1,16 +1,22 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserRoutes from "./pages/user/routes/UserRoutes";
-import "./App.css";
+import AuthRoutes from "./pages/auth/routes/AuthRoutes";
+import {HomeLayout} from "./layout";
+import { NotFound } from "./components/common"; 
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <UserRoutes />
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/*" element={<UserRoutes />} />
+        </Route>
+
+        <Route path="/auth/*" element={<AuthRoutes />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-  

@@ -21,25 +21,22 @@ const CustomNavbar = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Navbar expand="lg" className="border-bottom">
+      <Navbar expand="lg" className="border-bottom sticky-top bg-white">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <img src={logo} alt="Logo" className="logo-nav" />
           </Navbar.Brand>
-        <div className="d-flex gap-3 d-lg-none">
-        <div className="cart position-relative">
-                  <GrCart size={20} />
-                  <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                    2
-                  </span>
-                </div>
-          <button
-            className="bg-transparent border-0 "
-            onClick={handleShow}
-          >
-            <SlMenu size={20} />
-          </button>
-        </div>
+          <div className="d-flex gap-3 d-lg-none">
+            <div className="cart position-relative">
+              <GrCart size={20} />
+              <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
+                2
+              </span>
+            </div>
+            <button className="bg-transparent border-0 " onClick={handleShow}>
+              <SlMenu size={20} />
+            </button>
+          </div>
           <Navbar.Collapse id="basic-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between w-100">
               <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
@@ -53,17 +50,21 @@ const CustomNavbar = () => {
                 </button>
               </div>
               <div className="right d-flex gap-4 align-items-center">
-                <div className="cart position-relative">
-                  <GrCart size={24} />
-                  <span className="ms-2 fs-7 fw-medium">My Cart</span>
-                  <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                    2
-                  </span>
-                </div>
-                <Button
-                  btnLabel="Login"
-                  btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"
-                />
+                <NavLink to="/cart" className="text-decoration-none text-dark">
+                  <div className="cart position-relative">
+                    <GrCart size={24} />
+                    <span className="ms-2 fs-7 fw-medium">My Cart</span>
+                    <span className="cart-badge bg-custom-primary fw-bold text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
+                      2
+                    </span>
+                  </div>
+                </NavLink>
+                <NavLink to="/login" className="text-decoration-none">
+                  <Button
+                    btnLabel="Login"
+                    btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"
+                  />
+                </NavLink>
               </div>
             </div>
           </Navbar.Collapse>
@@ -74,11 +75,13 @@ const CustomNavbar = () => {
         <Container>
           <Navbar.Collapse id="secondary-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
-              <Button
-                leftIcon={<MdOutlineGridView size={20} />}
-                btnLabel="Browse All Categories"
-                btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0"
-              />
+              <NavLink to="/allCategories" className="text-decoration-none">
+                <Button
+                  leftIcon={<MdOutlineGridView size={20} />}
+                  btnLabel="Browse All Categories"
+                  btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0"
+                />
+              </NavLink>
 
               <div className="d-flex flex-column flex-lg-row gap-4">
                 <NavLink
@@ -102,7 +105,7 @@ const CustomNavbar = () => {
                   <MdOutlineLocalFireDepartment /> Hot deals
                 </NavLink>
                 <NavLink
-                  to="/allProducts"
+                  to="/newProducts"
                   className={({ isActive }) =>
                     `text-decoration-none fw-medium ${
                       isActive ? "text-custom-primary" : "text-dark"

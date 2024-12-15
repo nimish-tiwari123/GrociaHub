@@ -1,5 +1,8 @@
 export const userRoutesConstants = {
-    home:"/",
-    allProducts:"/allProducts",
-
-}
+    home: "/",
+    newProducts: "/newProducts",
+    hotDeals: "/hotDeals",
+    cart: "/cart",
+    allCategories: "/allCategories",
+  };
+  
