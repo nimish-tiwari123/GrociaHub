@@ -102,7 +102,7 @@ const CustomNavbar = () => {
                     }`
                   }
                 >
-                  <MdOutlineLocalFireDepartment /> Hot deals
+                  <MdOutlineLocalFireDepartment size={20}/> Hot deals
                 </NavLink>
                 <NavLink
                   to="/newProducts"

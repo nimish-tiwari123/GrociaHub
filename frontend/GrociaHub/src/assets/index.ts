@@ -1,3 +1,3 @@
 import logo from "./logo.svg";
-
-export {logo};
+import payment from "./Payment.png"
+export {logo, payment};
