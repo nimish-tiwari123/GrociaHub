@@ -1,4 +1,3 @@
-
 import { LuShoppingCart } from "react-icons/lu";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import "./style.css";
@@ -32,10 +31,11 @@ const ProductCard = ({ productData }) => {
         {productData.name} {productData.weight}
       </p>
       <div className="d-flex align-items-center mb-2">
-        {renderStars(productData.rating)} <span className="fs-7 opacity-50">({productData.rating})</span>
+        {renderStars(productData.rating)}{" "}
+        <span className="fs-7 opacity-50">({productData.rating})</span>
       </div>
       <div className="d-flex flex-card-bottom justify-content-between align-items-center">
-        <div className="">
+        <div>
           <span className="text-custom-primary fw-bold">
             &#8377;{productData.price}
           </span>
