@@ -1,8 +1,8 @@
-.outline {
+.input-focus {
   outline: none;
 }
 
-.outline:focus {
+.input-focus:focus {
   outline: 1px solid var(--primary);
   color: #253d4e;
 }

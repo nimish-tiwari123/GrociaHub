@@ -43,7 +43,7 @@ const CustomNavbar = () => {
                 <input
                   type="text"
                   placeholder="Search for items..."
-                  className="bg-custom-secondary border-0 outline fs-7 py-2 px-3 w-100 w-lg-50"
+                  className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50"
                 />
                 <button className="bg-custom-primary border-0 text-light px-3">
                   <IoSearchOutline size={24} />
@@ -59,7 +59,7 @@ const CustomNavbar = () => {
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/login" className="text-decoration-none">
+                <NavLink to="/auth/login" className="text-decoration-none">
                   <Button
                     btnLabel="Login"
                     btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"

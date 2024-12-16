@@ -3,11 +3,12 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./style.css";
 const Header = () => {
   return (
-    <Container fluid className="header-container">
-      <Row className="h-100 bg-img-hero">
+    <Container fluid className="header-container-img p-0">
+     <div className="header-container">
+     <Row className="h-100 w-100 m-0 bg-img-hero">
         <Col md={6}>
           <div className="h-100 d-flex flex-column justify-content-center gap-3 px-3 px-lg-5 mx-lg-5 custom-w-75">
-            <h1 className="fw-bold text-Vdark display-5 text-shadow">
+            <h1 className="fw-bold text-Vdark display-5 text-shadow mt-heading">
               Don’t miss our daily amazing deals.
             </h1>
             <p className="fs-5 opacity-75">
@@ -26,6 +27,7 @@ const Header = () => {
           </div>
         </Col>
       </Row>
+     </div>
     </Container>
   );
 };

@@ -3,6 +3,7 @@ import UserRoutes from "./pages/user/routes/UserRoutes";
 import AuthRoutes from "./pages/auth/routes/AuthRoutes";
 import {HomeLayout} from "./layout";
 import { NotFound } from "./components/common"; 
+import "./App.css";
 
 function App() {
   return (
