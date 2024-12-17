@@ -11,7 +11,7 @@ body {
 /* Colors */
 
 .bg-custom-primary {
-  background-color: var(--primary);
+  background-color: var(--primary) ;
 }
 .bg-custom-secondary {
   background-color: var(--secondary);

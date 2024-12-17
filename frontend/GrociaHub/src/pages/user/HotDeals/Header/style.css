@@ -1,0 +1,11 @@
+.hotDeals-container-img {
+  background-image: url("../../../../assets/home/vegBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.deals-header-container {
+  background-color: #def9ece6;
+  height: 40vh;
+}
+
+
