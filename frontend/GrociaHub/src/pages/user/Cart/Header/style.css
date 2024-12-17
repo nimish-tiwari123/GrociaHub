@@ -1,0 +1,11 @@
+.cart-container-img {
+  background-image: url("../../../../assets/home/vegBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.cart-header-container {
+  background-color: #fffcebe6;
+  height: 40vh;
+}
+
+

@@ -19,3 +19,7 @@ body {
 .text-custom-primary {
   color: var(--primary);
 }
+
+.bg-custom-danger{
+  background-color: #ed174a;
+}
