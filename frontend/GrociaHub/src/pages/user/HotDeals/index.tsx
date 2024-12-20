@@ -33,7 +33,7 @@ const HotDeals = () => {
         <div className="d-flex justify-content-center">
           <Button
             btnLabel="Load More"
-            btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 my-5 fs-7"
+            btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 my-5 fs-7 rounded"
             rightIcon={<RiLoader4Fill/>}
           />
         </div>

@@ -45,9 +45,9 @@ const CustomNavbar = () => {
                 <input
                   type="text"
                   placeholder="Search for items..."
-                  className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50"
+                  className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
                 />
-                <button className="bg-custom-primary border-0 text-light px-3">
+                <button className="bg-custom-primary border-0 text-light px-3 rounded-end">
                   <IoSearchOutline size={24} />
                 </button>
               </div>
@@ -64,7 +64,7 @@ const CustomNavbar = () => {
                 <NavLink to={redirectAuthRoutesConstants.login} className="text-decoration-none">
                   <Button
                     btnLabel="Login"
-                    btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"
+                    btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium rounded"
                   />
                 </NavLink>
               </div>
@@ -81,7 +81,7 @@ const CustomNavbar = () => {
                 <Button
                   leftIcon={<MdOutlineGridView size={20} />}
                   btnLabel="Browse All Categories"
-                  btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0"
+                  btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
                 />
               </NavLink>
 

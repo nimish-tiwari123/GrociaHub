@@ -12,7 +12,7 @@ const FeaturedProducts = () => {
         <Col md={6} className="d-flex view-all-btn mt-1 mt-md-auto">
           <Button
             btnLabel="View All Products"
-            btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0"
+            btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
           />
         </Col>
       </Row>

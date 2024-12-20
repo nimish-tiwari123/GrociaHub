@@ -36,8 +36,17 @@ const Login = () => {
 
         <Button
           btnLabel="Login Now"
-          btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 w-100 rounded-2 d-flex justify-content-center mt-4"
+          btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 w-100 rounded-2 d-flex justify-content-center mt-5"
         />
+        <div className="text-center mt-3">
+          Don't have an account?
+          <Link
+            to={redirectAuthRoutesConstants.signUp}
+            className="forgot-password text-custom-primary text-decoration-none fw-medium ms-1"
+          >
+            Sign Up
+          </Link>
+        </div>
       </form>
     </div>
   );

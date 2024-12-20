@@ -18,9 +18,9 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Enter your email address"
-                className="bg-white border-0 outline fs-7 py-2 py-lg-3 px-3 w-100"
+                className="bg-white border-0 input-focus py-2 py-lg-3 px-3 w-100 rounded-start"
               />
-              <button className="bg-custom-primary border-0 text-light px-2 px-lg-3 fs-7">
+              <button className="bg-custom-primary border-0 text-light px-2 px-lg-3  rounded-end fw-medium">
                 Subscribe
               </button>
             </div>
