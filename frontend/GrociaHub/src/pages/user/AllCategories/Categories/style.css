@@ -1,0 +1,14 @@
+.view-all-btn{
+    justify-content: right;
+}
+.category-home-row{
+    justify-content: space-between;
+}
+@media screen and (max-width:768px) {
+    .view-all-btn{
+        justify-content: start;
+    }
+    .category-home-row{
+        justify-content: none;
+    }
+}

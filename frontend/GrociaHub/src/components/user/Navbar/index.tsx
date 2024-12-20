@@ -13,6 +13,8 @@ import { Button } from "../../common";
 import { SlMenu } from "react-icons/sl";
 import ResponsiveMenuBar from "./ResponsiveMenuBar";
 import "./style.css";
+import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
+import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 
 const CustomNavbar = () => {
   const [show, setShow] = useState(false);
@@ -50,7 +52,7 @@ const CustomNavbar = () => {
                 </button>
               </div>
               <div className="right d-flex gap-4 align-items-center">
-                <NavLink to="/cart" className="text-decoration-none text-dark">
+                <NavLink to={userRoutesConstants.cart} className="text-decoration-none text-dark">
                   <div className="cart position-relative">
                     <GrCart size={24} />
                     <span className="ms-2 fs-7 fw-medium">My Cart</span>
@@ -59,7 +61,7 @@ const CustomNavbar = () => {
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to="/auth/login" className="text-decoration-none">
+                <NavLink to={redirectAuthRoutesConstants.login} className="text-decoration-none">
                   <Button
                     btnLabel="Login"
                     btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"
@@ -75,7 +77,7 @@ const CustomNavbar = () => {
         <Container>
           <Navbar.Collapse id="secondary-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
-              <NavLink to="/allCategories" className="text-decoration-none">
+              <NavLink to={userRoutesConstants.allCategories} className="text-decoration-none">
                 <Button
                   leftIcon={<MdOutlineGridView size={20} />}
                   btnLabel="Browse All Categories"
@@ -95,7 +97,7 @@ const CustomNavbar = () => {
                   <FiHome /> Home
                 </NavLink>
                 <NavLink
-                  to="/hotDeals"
+                  to={userRoutesConstants.hotDeals}
                   className={({ isActive }) =>
                     `text-decoration-none fw-medium ${
                       isActive ? "text-custom-primary" : "text-dark"
@@ -105,7 +107,7 @@ const CustomNavbar = () => {
                   <MdOutlineLocalFireDepartment size={20}/> Hot deals
                 </NavLink>
                 <NavLink
-                  to="/newProducts"
+                  to={userRoutesConstants.newProducts}
                   className={({ isActive }) =>
                     `text-decoration-none fw-medium ${
                       isActive ? "text-custom-primary" : "text-dark"

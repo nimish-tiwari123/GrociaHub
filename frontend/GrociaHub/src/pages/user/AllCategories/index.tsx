@@ -1,7 +1,12 @@
+import Categories from "./Categories"
+import Header from "./Header"
 
 const AllCategories = () => {
   return (
-    <div>AllCategories</div>
+    <div>
+      <Header/>
+      <Categories/>
+    </div>
   )
 }
 

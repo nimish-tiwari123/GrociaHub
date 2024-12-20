@@ -1,0 +1,13 @@
+.auth-bg {
+    background-color: #f7f8fae4;
+}
+.auth-img-bg {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../../assets/home/vegBg.png");
+  background-size: cover;
+}
+.auth-layout-container {
+  width: 450px;
+  max-width: 450px;
+}

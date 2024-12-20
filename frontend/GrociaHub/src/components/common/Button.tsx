@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css";
 
 type ButtonProps = {
   leftIcon?: React.ReactNode;
@@ -15,7 +16,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <div>
-      <button className={`d-flex align-items-center gap-2 ${btnStyle || ""}`}>
+      <button className={`d-flex align-items-center gap-2 btn-hover ${btnStyle || ""}`}>
         {leftIcon}
         {btnLabel}
         {rightIcon}
