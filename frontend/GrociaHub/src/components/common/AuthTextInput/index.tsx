@@ -22,7 +22,6 @@ const AuthTextInput: FC<AuthTextInputProps> = ({
   icon: Icon,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const hasError = formik.touched[name] && formik.errors[name];
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

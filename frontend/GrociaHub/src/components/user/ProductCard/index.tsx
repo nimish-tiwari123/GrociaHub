@@ -1,12 +1,27 @@
 import { LuShoppingCart } from "react-icons/lu";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
+import "./style.css";
 
-const ProductCard = ({ productData }) => {
-const navigate = useNavigate();
-  const renderStars = (rating) => {
+type ProductDataType = {
+  image: string;
+  name: string;
+  category: string;
+  weight: string;
+  rating: number;
+  price: number;
+  discountPrice: number;
+};
+
+type ProductCardProps = {
+  productData: ProductDataType;
+};
+
+const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
+  const navigate = useNavigate();
+
+  const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (rating >= i) {
@@ -21,7 +36,10 @@ const navigate = useNavigate();
   };
 
   return (
-    <div className="border mt-3 rounded p-3 cursor-pointer" onClick={()=>navigate(userRoutesConstants.viewProduct)}>
+    <div
+      className="border mt-3 rounded p-3 cursor-pointer"
+      onClick={() => navigate(userRoutesConstants.viewProduct)}
+    >
       <img
         src={productData.image}
         alt={productData.name}
@@ -32,7 +50,7 @@ const navigate = useNavigate();
         {productData.name} {productData.weight}
       </p>
       <div className="d-flex align-items-center mb-2">
-        {renderStars(productData.rating)}{" "}
+        {renderStars(productData.rating)}
         <span className="fs-7 opacity-50">({productData.rating})</span>
       </div>
       <div className="d-flex flex-card-bottom justify-content-between align-items-center">
