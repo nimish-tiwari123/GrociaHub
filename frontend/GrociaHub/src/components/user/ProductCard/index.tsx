@@ -1,10 +1,11 @@
 import { LuShoppingCart } from "react-icons/lu";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
+import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 
 const ProductCard = ({ productData }) => {
-  console.log(productData);
-
+const navigate = useNavigate();
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -20,7 +21,7 @@ const ProductCard = ({ productData }) => {
   };
 
   return (
-    <div className="border mt-3 rounded p-3 cursor-pointer">
+    <div className="border mt-3 rounded p-3 cursor-pointer" onClick={()=>navigate(userRoutesConstants.viewProduct)}>
       <img
         src={productData.image}
         alt={productData.name}

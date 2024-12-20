@@ -38,7 +38,7 @@ const ViewProduct = () => {
       </Container>
 
       <Container className="rounded-3 mb-5 p-0 p-md-5 position-relative product-view-container">
-        <button className="btn btn-primary position-absolute top-0 end-0 mt-5 me-2 m-md-4 fs-7 btn-sm">
+        <button className="btn btn-primary position-absolute top-0 end-0 mt-5 me-2 m-md-4 fs-7 btn-sm ">
           10% off
         </button>
         <Row>
