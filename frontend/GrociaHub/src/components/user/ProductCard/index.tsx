@@ -20,7 +20,7 @@ const ProductCard = ({ productData }) => {
   };
 
   return (
-    <div className="border mt-3 rounded p-3">
+    <div className="border mt-3 rounded p-3 cursor-pointer">
       <img
         src={productData.image}
         alt={productData.name}

@@ -1,0 +1,22 @@
+.active-border{
+    border: 2px solid var(--primary);
+    outline: 1px solid rgba(0, 128, 0, 0.229);
+}
+.stock-status-btn{
+    background-color: #0098331c;
+}
+.product-service-card{
+    max-width: 300px;
+    color: #535F70;
+}
+.product-view-container{
+    border: 1px solid rgba(128, 128, 128, 0.104);
+    box-shadow: 1px 1px 5px rgba(171, 170, 170, 0.322);
+}
+
+@media screen and (max-width:768px) {
+    .product-view-container{
+        border: none;
+        box-shadow: none;
+    }  
+}

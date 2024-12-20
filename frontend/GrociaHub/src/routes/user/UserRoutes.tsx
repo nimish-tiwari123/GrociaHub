@@ -5,6 +5,7 @@ import {
   AllCategories,
   Cart,
   HotDeals,
+  ViewProduct
 } from "../../pages/user";
 import { HomeLayout } from "../../layout";
 import { Route, Routes } from "react-router-dom";
@@ -24,6 +25,10 @@ const UserRoutes = () => {
         <Route
           path={userRoutesConstants.allCategories}
           element={<AllCategories />}
+        />
+         <Route
+          path={userRoutesConstants.viewProduct}
+          element={<ViewProduct />}
         />
       </Route>
       <Route path="*" element={<NotFound />} />

@@ -23,7 +23,7 @@ const CustomNavbar = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Navbar expand="lg" className="border-bottom sticky-top bg-white">
+      <Navbar expand="lg" className="sticky-top bg-white border-bottom">
         <Container>
           <Navbar.Brand href="/">
             <img src={logo} alt="Logo" className="logo-nav" />
@@ -52,7 +52,10 @@ const CustomNavbar = () => {
                 </button>
               </div>
               <div className="right d-flex gap-4 align-items-center">
-                <NavLink to={userRoutesConstants.cart} className="text-decoration-none text-dark">
+                <NavLink
+                  to={userRoutesConstants.cart}
+                  className="text-decoration-none text-dark"
+                >
                   <div className="cart position-relative">
                     <GrCart size={24} />
                     <span className="ms-2 fs-7 fw-medium">My Cart</span>
@@ -61,7 +64,10 @@ const CustomNavbar = () => {
                     </span>
                   </div>
                 </NavLink>
-                <NavLink to={redirectAuthRoutesConstants.login} className="text-decoration-none">
+                <NavLink
+                  to={redirectAuthRoutesConstants.login}
+                  className="text-decoration-none"
+                >
                   <Button
                     btnLabel="Login"
                     btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium rounded"
@@ -72,63 +78,67 @@ const CustomNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+        <Navbar expand="lg" className="py-lg-3 py-0 border-bottom">
+          <Container>
+            <Navbar.Collapse id="secondary-navbar-nav">
+              <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
+                <NavLink
+                  to={userRoutesConstants.allCategories}
+                  className="text-decoration-none"
+                >
+                  <Button
+                    leftIcon={<MdOutlineGridView size={20} />}
+                    btnLabel="Browse All Categories"
+                    btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
+                  />
+                </NavLink>
 
-      <Navbar expand="lg" className="py-lg-3 py-0">
-        <Container>
-          <Navbar.Collapse id="secondary-navbar-nav">
-            <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
-              <NavLink to={userRoutesConstants.allCategories} className="text-decoration-none">
-                <Button
-                  leftIcon={<MdOutlineGridView size={20} />}
-                  btnLabel="Browse All Categories"
-                  btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
-                />
-              </NavLink>
+                <div className="d-flex flex-column flex-lg-row gap-4">
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                      `text-decoration-none fw-medium ${
+                        isActive ? "text-custom-primary" : "text-dark"
+                      }`
+                    }
+                  >
+                    <FiHome /> Home
+                  </NavLink>
+                  <NavLink
+                    to={userRoutesConstants.hotDeals}
+                    className={({ isActive }) =>
+                      `text-decoration-none fw-medium ${
+                        isActive ? "text-custom-primary" : "text-dark"
+                      }`
+                    }
+                  >
+                    <MdOutlineLocalFireDepartment size={20} /> Hot deals
+                  </NavLink>
+                  <NavLink
+                    to={userRoutesConstants.newProducts}
+                    className={({ isActive }) =>
+                      `text-decoration-none fw-medium ${
+                        isActive ? "text-custom-primary" : "text-dark"
+                      }`
+                    }
+                  >
+                    <TfiAnnouncement /> New products
+                  </NavLink>
+                </div>
 
-              <div className="d-flex flex-column flex-lg-row gap-4">
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    `text-decoration-none fw-medium ${
-                      isActive ? "text-custom-primary" : "text-dark"
-                    }`
-                  }
-                >
-                  <FiHome /> Home
-                </NavLink>
-                <NavLink
-                  to={userRoutesConstants.hotDeals}
-                  className={({ isActive }) =>
-                    `text-decoration-none fw-medium ${
-                      isActive ? "text-custom-primary" : "text-dark"
-                    }`
-                  }
-                >
-                  <MdOutlineLocalFireDepartment size={20}/> Hot deals
-                </NavLink>
-                <NavLink
-                  to={userRoutesConstants.newProducts}
-                  className={({ isActive }) =>
-                    `text-decoration-none fw-medium ${
-                      isActive ? "text-custom-primary" : "text-dark"
-                    }`
-                  }
-                >
-                  <TfiAnnouncement /> New products
-                </NavLink>
+                <div className="d-flex align-items-center mt-3 mt-lg-0">
+                  <FiPhone className="text-custom-primary" />
+                  <span className="text-custom-primary fw-bold ms-1">
+                    1233-7777
+                  </span>
+                  <span className="fs-7 ms-2 fw-medium">
+                    24/7 support center
+                  </span>
+                </div>
               </div>
-
-              <div className="d-flex align-items-center mt-3 mt-lg-0">
-                <FiPhone className="text-custom-primary" />
-                <span className="text-custom-primary fw-bold ms-1">
-                  1233-7777
-                </span>
-                <span className="fs-7 ms-2 fw-medium">24/7 support center</span>
-              </div>
-            </div>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       <ResponsiveMenuBar
         show={show}
         handleClose={handleClose}
