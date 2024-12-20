@@ -40,7 +40,6 @@ const AuthTextInput: FC<AuthTextInputProps> = ({
           onBlur={formik.handleBlur}
           value={formik.values[name] || ""}
           className="bg-custom-secondary border fs-7 px-3 py-2 w-100 rounded-2 input-focus"
-       
         />
       </div>
       {hasError ? (

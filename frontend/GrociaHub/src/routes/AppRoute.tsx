@@ -5,13 +5,11 @@ import { NotFound } from "../components/common";
 const AppRoute = () => {
   return (
     <BrowserRouter>
-       <Routes>
+      <Routes>
         <Route path="/*" element={<UserRoutes />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
-
         <Route path="*" element={<NotFound />} />
       </Routes>
-
     </BrowserRouter>
   );
 };

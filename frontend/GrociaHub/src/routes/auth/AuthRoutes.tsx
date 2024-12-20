@@ -7,6 +7,7 @@ import {
   CreatePassword,
 } from "../../pages/auth";
 import AuthLayout from "../../layout/auth/AuthLayout";
+import { NotFound } from "../../components/common";
 
 const AuthRoutes = () => {
   return (
@@ -16,7 +17,10 @@ const AuthRoutes = () => {
         <Route path={authRoutesConstants.signUp} element={<SignUp />} />
         <Route path={authRoutesConstants.forgotPassword} element={<ForgotPassword />} />
         <Route path={authRoutesConstants.createPassword} element={<CreatePassword />} />
+
       </Route>
+      <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 };
