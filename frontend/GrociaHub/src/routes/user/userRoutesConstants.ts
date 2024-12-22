@@ -1,9 +1,9 @@
 export const userRoutesConstants = {
     home: "/",
-    newProducts: "/newProducts",
-    hotDeals: "/hotDeals",
+    newProducts: "/new-products",
+    hotDeals: "/hot-deals",
     cart: "/cart",
-    allCategories: "/allCategories",
-    viewProduct: "/viewProduct"
+    allCategories: "/all-categories",
+    viewProduct: "/view-product"
   };
   

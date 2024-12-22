@@ -17,7 +17,7 @@ body {
   background-color: var(--secondary);
 }
 .text-custom-primary {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .bg-custom-danger{

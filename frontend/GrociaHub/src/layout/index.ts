@@ -1,3 +1,3 @@
 import HomeLayout from "./user/HomeLayout";
-
-export {HomeLayout};
+import DashboardLayout from "./admin/DashboardLayout";
+export {HomeLayout,DashboardLayout};

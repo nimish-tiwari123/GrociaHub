@@ -1,6 +1,6 @@
 import { Container, Navbar } from "react-bootstrap";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logo } from "../../../assets";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineLocalFireDepartment } from "react-icons/md";
@@ -12,13 +12,15 @@ import { TfiAnnouncement } from "react-icons/tfi";
 import { Button } from "../../common";
 import { SlMenu } from "react-icons/sl";
 import ResponsiveMenuBar from "./ResponsiveMenuBar";
-import "./style.css";
 import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+import "./style.css";
 
 const CustomNavbar = () => {
   const [show, setShow] = useState(false);
-
+  const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -51,6 +53,13 @@ const CustomNavbar = () => {
                   <IoSearchOutline size={24} />
                 </button>
               </div>
+              <button
+                className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 d-flex gap-2 align-items-center fw-medium"
+                onClick={() => navigate(redirectAdminRoutes.dashboard)}
+              >
+                <MdAdminPanelSettings size={20} />
+                Admin Panel
+              </button>
               <div className="right d-flex gap-4 align-items-center">
                 <NavLink
                   to={userRoutesConstants.cart}
@@ -78,67 +87,65 @@ const CustomNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-        <Navbar expand="lg" className="py-lg-3 py-0 border-bottom">
-          <Container>
-            <Navbar.Collapse id="secondary-navbar-nav">
-              <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
+      <Navbar expand="lg" className="py-lg-3 py-0 border-bottom">
+        <Container>
+          <Navbar.Collapse id="secondary-navbar-nav">
+            <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">
+              <NavLink
+                to={userRoutesConstants.allCategories}
+                className="text-decoration-none"
+              >
+                <Button
+                  leftIcon={<MdOutlineGridView size={20} />}
+                  btnLabel="Browse All Categories"
+                  btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
+                />
+              </NavLink>
+
+              <div className="d-flex flex-column flex-lg-row gap-4">
                 <NavLink
-                  to={userRoutesConstants.allCategories}
-                  className="text-decoration-none"
+                  to="/"
+                  className={({ isActive }) =>
+                    `text-decoration-none fw-medium ${
+                      isActive ? "text-custom-primary" : "text-dark"
+                    }`
+                  }
                 >
-                  <Button
-                    leftIcon={<MdOutlineGridView size={20} />}
-                    btnLabel="Browse All Categories"
-                    btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
-                  />
+                  <FiHome /> Home
                 </NavLink>
-
-                <div className="d-flex flex-column flex-lg-row gap-4">
-                  <NavLink
-                    to="/"
-                    className={({ isActive }) =>
-                      `text-decoration-none fw-medium ${
-                        isActive ? "text-custom-primary" : "text-dark"
-                      }`
-                    }
-                  >
-                    <FiHome /> Home
-                  </NavLink>
-                  <NavLink
-                    to={userRoutesConstants.hotDeals}
-                    className={({ isActive }) =>
-                      `text-decoration-none fw-medium ${
-                        isActive ? "text-custom-primary" : "text-dark"
-                      }`
-                    }
-                  >
-                    <MdOutlineLocalFireDepartment size={20} /> Hot deals
-                  </NavLink>
-                  <NavLink
-                    to={userRoutesConstants.newProducts}
-                    className={({ isActive }) =>
-                      `text-decoration-none fw-medium ${
-                        isActive ? "text-custom-primary" : "text-dark"
-                      }`
-                    }
-                  >
-                    <TfiAnnouncement /> New products
-                  </NavLink>
-                </div>
-
-                <div className="d-flex align-items-center mt-3 mt-lg-0">
-                  <FiPhone className="text-custom-primary" />
-                  <span className="text-custom-primary fw-bold ms-1">
-                    1233-7777
-                  </span>
-                  <span className="fs-7 ms-2 fw-medium">
-                    24/7 support center
-                  </span>
-                </div>
+                <NavLink
+                  to={userRoutesConstants.hotDeals}
+                  className={({ isActive }) =>
+                    `text-decoration-none fw-medium ${
+                      isActive ? "text-custom-primary" : "text-dark"
+                    }`
+                  }
+                >
+                  <MdOutlineLocalFireDepartment size={20} /> Hot deals
+                </NavLink>
+                <NavLink
+                  to={userRoutesConstants.newProducts}
+                  className={({ isActive }) =>
+                    `text-decoration-none fw-medium ${
+                      isActive ? "text-custom-primary" : "text-dark"
+                    }`
+                  }
+                >
+                  <TfiAnnouncement /> New products
+                </NavLink>
               </div>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+
+              <div className="d-flex align-items-center mt-3 mt-lg-0">
+                <FiPhone className="text-custom-primary" />
+                <span className="text-custom-primary fw-bold ms-1">
+                  1233-7777
+                </span>
+                <span className="fs-7 ms-2 fw-medium">24/7 support center</span>
+              </div>
+            </div>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
       <ResponsiveMenuBar
         show={show}
         handleClose={handleClose}

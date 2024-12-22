@@ -1,9 +1,10 @@
-import "./style.css";
 import { logo } from "../../assets";
 import { Outlet } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { userRoutesConstants } from "../../routes/user/userRoutesConstants";
+import "./style.css";
+
 const AuthLayout = () => {
   const navigate = useNavigate();
   return (
