@@ -25,7 +25,7 @@ const CustomNavbar = () => {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Navbar expand="lg" className="sticky-top bg-white border-bottom">
+      <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100">
         <Container>
           <Navbar.Brand href="/">
             <img src={logo} alt="Logo" className="logo-nav" />
@@ -87,7 +87,7 @@ const CustomNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Navbar expand="lg" className="py-lg-3 py-0 border-bottom">
+      <Navbar expand="lg" className="py-lg-3 py-0 border-bottom w-100">
         <Container>
           <Navbar.Collapse id="secondary-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center w-100">

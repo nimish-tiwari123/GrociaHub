@@ -11,14 +11,14 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
-    const handleLogout = () => {
-        console.log('Logged out successfully!');
-        setShowModal(false);
-    };
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+  const handleLogout = () => {
+    console.log("Logged out successfully!");
+    setShowModal(false);
+  };
   return (
     <Nav
       className={`d-flex flex-column gap-2 sidebar-container bg-white position-relative ${
@@ -56,14 +56,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
         </NavLink>
       ))}
       <div className="px-3 position-absolute bottom-0 mb-5">
-      <button className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center" onClick={handleOpenModal}><MdLogout/>Logout</button>
-
+        <button
+          className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center"
+          onClick={handleOpenModal}
+        >
+          <MdLogout />
+          Logout
+        </button>
       </div>
       <LogoutModal
-                show={showModal}
-                handleClose={handleCloseModal}
-                handleLogout={handleLogout}
-            />
+        show={showModal}
+        handleClose={handleCloseModal}
+        handleLogout={handleLogout}
+      />
     </Nav>
   );
 };

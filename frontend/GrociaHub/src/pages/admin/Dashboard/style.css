@@ -1,0 +1,21 @@
+.card-icon-container {
+  width: 60px;
+  height: 60px;
+}
+
+.dashboard-card {
+  box-shadow: 1px 1px 8px 4px #0098330a;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 2px 4px 12px 6px #00983319;
+}
+.custom-shadow {
+  box-shadow: 1px 1px 8px 4px #0098330a;
+}
+.form-select:focus{
+    box-shadow: none !important;
+    border: 1px solid var(--primary) !important;
+}
