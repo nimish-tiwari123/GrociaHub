@@ -1,6 +1,11 @@
-import { useFormik } from "formik";
 import { signUpSchema } from "../../../schema/auth";
+import { useRegisterMutation } from "../../../../api";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
 const useSignUp = () => {
+  const [register] = useRegisterMutation();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -9,8 +14,21 @@ const useSignUp = () => {
       confirmPassword: "",
     },
     validationSchema: signUpSchema,
-    onSubmit: (values) => {
-      console.log("Form submitted:", values);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const payload = {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        };
+        const response = await register(payload).unwrap();
+        toast.success(response.message);
+        console.log(response.message);
+        resetForm();
+      } catch (error: any) {
+        toast.error(error.data.message);
+        console.log(error.data.message);
+      }
     },
   });
   return {

@@ -1,10 +1,11 @@
+import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
 import { AuthTextInput, Button } from "../../../components/common";
 import { Link } from "react-router-dom";
-import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
 import useLogin from "./useLogin";
 
 const Login = () => {
   const { formik } = useLogin();
+
   return (
     <div className="login-container">
       <h1 className="fw-bold my-3 fs-3 text-center">Login to your account</h1>
