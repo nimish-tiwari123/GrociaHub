@@ -25,7 +25,7 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
         <p className="fw-medium opacity-50 my-4 fs-5">
           Are you sure you want to log out?
         </p>{" "}
-        <div className="d-flex justify-content-center gap-3 my-4">
+        <div className="d-flex  justify-content-end gap-3 mt-4">
           <button
             className="bg-custom-secondary py-2 px-4 border rounded fw-medium"
             onClick={handleClose}

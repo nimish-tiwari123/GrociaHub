@@ -5,7 +5,8 @@ import {
   AllCategories,
   Cart,
   HotDeals,
-  ViewProduct
+  ViewProduct,
+  Profile,
 } from "../../pages/user";
 import { HomeLayout } from "../../layout";
 import { Route, Routes } from "react-router-dom";
@@ -26,13 +27,13 @@ const UserRoutes = () => {
           path={userRoutesConstants.allCategories}
           element={<AllCategories />}
         />
-         <Route
+        <Route
           path={userRoutesConstants.viewProduct}
           element={<ViewProduct />}
         />
+        <Route path={userRoutesConstants.profile} element={<Profile />} />
       </Route>
       <Route path="*" element={<NotFound />} />
-
     </Routes>
   );
 };

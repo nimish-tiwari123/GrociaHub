@@ -1,2 +1,3 @@
 import LogoutModal from "./LogoutModal";
-export {LogoutModal};
+import DeleteModal from "./DeleteModal";
+export {LogoutModal,DeleteModal};

@@ -15,6 +15,7 @@ import "./style.css";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { useNavigate } from "react-router-dom";
 
+
 const CategoryManagement: React.FC = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
