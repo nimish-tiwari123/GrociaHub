@@ -4,7 +4,10 @@ import { FaBoxOpen, FaTags, FaShoppingCart, FaUsers } from "react-icons/fa";
 import Card from "./Card";
 import BarChart from "./Chart/BarChart";
 import OrderDetailsChart from "./Chart/OrderDetailsChart";
-import CustomTable from "../../../components/common/CustomTable"; 
+import CustomTable from "../../../components/common/CustomTable";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import "./style.css";
 
 const Dashboard: React.FC = () => {
@@ -19,34 +22,36 @@ const Dashboard: React.FC = () => {
       header: "Order Status",
       type: "status",
       statusStyles: (status: string) => {
-        let buttonClass = '';
-        let buttonText = '';
-        
+        let buttonClass = "";
+        let buttonText = "";
+
         switch (status) {
-          case 'Pending':
-            buttonClass = 'status-warning-btn';
-            buttonText = 'Pending';
+          case "Pending":
+            buttonClass = "status-warning-btn";
+            buttonText = "Pending";
             break;
-          case 'Completed':
-            buttonClass = 'status-success-btn';
-            buttonText = 'Completed';
+          case "Completed":
+            buttonClass = "status-success-btn";
+            buttonText = "Completed";
             break;
-          case 'Cancelled':
-            buttonClass = 'status-danger-btn';
-            buttonText = 'Cancelled';
+          case "Cancelled":
+            buttonClass = "status-danger-btn";
+            buttonText = "Cancelled";
             break;
           default:
-            buttonClass = 'status-default-btn';
-            buttonText = 'Unknown';
+            buttonClass = "status-default-btn";
+            buttonText = "Unknown";
         }
 
         return (
-          <button className={`status-btn ${buttonClass} border-0 py-1 px-3 rounded-pill fw-medium`}>
+          <button
+            className={`status-btn ${buttonClass} border-0 py-1 px-3 rounded-pill fw-medium`}
+          >
             {buttonText}
           </button>
         );
-      }
-    }
+      },
+    },
   ];
 
   const data = [
@@ -85,10 +90,36 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <Container fluid className="main-dashboard-container overflow-auto px-2 px-md-4">
+    <Container
+      fluid
+      className="main-dashboard-container overflow-auto px-2 px-md-4"
+    >
       <Row className="my-2">
-        <h1 className="fw-bold fs-3 m-0 mt-3">Dashboard</h1>
-        <p className="opacity-50">Welcome to GrociaHub Dashboard</p>
+        <Col md={5}>
+          <h1 className="fw-bold fs-3 m-0 mt-3">
+            <Link
+              to={userRoutesConstants.home}
+              className="text-decoration-none text-custom-primary d-md-none"
+            >
+              <IoIosArrowRoundBack size={28} className="me-2" />
+            </Link>
+            <h1 className="fw-bold fs-3 m-0 mt-3">Dashboard</h1>
+            <p className="opacity-50 fs-6 fw-medium">Welcome to GrociaHub Dashboard</p>
+          </h1>
+        </Col>
+        <Col
+          md={7}
+          className="d-md-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
+        >
+          <Link
+            to={userRoutesConstants.home}
+            className="text-decoration-none text-custom-primary"
+          >
+            Home
+          </Link>
+          <span> | </span>
+          <span>Dashboard</span>
+        </Col>
       </Row>
       <Row>
         <Col md={3}>

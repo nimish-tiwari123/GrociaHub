@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 
 .custom-table-header,
 .custom-table-row {
   display: flex;
-  min-width: 900px; 
+  min-width: 900px;
 }
 
 .custom-table-column-header {
@@ -16,7 +16,7 @@
   padding: 10px;
   text-align: left;
   font-size: 14px;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .custom-table-cell {
@@ -28,16 +28,44 @@
   white-space: nowrap;
 }
 
+.custom-table-header .custom-table-column-header:first-child,
+.custom-table-row .custom-table-cell:first-child {
+  flex: 0 0 30px;
+  width: 30px;
+  text-align: center;
+}
+
+.custom-table-header .custom-table-column-header:nth-child(3),
+.custom-table-row .custom-table-cell:nth-child(3) {
+  flex: 0 0 250px;
+  width: 250px;
+  text-align: left;
+}
+
 .custom-table-header {
   background-color: #eeeeee;
   font-weight: bold;
 }
+.dropdown-toggle::after {
+  display: none !important;
+ 
+}
+.form-switch .form-check-input{
+  width: 40px !important;
+  height: 20px;
+}
+.form-switch .form-check-input:checked{
+  background-color: var(--primary);
+  border: none;
+  box-shadow: none;
 
+ 
+}
 @media (max-width: 768px) {
   .custom-table-header,
   .custom-table-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Make it grid-based on small screens */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
   .custom-table-column-header,
@@ -45,5 +73,19 @@
     text-align: center;
     font-size: 12px;
     padding: 8px;
+  }
+
+  .custom-table-header .custom-table-column-header:first-child,
+  .custom-table-row .custom-table-cell:first-child {
+    flex: unset;
+    width: unset;
+    grid-column: 1;
+    text-align: center;
+  }
+
+  .custom-table-header .custom-table-column-header:nth-child(3),
+  .custom-table-row .custom-table-cell:nth-child(3) {
+    flex: unset;
+    width: unset;
   }
 }

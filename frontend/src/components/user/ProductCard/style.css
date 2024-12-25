@@ -1,5 +1,6 @@
 .bg-cart-btn{
     background-color: #DEF9EC;
+    color: var(--primary);
 }
 .bg-cart-btn:hover{
     background-color: var(--primary);

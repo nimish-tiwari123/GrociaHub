@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { DashboardLayout } from "../../layout";
 import { NotFound } from "../../components/common";
-import { Dashboard, CategoryManagement, AddCategory, EditCategory } from "../../pages/admin";
+import { Dashboard, CategoryManagement, AddCategory, EditCategory,ProductManagement } from "../../pages/admin";
 import { adminRoutesConstants } from "./adminRoutesConstants";
 
 const AdminRoutes = () => {
@@ -24,7 +24,7 @@ const AdminRoutes = () => {
         />
         <Route
           path={adminRoutesConstants.manageProduct}
-          element={<div>Manage Product Page</div>}
+          element={<ProductManagement/>}
         />
         <Route
           path={adminRoutesConstants.dealsAndOffers}

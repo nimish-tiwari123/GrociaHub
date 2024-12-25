@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
             &#8377;{productData.discountPrice}
           </span>
         </div>
-        <button className="text-custom-primary fs-7 border-0 px-2 py-1 rounded-1 bg-cart-btn">
+        <button className=" fs-7 border-0 px-2 py-1 rounded-1 bg-cart-btn">
           <LuShoppingCart /> Add
         </button>
       </div>

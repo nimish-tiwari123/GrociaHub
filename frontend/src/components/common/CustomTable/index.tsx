@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./style.css";
@@ -24,6 +24,7 @@ interface Column {
 interface Action {
   label: string;
   onClick: (row: any) => void;
+  icon: ReactNode;
 }
 
 interface CustomTableProps {
@@ -49,21 +50,52 @@ const CustomTable: React.FC<CustomTableProps> = ({
     if (onCheckboxChange) onCheckboxChange(updatedSelection);
   };
 
+  const handleHeaderCheckboxChange = () => {
+    const allSelected = selectedRows.length === data.length;
+    const newSelection = allSelected ? [] : [...data];
+    setSelectedRows(newSelection);
+    if (onCheckboxChange) onCheckboxChange(newSelection);
+  };
+
+  const handleToggleChange = (row: any, colKey: string) => {
+    const newValue = !row[colKey];
+    if (columns.find((col) => col.key === colKey)?.togglerHandler) {
+      columns
+        .find((col) => col.key === colKey)
+        ?.togglerHandler?.(newValue, row);
+    }
+    row[colKey] = newValue;
+  };
+
   return (
     <div className="custom-table overflow-auto">
-      {/* Table Header */}
       <div className="custom-table-header rounded">
-        {columns.map((col) => (
-          <div key={col.key} className="custom-table-column-header my-2">
-            {col.header}
-          </div>
-        ))}
+        {columns.map((col) => {
+          if (col.type === "checkbox") {
+            return (
+              <div
+                key={col.key}
+                className="custom-table-column-header my-2 checkbox-cell"
+              >
+                <Form.Check
+                  type="checkbox"
+                  onChange={handleHeaderCheckboxChange}
+                  checked={selectedRows.length === data.length && data.length > 0}
+                />
+              </div>
+            );
+          }
+          return (
+            <div key={col.key} className="custom-table-column-header my-2">
+              {col.header}
+            </div>
+          );
+        })}
         {actions && actions.length > 0 && (
-          <div className="custom-table-column-header">Action</div>
+          <div className="custom-table-column-header my-2">Action</div>
         )}
       </div>
 
-      {/* Table Body */}
       <div className="custom-table-body">
         {data.map((row, rowIndex) => (
           <div key={rowIndex} className="custom-table-row">
@@ -72,7 +104,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
               switch (col.type) {
                 case "checkbox":
                   return (
-                    <div key={col.key} className="custom-table-cell">
+                    <div key={col.key} className="custom-table-cell checkbox-cell">
                       <Form.Check
                         type="checkbox"
                         checked={selectedRows.includes(row)}
@@ -81,13 +113,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     </div>
                   );
 
-                  case "status":
-                    return (
-                      <div key={col.key} className="custom-table-cell">
-                        {col.statusStyles ? col.statusStyles(value) : value}
-                      </div>
-                    );
-                  
+                case "status":
+                  return (
+                    <div key={col.key} className="custom-table-cell">
+                      {col.statusStyles ? col.statusStyles(value) : value}
+                    </div>
+                  );
+
                 case "action":
                   return null;
 
@@ -126,8 +158,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           }}
                         />
                         <div>
-                          <div>{value}</div>
-                          <small>{row.category}</small>
+                          <div className="fw-bold">{value}</div>
+                          <small className="fw-medium opacity-50">
+                            {row.category}
+                          </small>
                         </div>
                       </div>
                     </div>
@@ -138,10 +172,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     <div key={col.key} className="custom-table-cell">
                       <Form.Check
                         type="switch"
-                        checked={!!value}
-                        onChange={() =>
-                          col.togglerHandler && col.togglerHandler(!!value, row)
-                        }
+                      
+                        checked={!row[col.key]}
+                        onChange={() => handleToggleChange(row, col.key)}
                       />
                     </div>
                   );
@@ -155,11 +188,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
               }
             })}
 
-            {/* Actions */}
             {actions && (
               <div className="custom-table-cell">
                 <Dropdown>
-                  <Dropdown.Toggle variant="link" className="p-0">
+                  <Dropdown.Toggle variant="link" className="p-0 rounded-circle py-1 px-2 bg-secondary-subtle text-dark opacity-75">
                     <BsThreeDotsVertical />
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
@@ -168,6 +200,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         key={idx}
                         onClick={() => action.onClick(row)}
                       >
+                        <span className="text-custom-primary me-2">{action.icon}</span>
                         {action.label}
                       </Dropdown.Item>
                     ))}
