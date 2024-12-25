@@ -1,0 +1,14 @@
+.bg-cart-btn{
+    background-color: #DEF9EC;
+}
+.bg-cart-btn:hover{
+    background-color: var(--primary);
+    color: white;
+    transition: 0.5s;
+}
+@media screen and (max-width: 340px) {
+  .flex-card-bottom {
+    flex-direction: column;
+    
+  }
+}

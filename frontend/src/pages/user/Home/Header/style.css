@@ -1,0 +1,29 @@
+.header-container-img {
+  background-image: url("../../../../assets/home/vegBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.header-container {
+  background-color: #def9ece6;
+  height: 80vh;
+}
+.bg-img-hero {
+  background-image: url("../../../../assets/home/hero.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+.custom-w-75 {
+  width: 80%;
+}
+.text-shadow {
+  text-shadow: 1px 1px 4px rgba(128, 128, 128, 0.452);
+}
+@media screen and (max-width: 768px) {
+  .custom-w-75 {
+    width: 100%;
+  }
+  .mt-heading {
+    margin-top: 200px;
+  }
+}
