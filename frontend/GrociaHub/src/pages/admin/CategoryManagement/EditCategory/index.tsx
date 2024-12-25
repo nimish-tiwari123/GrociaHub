@@ -7,16 +7,16 @@ import { useFormik } from "formik";
 import { ImageUpload } from "../../../../components/admin";
 import { Button } from "../../../../components/common";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { addCategorySchema } from "../../../../schema/admin/CategoryManagement";
+import { editCategorySchema } from "../../../../schema/admin/CategoryManagement";
 
 
-const AddCategory: React.FC = () => {
+const EditCategory: React.FC = () => {
   const formik = useFormik({
     initialValues: {
       categoryName: "",
       categoryImage: null,
     },
-    validationSchema: addCategorySchema,
+    validationSchema: editCategorySchema,
     onSubmit: (values) => {
       console.log(values);
     },
@@ -36,7 +36,7 @@ const AddCategory: React.FC = () => {
             >
               <IoIosArrowRoundBack size={28} className="me-2"/>
             </Link>
-            Add Category
+            Edit Category
           </h1>
         </Col>
         <Col
@@ -50,7 +50,7 @@ const AddCategory: React.FC = () => {
             Category Management
           </Link>
           <span> | </span>
-          <span>Add Category</span>
+          <span>Edit Category</span>
         </Col>
       </Row>
       <div className="pb-5 pt-4 px-3 px-md-4 rounded bg-white add-category-container m-auto mt-4 mt-md-5 border">
@@ -69,7 +69,7 @@ const AddCategory: React.FC = () => {
             formik={formik}
           />
           <Button
-            btnLabel="Add Category"
+            btnLabel="Save"
             btnStyle="bg-custom-primary border-0 text-light p-custom fw-medium rounded w-100 d-flex justify-content-center mt-4"
           />
         </form>
@@ -78,4 +78,4 @@ const AddCategory: React.FC = () => {
   );
 };
 
-export default AddCategory;
+export default EditCategory;

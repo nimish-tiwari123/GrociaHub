@@ -2,7 +2,8 @@ export const adminRoutesConstants = {
   dashboard: "/dashboard",
   categoryManagement: {
     viewCategory: "/category-management",
-    addCategory: "/category-management/add-category", 
+    addCategory: "/category-management/add-category",
+    editCategory: "/category-management/edit-category",
   },
   manageProduct: "/manage-product",
   dealsAndOffers: "/deals-offers",
@@ -14,7 +15,8 @@ export const redirectAdminRoutes = {
   dashboard: "/admin/dashboard",
   categoryManagement: {
     viewCategory: "/admin/category-management",
-    addCategory: "/admin/category-management/add-category", 
+    addCategory: "/admin/category-management/add-category",
+    editCategory: "/admin/category-management/edit-category",
   },
   manageProduct: "/admin/manage-product",
   dealsAndOffers: "/admin/deals-offers",

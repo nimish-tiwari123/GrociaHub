@@ -23,7 +23,7 @@ const CategoryManagement: React.FC = () => {
     setSearchTerm(event.target.value);
   };
   const handleEdit = () => {
-    alert("Edit action clicked!");
+    navigate(redirectAdminRoutes.categoryManagement.editCategory);
   };
 
   const handleDelete = () => {
