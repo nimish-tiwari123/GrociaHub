@@ -21,3 +21,6 @@
 .cursor-pointer{
   cursor: pointer;
 }
+.p-custom{
+  padding: 14px;
+}

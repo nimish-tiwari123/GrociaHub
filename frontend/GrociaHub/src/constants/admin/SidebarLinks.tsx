@@ -9,7 +9,7 @@ export const sidebarLinks = [
   },
   {
     name: "Category Management",
-    path: redirectAdminRoutes.categoryManagement,
+    path: redirectAdminRoutes.categoryManagement.viewCategory,
     icon: <FaTags />,
   },
   {

@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { DashboardLayout } from "../../layout";
 import { NotFound } from "../../components/common";
-import { Dashboard } from "../../pages/admin";
+import { Dashboard, CategoryManagement, AddCategory } from "../../pages/admin";
 import { adminRoutesConstants } from "./adminRoutesConstants";
 
 const AdminRoutes = () => {
@@ -9,26 +9,30 @@ const AdminRoutes = () => {
     <Routes>
       <Route element={<DashboardLayout />}>
         <Route path={adminRoutesConstants.dashboard} element={<Dashboard />} />
-        {/* Add other routes dynamically */}
+        {/* Category Management */}
         <Route
-          path={adminRoutesConstants.categoryManagement}
-          element={<div>Category Management Page</div>} // Replace with actual component
+          path={adminRoutesConstants.categoryManagement.viewCategory}
+          element={<CategoryManagement />}
+        />
+        <Route
+          path={adminRoutesConstants.categoryManagement.addCategory}
+          element={<AddCategory />}
         />
         <Route
           path={adminRoutesConstants.manageProduct}
-          element={<div>Manage Product Page</div>} // Replace with actual component
+          element={<div>Manage Product Page</div>}
         />
         <Route
           path={adminRoutesConstants.dealsAndOffers}
-          element={<div>Deals & Offers Page</div>} // Replace with actual component
+          element={<div>Deals & Offers Page</div>}
         />
         <Route
           path={adminRoutesConstants.orderManagement}
-          element={<div>Order Management Page</div>} // Replace with actual component
+          element={<div>Order Management Page</div>}
         />
         <Route
           path={adminRoutesConstants.users}
-          element={<div>Users Page</div>} // Replace with actual component
+          element={<div>Users Page</div>}
         />
       </Route>
       <Route path="*" element={<NotFound />} />

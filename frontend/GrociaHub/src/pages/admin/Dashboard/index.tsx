@@ -2,15 +2,92 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaBoxOpen, FaTags, FaShoppingCart, FaUsers } from "react-icons/fa";
 import Card from "./Card";
-import "./style.css";
 import BarChart from "./Chart/BarChart";
 import OrderDetailsChart from "./Chart/OrderDetailsChart";
+import CustomTable from "../../../components/common/CustomTable"; 
+import "./style.css";
 
 const Dashboard: React.FC = () => {
+  const columns = [
+    { key: "id", header: "S. No.", type: "text" },
+    { key: "customerName", header: "Customer Name", type: "text" },
+    { key: "orderId", header: "Order Id", type: "text" },
+    { key: "orderDate", header: "Order Date", type: "text" },
+    { key: "totalAmount", header: "Total Amount", type: "text" },
+    {
+      key: "orderStatus",
+      header: "Order Status",
+      type: "status",
+      statusStyles: (status: string) => {
+        let buttonClass = '';
+        let buttonText = '';
+        
+        switch (status) {
+          case 'Pending':
+            buttonClass = 'status-warning-btn';
+            buttonText = 'Pending';
+            break;
+          case 'Completed':
+            buttonClass = 'status-success-btn';
+            buttonText = 'Completed';
+            break;
+          case 'Cancelled':
+            buttonClass = 'status-danger-btn';
+            buttonText = 'Cancelled';
+            break;
+          default:
+            buttonClass = 'status-default-btn';
+            buttonText = 'Unknown';
+        }
+
+        return (
+          <button className={`status-btn ${buttonClass} border-0 py-1 px-3 rounded-pill fw-medium`}>
+            {buttonText}
+          </button>
+        );
+      }
+    }
+  ];
+
+  const data = [
+    {
+      id: "01",
+      customerName: "Sumit Chouhan",
+      orderId: "123456CDfbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹677",
+      orderStatus: "Pending",
+    },
+    {
+      id: "02",
+      customerName: "Raja Prajapati",
+      orderId: "123456CDfbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹789",
+      orderStatus: "Completed",
+    },
+    {
+      id: "03",
+      customerName: "Aavesh Khanna",
+      orderId: "123456CDfbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹999",
+      orderStatus: "Cancelled",
+    },
+    {
+      id: "04",
+      customerName: "Sapna Trivedi",
+      orderId: "123456CDfbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹125",
+      orderStatus: "Pending",
+    },
+  ];
+
   return (
-    <Container fluid>
+    <Container fluid className="main-dashboard-container overflow-auto px-2 px-md-4">
       <Row className="my-2">
-        <h1 className="fw-bold fs-2 m-0">Dashboard</h1>
+        <h1 className="fw-bold fs-3 m-0 mt-3">Dashboard</h1>
         <p className="opacity-50">Welcome to GrociaHub Dashboard</p>
       </Row>
       <Row>
@@ -44,11 +121,18 @@ const Dashboard: React.FC = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={7}>
+        <Col md={8}>
           <BarChart />
         </Col>
-        <Col md={5}>
-        <OrderDetailsChart/>
+        <Col md={4}>
+          <OrderDetailsChart />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
+            <CustomTable columns={columns} data={data} />
+          </div>
         </Col>
       </Row>
     </Container>

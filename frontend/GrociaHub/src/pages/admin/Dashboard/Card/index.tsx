@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ icon, heading, subHeading }) => {
   return (
-    <div className="dashboard-card p-3 bg-white rounded border">
+    <div className="dashboard-card p-3 bg-white rounded border mt-3 mt-md-0">
       <div className="d-flex align-items-center justify-content-between">
         <div>
           <p className="opacity-75 m-0 fw-medium">{subHeading}</p>

@@ -19,3 +19,30 @@
     box-shadow: none !important;
     border: 1px solid var(--primary) !important;
 }
+.status-btn {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-warning-btn {
+  background-color: #ffb3312a;
+  color: #FFB531;
+}
+
+.status-success-btn {
+  background-color: #0098332a;
+  color: #009833;
+}
+
+.status-danger-btn {
+  background-color: #f353443a;
+  color: #F35244;
+}
+
+.status-default-btn {
+  background-color: #6c757d;
+  color: #fff;
+}
+.main-dashboard-container{
+  height: 90vh;
+}

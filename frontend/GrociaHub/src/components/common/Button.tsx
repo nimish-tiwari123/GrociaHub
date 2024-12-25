@@ -6,6 +6,7 @@ type ButtonProps = {
   btnLabel: string;
   btnStyle?: string;
   rightIcon?: React.ReactNode;
+  onClick?: () => void; 
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,15 +14,17 @@ const Button: React.FC<ButtonProps> = ({
   btnLabel,
   btnStyle,
   rightIcon,
+  onClick,
 }) => {
   return (
-    <div>
-      <button className={`d-flex align-items-center gap-2 btn-hover ${btnStyle || ""}`}>
-        {leftIcon}
-        {btnLabel}
-        {rightIcon}
-      </button>
-    </div>
+    <button
+      className={`d-flex align-items-center gap-2 btn-hover ${btnStyle || ""}`}
+      onClick={onClick}  
+    >
+      {leftIcon}
+      {btnLabel}
+      {rightIcon}
+    </button>
   );
 };
 

@@ -1,0 +1,49 @@
+.custom-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-x: auto; 
+}
+
+.custom-table-header,
+.custom-table-row {
+  display: flex;
+  min-width: 900px; 
+}
+
+.custom-table-column-header {
+  flex: 1;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  white-space: nowrap; 
+}
+
+.custom-table-cell {
+  flex: 1;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.custom-table-header {
+  background-color: #eeeeee;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .custom-table-header,
+  .custom-table-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Make it grid-based on small screens */
+  }
+
+  .custom-table-column-header,
+  .custom-table-cell {
+    text-align: center;
+    font-size: 12px;
+    padding: 8px;
+  }
+}
