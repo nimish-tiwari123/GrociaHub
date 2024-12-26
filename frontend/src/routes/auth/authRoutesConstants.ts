@@ -2,7 +2,7 @@ export const authRoutesConstants = {
   login: "/login",
   signUp: "/signUp",
   forgotPassword: "/forgot-password",
-  createPassword: "/create-password",
+  createPassword: "/create-password/:token",
 };
 
 export const redirectAuthRoutesConstants = {

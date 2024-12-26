@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/" }),
   endpoints: (build) => ({
     register: build.mutation({
       query: (body) => ({
@@ -18,9 +18,28 @@ const api = createApi({
         body,
       }),
     }),
+    forgotPassword: build.mutation({
+      query: (body) => ({
+        url: `/users/forgot-password`,
+        method: "POST",
+        body,
+      }),
+    }),
+    resetPassword: build.mutation({
+      query: ({ body, token }) => ({
+        url: `/users/reset-password?token=${token}`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = api;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = api;
 
 export default api;

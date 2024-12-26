@@ -22,12 +22,12 @@ const useSignUp = () => {
           password: values.password,
         };
         const response = await register(payload).unwrap();
-        toast.success(response.message);
-        console.log(response.message);
+        toast.success(response?.message);
+        console.log(response?.message);
         resetForm();
       } catch (error: any) {
-        toast.error(error.data.message);
-        console.log(error.data.message);
+        toast.error(error?.data?.message || "Something went wrong");
+        console.log(error?.data?.message || "Something went wrong");
       }
     },
   });
