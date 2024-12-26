@@ -1,4 +1,4 @@
 import logo from "./logo.svg";
 import payment from "./Payment.png";
-
-export {logo, payment};
+import notFound from "./notFound.svg";
+export { logo, payment, notFound };

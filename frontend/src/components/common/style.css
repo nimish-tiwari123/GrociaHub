@@ -5,3 +5,25 @@
 .btn-hover:hover{
     opacity: 0.85;
 }
+.notFound-bg {
+    background-color: #f7f8faee;
+    width: 100vw;
+    height: 100vh;
+  }
+  .notFound-img-bg {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../assets/home/vegBg.png");
+    background-size: cover;
+  }
+  .notfound-img{
+    max-width: 500px;
+  }
+  .mt-minus{
+    margin-top: -20px;
+  }
+  @media screen and (max-width:500px){
+    .notfound-img{
+        width: 90%;
+    }
+  }
