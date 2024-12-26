@@ -9,6 +9,13 @@ const responseMessages = {
 
   USER_LOGIN_SUCCESS: "User logged in successfully",
   INVALID_PASSWORD: "Invalid password",
+
+  FORGOT_PASSWORD_LINK_SEND_SUCCESS: "Forgot password link sent successfully",
+
+  TOKEN_EXPIRED: "Token expired",
+  INVALID_TOKEN: "Invalid token",
+
+  PASSWORD_RESET_SUCCESS: "Password reset successfully",
 };
 
 module.exports = responseMessages;
