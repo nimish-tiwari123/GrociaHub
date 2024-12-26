@@ -30,8 +30,8 @@
 
 .custom-table-header .custom-table-column-header:first-child,
 .custom-table-row .custom-table-cell:first-child {
-  flex: 0 0 30px;
-  width: 30px;
+  flex: 0 0 60px;
+  width: 60px;
   text-align: center;
 }
 

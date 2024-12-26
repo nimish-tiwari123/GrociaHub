@@ -3,12 +3,14 @@ import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
 import { Button, CustomTable } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
+import { DeleteModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 const ProductManagement: React.FC = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,10 +26,18 @@ const ProductManagement: React.FC = () => {
   };
   const handleEdit = () => {};
 
-  const handleDelete = () => {
-    alert("Delete action clicked!");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleCancel = () => {
+    setShowDeleteModal(false);
   };
-  const handleAddProduct = () => {};
+
+  const handleConfirmDelete = () => {
+    setShowDeleteModal(false);
+  };
+  const handleAddProduct = () => {
+    navigate(redirectAdminRoutes.manageProduct.addProduct);
+  };
   type ColumnType = {
     key: string;
     header: string;
@@ -131,12 +141,12 @@ const ProductManagement: React.FC = () => {
     },
     {
       label: "Edit",
-      onClick: (row) => console.log("Edit clicked for", row),
+      onClick: (row) => navigate(redirectAdminRoutes.manageProduct.editProduct),
       icon: <MdOutlineEdit />,
     },
     {
       label: "Delete",
-      onClick: (row) => console.log("Delete clicked for", row),
+      onClick: (row) => setShowDeleteModal(true),
       icon: <RiDeleteBinLine />,
     },
   ];
@@ -158,16 +168,14 @@ const ProductManagement: React.FC = () => {
       className="main-ProductManagement-container dash-container px-2 px-md-4"
     >
       <Row className="my-2">
-        <Col md={5}>
-          <h1 className="fw-bold fs-3 m-0 mt-3">
+        <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
             <Link
               to={userRoutesConstants.home}
               className="text-decoration-none text-custom-primary d-md-none"
             >
               <IoIosArrowRoundBack size={28} className="me-2" />
             </Link>
-            <h1 className="fw-bold fs-3 m-0 mt-3">Manage Product</h1>
-          </h1>
+            <h1 className="fw-bold fs-3 m-0 mt-md-3">Manage Product</h1>
         </Col>
         <Col
           md={7}
@@ -197,7 +205,7 @@ const ProductManagement: React.FC = () => {
           className="d-flex justify-content-end align-items-center mt-3 mt-md-0"
         >
           <button className="d-flex align-items-center justify-content-center rounded border bg-white text-danger me-3 p-2">
-            <RiDeleteBin5Fill size={24} />
+            <RiDeleteBin5Fill size={16} />
           </button>
           <Button
             btnLabel="+ Add Product"
@@ -220,6 +228,13 @@ const ProductManagement: React.FC = () => {
           </div>
         </Col>
       </Row>
+      <DeleteModal
+        show={showDeleteModal}
+        heading="Delete Product"
+        subheading={`Are you sure you want to delete the product "${name}"? This action cannot be undone.`}
+        onDelete={handleConfirmDelete}
+        onCancel={handleCancel}
+      />
     </Container>
   );
 };

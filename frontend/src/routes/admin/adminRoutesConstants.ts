@@ -5,7 +5,12 @@ export const adminRoutesConstants = {
     addCategory: "/category-management/add-category",
     editCategory: "/category-management/edit-category",
   },
-  manageProduct: "/manage-product",
+  manageProduct: {
+    viewProduct: "/manage-product",
+    addProduct: "/manage-product/add-product",
+    editProduct: "/manage-product/edit-product",
+
+  },
   dealsAndOffers: "/deals-offers",
   orderManagement: "/order-management",
   users: "/users",
@@ -18,7 +23,12 @@ export const redirectAdminRoutes = {
     addCategory: "/admin/category-management/add-category",
     editCategory: "/admin/category-management/edit-category",
   },
-  manageProduct: "/admin/manage-product",
+  manageProduct: {
+    viewProduct: "/admin/manage-product",
+    addProduct: "/admin/manage-product/add-product",
+    editProduct: "/admin/manage-product/edit-product",
+
+  },
   dealsAndOffers: "/admin/deals-offers",
   orderManagement: "/admin/order-management",
   users: "/admin/users",

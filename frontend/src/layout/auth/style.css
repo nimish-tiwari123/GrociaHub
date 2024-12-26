@@ -1,5 +1,5 @@
 .auth-bg {
-    background-color: #f7f8fae4;
+  background-color: #f7f8fae4;
 }
 .auth-img-bg {
   width: 100vw;
@@ -10,4 +10,17 @@
 .auth-layout-container {
   width: 450px;
   max-width: 450px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.118);
+  border: 1px solid rgba(128, 128, 128, 0.237);
+}
+
+@media screen and (max-width: 500px) {
+  .auth-bg {
+    background-color: #ffffff;
+  }
+  .auth-layout-container {
+
+    box-shadow: none;
+    border: none;
+  }
 }

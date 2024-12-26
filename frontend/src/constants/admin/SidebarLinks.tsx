@@ -14,7 +14,7 @@ export const sidebarLinks = [
   },
   {
     name: "Manage Product",
-    path: redirectAdminRoutes.manageProduct,
+    path: redirectAdminRoutes.manageProduct.viewProduct,
     icon: <FaBoxOpen />,
   },
   {

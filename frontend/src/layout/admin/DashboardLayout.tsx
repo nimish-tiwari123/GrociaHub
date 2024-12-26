@@ -21,7 +21,7 @@ const DashboardLayout: React.FC = () => {
   const handleOffcanvasShow = (): void => setShowOffcanvas(true);
 
   return (
-    <div className="d-flex dashboard-container bg-custom-secondary">
+    <div className="d-flex dashboard-container">
       <div className="d-none d-md-block">
         <Sidebar isCollapsed={isCollapsed} />
       </div>
@@ -62,7 +62,7 @@ const DashboardLayout: React.FC = () => {
           toggleSidebar={toggleSidebar}
           handleOffcanvasShow={handleOffcanvasShow}
         />
-        <main>
+        <main className="bg-custom-secondary">
           <Outlet />
         </main>
       </div>
