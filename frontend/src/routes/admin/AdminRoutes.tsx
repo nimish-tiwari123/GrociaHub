@@ -9,6 +9,8 @@ import {
   ProductManagement,
   AddProduct,
   EditProduct,
+  DealsOffers,
+  CreateOffer
 } from "../../pages/admin";
 import { adminRoutesConstants } from "./adminRoutesConstants";
 
@@ -43,8 +45,12 @@ const AdminRoutes = () => {
           element={<EditProduct />}
         />
         <Route
-          path={adminRoutesConstants.dealsAndOffers}
-          element={<div>Deals & Offers Page</div>}
+          path={adminRoutesConstants.dealsAndOffers.viewDeals}
+          element={<DealsOffers />}
+        />
+          <Route
+          path={adminRoutesConstants.dealsAndOffers.createOffer}
+          element={<CreateOffer />}
         />
         <Route
           path={adminRoutesConstants.orderManagement}

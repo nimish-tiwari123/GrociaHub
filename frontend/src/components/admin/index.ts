@@ -6,4 +6,5 @@ import Pagination from "./Pagination";
 import SelectField from "./SelectField";
 import TextArea from "./TextArea";
 import MultiImageUpload from "./ImageUpload/MultiImageUpload";
-export { SearchField, CategoryCard, TextInput, ImageUpload, Pagination,SelectField, TextArea,MultiImageUpload};
+import MultiSelect from "./MultiSelect";
+export { SearchField, CategoryCard, TextInput, ImageUpload, Pagination,SelectField, TextArea,MultiImageUpload,MultiSelect};

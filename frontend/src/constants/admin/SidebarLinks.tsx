@@ -19,7 +19,7 @@ export const sidebarLinks = [
   },
   {
     name: "Deals & Offers",
-    path: redirectAdminRoutes.dealsAndOffers,
+    path: redirectAdminRoutes.dealsAndOffers.viewDeals,
     icon: <FaPercent />,
   },
   {

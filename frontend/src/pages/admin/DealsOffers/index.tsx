@@ -12,7 +12,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { image1, image2, image3 } from "../../../assets/categories";
-const ProductManagement: React.FC = () => {
+const DealsOffers: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,39 +37,38 @@ const ProductManagement: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
   };
-  const handleAddProduct = () => {
-    navigate(redirectAdminRoutes.manageProduct.addProduct);
+  const handleCreateOffer = () => {
+    navigate(redirectAdminRoutes.dealsAndOffers.createOffer)
   };
   type ColumnType = {
     key: string;
     header: string;
-    type: "checkbox" | "text" | "product" | "toggler";
+    type: "checkbox" | "text" | "toggler" | "action";
     togglerHandler?: (value: boolean, row: DataType) => void;
   };
-
+  
   type DataType = {
     index: string;
-    product: string;
-    category: string;
-    image: string;
-    price: string;
-    stock: string;
+    offerTitle: string;
+    startDate: string;
+    endDate: string;
+    discountType: string;
     status: boolean;
-    created: string;
   };
-
+  
   type ActionType = {
     label: string;
     onClick: (row: DataType) => void;
     icon: ReactNode;
   };
-
+  
   const columns: ColumnType[] = [
     { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
-    { key: "product", header: "Product", type: "product" },
-    { key: "price", header: "Price", type: "text" },
-    { key: "stock", header: "Stock", type: "text" },
+    { key: "offerTitle", header: "Offer Title", type: "text" },
+    { key: "startDate", header: "Start Date", type: "text" },
+    { key: "endDate", header: "End Date", type: "text" },
+    { key: "discountType", header: "Discount Type", type: "text" },
     {
       key: "status",
       header: "Status",
@@ -79,62 +78,59 @@ const ProductManagement: React.FC = () => {
         console.log("Toggled:", row);
       },
     },
-    { key: "created", header: "Created", type: "text" },
   ];
-
+  
   const data: DataType[] = [
     {
       index: "01",
-      product: "Oranges Gaga",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Percentage(%)",
       status: false,
-      created: "14/08/2024",
     },
     {
       index: "02",
-      product: "Red Strawberry",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Fixed",
       status: true,
-      created: "14/08/2024",
     },
     {
       index: "03",
-      product: "Gala Apple",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Percentage(%)",
       status: false,
-      created: "14/08/2024",
     },
     {
       index: "04",
-      product: "Bhaji",
-      category: "Vegetables",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Fixed",
       status: true,
-      created: "14/08/2024",
     },
     {
       index: "05",
-      product: "Peach",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Percentage(%)",
+      status: false,
+    },
+    {
+      index: "06",
+      offerTitle: "Holiday Mega Sale",
+      startDate: "14/08/2024",
+      endDate: "14/08/2024",
+      discountType: "Fixed",
       status: true,
-      created: "14/08/2024",
     },
   ];
-
+  
   const actions: ActionType[] = [
     {
       label: "View",
@@ -143,7 +139,7 @@ const ProductManagement: React.FC = () => {
     },
     {
       label: "Edit",
-      onClick: (row) => navigate(redirectAdminRoutes.manageProduct.editProduct),
+      onClick: (row) => navigate("/"),
       icon: <MdOutlineEdit />,
     },
     {
@@ -152,15 +148,17 @@ const ProductManagement: React.FC = () => {
       icon: <RiDeleteBinLine />,
     },
   ];
-
+  
   const toggleStatus = (row: DataType) => {
     const togglerColumn = columns.find((col) => col.type === "toggler");
     if (togglerColumn?.togglerHandler) {
       togglerColumn.togglerHandler(!row.status, row);
     }
   };
-
+  
+  // Example usage
   data.forEach((row) => toggleStatus(row));
+  
 
   const product = {
     name: "Oranges Gaga",
@@ -190,7 +188,7 @@ const ProductManagement: React.FC = () => {
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
           </Link>
-          <h1 className="fw-bold fs-3 m-0 mt-md-3">Manage Product</h1>
+          <h1 className="fw-bold fs-3 m-0 mt-md-3">Discount & Offers</h1>
         </Col>
         <Col
           md={7}
@@ -203,7 +201,7 @@ const ProductManagement: React.FC = () => {
             Home
           </Link>
           <span> | </span>
-          <span>Manage Product</span>
+          <span>Discount & Offers</span>
         </Col>
       </Row>
       <Row className="mt-4">
@@ -223,9 +221,9 @@ const ProductManagement: React.FC = () => {
             <RiDeleteBin5Fill size={16} />
           </button>
           <Button
-            btnLabel="+ Add Product"
+            btnLabel="+ Create Offer"
             btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2 "
-            onClick={handleAddProduct}
+            onClick={handleCreateOffer}
           />
         </Col>
       </Row>
@@ -245,8 +243,8 @@ const ProductManagement: React.FC = () => {
       </Row>
       <DeleteModal
         show={showDeleteModal}
-        heading="Delete Product"
-        subheading={`Are you sure you want to delete the product "${name}"? This action cannot be undone.`}
+        heading="Delete Offer"
+        subheading={`Are you sure you want to delete the Offer "${name}"? This action cannot be undone.`}
         onDelete={handleConfirmDelete}
         onCancel={handleCancel}
       />
@@ -259,4 +257,4 @@ const ProductManagement: React.FC = () => {
   );
 };
 
-export default ProductManagement;
+export default DealsOffers;

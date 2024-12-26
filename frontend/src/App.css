@@ -24,3 +24,6 @@
 .p-custom{
   padding: 14px;
 }
+.success-border{
+  border: 1px solid var(--primary);
+}
