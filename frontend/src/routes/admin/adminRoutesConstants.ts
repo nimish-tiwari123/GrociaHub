@@ -17,6 +17,7 @@ export const adminRoutesConstants = {
   },
   orderManagement: "/order-management",
   users: "/users",
+  notifications:"/notifications"
 };
 
 export const redirectAdminRoutes = {
@@ -39,4 +40,6 @@ export const redirectAdminRoutes = {
   },
   orderManagement: "/admin/order-management",
   users: "/admin/users",
+  notifications:"/admin/notifications"
+
 };

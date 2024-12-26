@@ -7,6 +7,7 @@ import AddProduct from "./ProductManagement/AddProduct";
 import EditProduct from "./ProductManagement/EditProduct";
 import DealsOffers from "./DealsOffers";
 import CreateOffer from "./DealsOffers/CreateOffer";
+import Notifications from "./Notifications";
 export {
   Dashboard,
   CategoryManagement,
@@ -16,5 +17,6 @@ export {
   AddProduct,
   EditProduct,
   DealsOffers,
-  CreateOffer
+  CreateOffer,
+  Notifications
 };

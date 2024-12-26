@@ -10,7 +10,8 @@ import {
   AddProduct,
   EditProduct,
   DealsOffers,
-  CreateOffer
+  CreateOffer,
+  Notifications
 } from "../../pages/admin";
 import { adminRoutesConstants } from "./adminRoutesConstants";
 
@@ -59,6 +60,10 @@ const AdminRoutes = () => {
         <Route
           path={adminRoutesConstants.users}
           element={<div>Users Page</div>}
+        />
+          <Route
+          path={adminRoutesConstants.notifications}
+          element={<Notifications />}
         />
       </Route>
       <Route path="*" element={<NotFound />} />

@@ -4,6 +4,8 @@ import { FaBars } from "react-icons/fa";
 import { Dropdown } from "react-bootstrap";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import profileImg from "../../assets/profile.jpg";
+import { redirectAdminRoutes } from "../../routes/admin/adminRoutesConstants";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -11,6 +13,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleSidebar, handleOffcanvasShow }) => {
+  const navigate = useNavigate();
   return (
     <header className="d-flex align-items-center justify-content-between bg-white px-3 dashboard-header">
       <button
@@ -28,8 +31,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, handleOffcanvasShow }) =
         <FaBars />
       </button>
       <div className="d-flex align-items-center gap-3">
-        <div className="position-relative">
-          <MdOutlineNotificationsNone size={24} />
+        <div className="position-relative cursor-pointer">
+          <MdOutlineNotificationsNone size={24} onClick={()=>navigate(redirectAdminRoutes.notifications)}/>
           <div className="bg-danger rounded-circle notify-icon position-absolute top-0 end-0"></div>
         </div>
         <Dropdown align="end">
