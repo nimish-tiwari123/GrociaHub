@@ -1,0 +1,89 @@
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(247, 247, 247, 0.95);
+    backdrop-filter: blur(8px);
+  }
+  
+  .loader-container img {
+    width: 80px; 
+    height: auto;
+    margin-bottom: 20px;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  
+  .loader-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--primary);
+    font-weight: 600;
+    text-align: center;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+  
+  .grocery-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .loader-item {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out, scalePulse 1.2s infinite ease-in-out;
+  }
+  
+  .loader-item-orange {
+    background-color: #ff5722; /* Orange (Carrot) */
+  }
+  
+  .loader-item-green {
+    background-color: var(--primary); /* Green (Lettuce) */
+    animation-delay: 0.2s;
+  }
+  
+  .loader-item-yellow {
+    background-color: #ffeb3b; /* Yellow (Corn) */
+    animation-delay: 0.4s;
+  }
+  
+  /* Bouncing animation */
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+  
+  /* Smooth scaling pulse */
+  @keyframes scalePulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  /* Fade-in effect for smoother entry */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
