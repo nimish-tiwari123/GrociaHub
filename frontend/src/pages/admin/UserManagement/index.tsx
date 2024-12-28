@@ -1,18 +1,15 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable } from "../../../components/common";
+import { CustomTable } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteModal, OfferModal } from "../../../Modals";
+import { DeleteModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBin5Fill } from "react-icons/ri";
-import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+import { LuArrowRightLeft } from "react-icons/lu";
 import { image1, image2, image3 } from "../../../assets/categories";
-const DealsOffers: React.FC = () => {
+const UserManagement: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,127 +34,141 @@ const DealsOffers: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
   };
-  const handleCreateOffer = () => {
-    navigate(redirectAdminRoutes.dealsAndOffers.createOffer);
-  };
+ 
   type ColumnType = {
     key: string;
     header: string;
-    type: "checkbox" | "text" | "toggler" | "action";
-    togglerHandler?: (value: boolean, row: DataType) => void;
+    type: "checkbox" | "text" | "status" | "action";
+    statusStyles?: (status: string) => void;
   };
-
+  
   type DataType = {
     index: string;
-    offerTitle: string;
-    startDate: string;
-    endDate: string;
-    discountType: string;
-    status: boolean;
+    userName: string;
+    emailAddress: string;
+    mobileNumber: string;
+    registrationDate: string;
+    status: string;
   };
-
+  
   type ActionType = {
     label: string;
     onClick: (row: DataType) => void;
     icon: ReactNode;
   };
-
+  
   const columns: ColumnType[] = [
     { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
-    { key: "offerTitle", header: "Offer Title", type: "text" },
-    { key: "startDate", header: "Start Date", type: "text" },
-    { key: "endDate", header: "End Date", type: "text" },
-    { key: "discountType", header: "Discount Type", type: "text" },
+    { key: "userName", header: "User", type: "text" },
+    { key: "emailAddress", header: "Email Address", type: "text" },
+    { key: "mobileNumber", header: "Mobile Number", type: "text" },
+    { key: "registrationDate", header: "Registration Date", type: "text" },
     {
       key: "status",
       header: "Status",
-      type: "toggler",
-      togglerHandler: (value, row) => {
-        row.status = value;
-        console.log("Toggled:", row);
+      type: "status",
+      statusStyles: (status: string) => {
+        let buttonClass = "";
+        let buttonText = "";
+
+        switch (status) {
+         
+          case "Active":
+            buttonClass = "status-success-btn";
+            buttonText = "Active";
+            break;
+          case "Blocked":
+            buttonClass = "status-danger-btn";
+            buttonText = "Blocked";
+            break;
+          default:
+            buttonClass = "status-default-btn";
+            buttonText = "Unknown";
+        }
+
+        return (
+          <button
+            className={`status-btn ${buttonClass} border-0 py-1 px-3 rounded-pill fw-medium`}
+          >
+            {buttonText}
+          </button>
+        );
       },
     },
   ];
-
+  
   const data: DataType[] = [
     {
       index: "01",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      userName: "Sumit Chouhan",
+      emailAddress: "sumitc2034@...",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Active",
     },
     {
       index: "02",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      userName: "Raja Prajapati",
+      emailAddress: "12345CDFbr",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Blocked",
     },
     {
       index: "03",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      userName: "Aavesh Khanna",
+      emailAddress: "12345CDFbr",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Blocked",
+
     },
     {
       index: "04",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      userName: "Sapna Trivedi",
+      emailAddress: "12345CDFbr",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Active",
+
     },
     {
       index: "05",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      userName: "Prashant Yadav",
+      emailAddress: "12345CDFbr",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Blocked",
+
     },
     {
       index: "06",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      userName: "Nimish Obroy",
+      emailAddress: "12345CDFbr",
+      mobileNumber: "8899002211",
+      registrationDate: "14/08/2024",
+      status: "Active",
+
     },
   ];
-
+  
   const actions: ActionType[] = [
     {
       label: "View",
       onClick: (row) => handleOpenModal(),
       icon: <MdOutlineRemoveRedEye />,
     },
+    
     {
-      label: "Edit",
-      onClick: (row) => navigate("/"),
-      icon: <MdOutlineEdit />,
-    },
-    {
-      label: "Delete",
+      label: "Change Status",
       onClick: (row) => setShowDeleteModal(true),
-      icon: <RiDeleteBinLine />,
+      icon: <LuArrowRightLeft />,
     },
   ];
-
-  const toggleStatus = (row: DataType) => {
-    const togglerColumn = columns.find((col) => col.type === "toggler");
-    if (togglerColumn?.togglerHandler) {
-      togglerColumn.togglerHandler(!row.status, row);
-    }
-  };
-
-  // Example usage
-  data.forEach((row) => toggleStatus(row));
+  
+  
+  
 
   const offer = {
     title: "Holiday Mega Sale - 25% Off!",
@@ -203,7 +214,7 @@ const DealsOffers: React.FC = () => {
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
           </Link>
-          <h1 className="fw-bold fs-3 m-0 mt-md-3">Discount & Offers</h1>
+          <h1 className="fw-bold fs-3 m-0 mt-md-3">Manage Users</h1>
         </Col>
         <Col
           md={7}
@@ -216,7 +227,7 @@ const DealsOffers: React.FC = () => {
             Home
           </Link>
           <span> | </span>
-          <span>Discount & Offers</span>
+          <span>Users</span>
         </Col>
       </Row>
       <Row className="mt-4">
@@ -232,14 +243,11 @@ const DealsOffers: React.FC = () => {
           md={4}
           className="d-flex justify-content-end align-items-center mt-3 mt-md-0"
         >
-          <button className="d-flex align-items-center justify-content-center rounded border bg-white text-danger me-3 p-2">
-            <RiDeleteBin5Fill size={16} />
-          </button>
-          <Button
-            btnLabel="+ Create Offer"
-            btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2 "
-            onClick={handleCreateOffer}
-          />
+        <select className="p-2 bg-white fw-medium border rounded">
+          <option value="Active">Active</option>
+          <option value="Active">Blocked</option>
+
+        </select>
         </Col>
       </Row>
       <Row className="mt-3 px-2 px-md-1">
@@ -263,13 +271,9 @@ const DealsOffers: React.FC = () => {
         onDelete={handleConfirmDelete}
         onCancel={handleCancel}
       />
-      <OfferModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        offer={offer}
-      />
+     
     </Container>
   );
 };
 
-export default DealsOffers;
+export default UserManagement;

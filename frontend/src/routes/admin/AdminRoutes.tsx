@@ -11,7 +11,8 @@ import {
   EditProduct,
   DealsOffers,
   CreateOffer,
-  Notifications
+  Notifications,
+  UserManagement
 } from "../../pages/admin";
 import { adminRoutesConstants } from "./adminRoutesConstants";
 
@@ -59,7 +60,7 @@ const AdminRoutes = () => {
         />
         <Route
           path={adminRoutesConstants.users}
-          element={<div>Users Page</div>}
+          element={<UserManagement/>}
         />
           <Route
           path={adminRoutesConstants.notifications}
