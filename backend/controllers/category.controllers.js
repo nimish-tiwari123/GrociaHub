@@ -54,4 +54,132 @@ const createCategory = async (req, res) => {
   }
 };
 
-module.exports = { createCategory };
+const getCategories = async (req, res) => {
+  try {
+    const queries = {
+      search: req.query.search || "",
+    };
+
+    const categories = await categoryServices.getCategories(queries);
+
+    return res.status(200).json({
+      status: true,
+      message: responseMessages.CATEGORIES_RETRIEVED,
+      categories,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: responseMessages.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const getCategoryById = async (req, res) => {
+  try {
+    const category = await categoryServices.getCategoryById(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({
+        status: false,
+        message: responseMessages.CATEGORY_NOT_FOUND,
+      });
+    }
+
+    return res.status(200).json({
+      status: true,
+      message: responseMessages.CATEGORY_RETRIEVED,
+      category,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: responseMessages.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const deleteCategory = async (req, res) => {
+  try {
+    const category = await categoryServices.getCategoryById(req.params.id);
+
+    if (!category) {
+      return res.status(404).json({
+        status: false,
+        message: responseMessages.CATEGORY_NOT_FOUND,
+      });
+    }
+
+    await cloudinaryUtils.deleteOnCloudinary(
+      category.image,
+      "grociaHub/categories"
+    );
+
+    await categoryServices.deleteCategoryById(req.params.id);
+
+    return res.status(200).json({
+      status: true,
+      message: responseMessages.CATEGORY_DELETED,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: responseMessages.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+const updateCategory = async (req, res) => {
+  try {
+    const categoryExists = await categoryServices.getCategoryByName(
+      req.body.name
+    );
+
+    if (!categoryExists) {
+      return res.status(404).json({
+        status: false,
+        message: responseMessages.CATEGORY_NOT_FOUND,
+      });
+    }
+
+    const image = req.body.image || req.file;
+
+    if (!image) {
+      return res.status(400).json({
+        status: false,
+        message: "Image is a required field",
+      });
+    }
+
+    if (req.file) {
+      await cloudinaryUtils.deleteOnCloudinary(
+        categoryExists.image,
+        "grociaHub/categories"
+      );
+      const imageUrl = await cloudinaryUtils.upload(
+        image,
+        "grociaHub/categories"
+      );
+      req.body.image = imageUrl;
+    }
+
+    const createdCategory = await categoryServices.update(req.body);
+
+    return res
+      .status(201)
+      .json({ status: true, message: responseMessages.CATEGORY_UPDATED });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: false, message: responseMessages.INTERNAL_SERVER_ERROR });
+  }
+};
+
+module.exports = {
+  createCategory,
+  getCategories,
+  getCategoryById,
+  deleteCategory,
+  updateCategory,
+};

@@ -22,6 +22,8 @@ const responseMessages = {
   CATEGORY_NOT_FOUND: "Category not found",
   CATEGORY_UPDATED: "Category updated successfully",
   CATEGORY_DELETED: "Category deleted successfully",
+  CATEGORIES_RETRIEVED: "Categories retrieved successfully",
+  CATEGORY_RETRIEVED: "Category retrieved successfully",
 };
 
 module.exports = responseMessages;

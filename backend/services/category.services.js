@@ -9,18 +9,44 @@ const saveCategory = async (payload) => {
   }
 };
 
-const getCategories = async () => {
+const updateCategory = async (payload) => {
   try {
-    const categories = await Category.find({});
+    const category = await Category.findOneAndUpdate(payload);
+    return category;
+  } catch (error) {
+    throw new Error("Error while saving category");
+  }
+};
+
+const getCategories = async (queries) => {
+  try {
+    let categories;
+    if (queries.search) {
+      const searchTerm = queries.search.trim();
+      categories = await Category.find({
+        name: { $regex: searchTerm, $options: "i" },
+      });
+    } else {
+      categories = await Category.find({});
+    }
     return categories;
   } catch (error) {
     throw new Error("Error while fetching categories");
   }
 };
 
+const deleteCategoryById = async (id) => {
+  try {
+    const category = await Category.findByIdAndDelete(id);
+    return category;
+  } catch (error) {
+    throw new Error("Error while deleting category");
+  }
+};
+
 const getCategoryById = async (id) => {
   try {
-    const category = await Category.find({ _id: id });
+    const category = await Category.findById({ _id: id });
     return category;
   } catch (error) {
     throw new Error("Error while fetching category");
@@ -41,4 +67,6 @@ module.exports = {
   getCategoryById,
   getCategories,
   getCategoryByName,
+  deleteCategoryById,
+  updateCategory,
 };
