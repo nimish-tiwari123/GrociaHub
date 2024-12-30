@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { database } = require("./utils");
-const { userRoutes } = require("./routes");
+const { userRoutes, category, categoryRoutes } = require("./routes");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -14,5 +14,6 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/categories", categoryRoutes);
 
 module.exports = app;

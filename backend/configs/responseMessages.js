@@ -16,6 +16,12 @@ const responseMessages = {
   INVALID_TOKEN: "Invalid token",
 
   PASSWORD_RESET_SUCCESS: "Password reset successfully",
+
+  CATEGORY_CREATED: "Category created successfully",
+  CATEGORY_ALREADY_EXISTS: "Category already exists",
+  CATEGORY_NOT_FOUND: "Category not found",
+  CATEGORY_UPDATED: "Category updated successfully",
+  CATEGORY_DELETED: "Category deleted successfully",
 };
 
 module.exports = responseMessages;
