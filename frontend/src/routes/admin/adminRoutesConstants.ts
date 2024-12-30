@@ -15,7 +15,10 @@ export const adminRoutesConstants = {
     viewDeals: "/deals-offers",
     createOffer:"/deals-offers/create-offer"
   },
-  orderManagement: "/order-management",
+  orderManagement:{
+   viewAllOrders: "/order-management",
+   viewOrder:"/order-management/view-order"
+  },
   users: "/users",
   notifications:"/notifications"
 };
@@ -38,7 +41,11 @@ export const redirectAdminRoutes = {
     createOffer:"/admin/deals-offers/create-offer"
 
   },
-  orderManagement: "/admin/order-management",
+  orderManagement:{
+    viewAllOrders: "/admin/order-management",
+   viewOrder:"/admin/order-management/view-order"
+
+   },
   users: "/admin/users",
   notifications:"/admin/notifications"
 

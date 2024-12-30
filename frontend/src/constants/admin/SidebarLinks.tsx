@@ -24,7 +24,7 @@ export const sidebarLinks = [
   },
   {
     name: "Order Management",
-    path: redirectAdminRoutes.orderManagement,
+    path: redirectAdminRoutes.orderManagement.viewAllOrders,
     icon: <FaShoppingCart />,
   },
   {

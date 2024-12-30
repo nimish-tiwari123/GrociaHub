@@ -9,6 +9,8 @@ import DealsOffers from "./DealsOffers";
 import CreateOffer from "./DealsOffers/CreateOffer";
 import Notifications from "./Notifications";
 import UserManagement from "./UserManagement";
+import OrderManagement from "./OrderManagement";
+import ViewOrder from "./OrderManagement/ViewOrder";
 export {
   Dashboard,
   CategoryManagement,
@@ -20,5 +22,7 @@ export {
   DealsOffers,
   CreateOffer,
   Notifications,
-  UserManagement
+  UserManagement,
+  OrderManagement,
+  ViewOrder
 };
