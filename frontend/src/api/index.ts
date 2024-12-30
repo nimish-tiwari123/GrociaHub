@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://192.168.31.84:8000/api" }),
+  tagTypes: ["Category"],
+
   endpoints: (build) => ({
     register: build.mutation({
       query: (body) => ({

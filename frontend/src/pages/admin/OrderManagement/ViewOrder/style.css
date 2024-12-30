@@ -1,0 +1,39 @@
+.order-details-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+  }
+  
+ 
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section h5 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .status-completed {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .actions {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 576px) {
+    .order-details-container {
+      padding: 10px;
+    }
+  
+    .details-card {
+      padding: 10px;
+    }
+  }
+
+  

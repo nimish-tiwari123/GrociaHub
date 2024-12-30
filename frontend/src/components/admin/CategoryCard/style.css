@@ -2,3 +2,7 @@
     width: 28px;
     height: 28px;
 }
+.category-admin-img{
+    height: 120px;
+    object-fit: contain;
+}

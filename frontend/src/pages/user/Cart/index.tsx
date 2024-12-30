@@ -18,44 +18,69 @@ const Cart = () => {
       setQuantity(quantity - 1);
     }
   };
+
   return (
     <div>
       <Header />
       <Container className="my-5">
         <Row>
-          <Col md={9}>
+          <Col lg={9} md={12}>
             <div className="p-4 border rounded-3 cart-main-container m-auto">
               <Row>
-                <Col md={4} className="ps-5">
-                  <span className="fs-6 fw-bold opacity-50 ms-5 ps-4">
-                    Product
-                  </span>
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={4}
+                  className="ps-3 text-center text-md-start"
+                >
+                  <span className="fs-6 fw-bold opacity-50">Product</span>
                 </Col>
-                <Col md={8}>
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={8}
+                  className="text-center text-md-start"
+                >
                   <Row>
-                    <Col md={4}>
+                    <Col xs={3}>
                       <span className="fs-6 fw-bold opacity-50">Price</span>
                     </Col>
-                    <Col md={4}>
+                    <Col xs={3}>
                       <span className="fs-6 fw-bold opacity-50">Quantity</span>
                     </Col>
-                    <Col md={4}>
+                    <Col xs={3}>
                       <span className="fs-6 fw-bold opacity-50">Sub Total</span>
                     </Col>
                   </Row>
                 </Col>
               </Row>
-              <Row>
-                <Col md={4}>
-                  <img src={image1} alt="Product" className="cart-img" />
-                  <span className="ms-3 fw-medium">Orange</span>
+              <Row className="align-items-center">
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={4}
+                  className="text-center text-md-start"
+                >
+                  <img
+                    src={image1}
+                    alt="Product"
+                    className="cart-img img-fluid"
+                  />
+                  <span className="ms-3 fw-medium d-block d-md-inline">
+                    Orange
+                  </span>
                 </Col>
-                <Col md={8}>
-                  <Row className="h-100">
-                    <Col md={4} className="d-flex align-items-center">
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={8}
+                  className="text-center text-md-start"
+                >
+                  <Row className="align-items-center">
+                    <Col xs={3}>
                       <span className="fw-medium">&#8377; 500</span>
                     </Col>
-                    <Col md={4} className="d-flex align-items-center">
+                    <Col xs={3}>
                       <div className="product-quantity">
                         <button
                           className="quantity-btn rounded-circle border fs-5"
@@ -74,10 +99,12 @@ const Cart = () => {
                         </button>
                       </div>
                     </Col>
-                    <Col md={4} className="d-flex align-items-center">
+                    <Col xs={3}>
                       <div className="fw-bold">
                         &#8377; <span>{quantity * 100}</span>
                       </div>
+                    </Col>
+                    <Col xs={3}>
                       <button className="delete-btn text-danger ms-5 border-0 bg-transparent">
                         <RiDeleteBin6Line size={20} className="mb-1" />
                       </button>
@@ -86,17 +113,33 @@ const Cart = () => {
                 </Col>
               </Row>
               <hr />
-              <Row>
-                <Col md={4}>
-                  <img src={image2} alt="Product" className="cart-img" />
-                  <span className="ms-3 fw-medium">Bhaji Methi</span>
+              <Row className="align-items-center">
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={4}
+                  className="text-center text-md-start"
+                >
+                  <img
+                    src={image2}
+                    alt="Product"
+                    className="cart-img img-fluid"
+                  />
+                  <span className="ms-3 fw-medium d-block d-md-inline">
+                    Bhaji Methi
+                  </span>
                 </Col>
-                <Col md={8}>
-                  <Row className="h-100">
-                    <Col md={4} className="d-flex align-items-center">
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={8}
+                  className="text-center text-md-start"
+                >
+                  <Row className="align-items-center">
+                    <Col xs={3}>
                       <span className="fw-medium">&#8377; 500</span>
                     </Col>
-                    <Col md={4} className="d-flex align-items-center">
+                    <Col xs={3}>
                       <div className="product-quantity">
                         <button
                           className="quantity-btn rounded-circle border fs-5"
@@ -115,10 +158,12 @@ const Cart = () => {
                         </button>
                       </div>
                     </Col>
-                    <Col md={4} className="d-flex align-items-center">
+                    <Col xs={3}>
                       <div className="fw-bold">
                         &#8377; <span>{quantity * 100}</span>
                       </div>
+                    </Col>
+                    <Col xs={3}>
                       <button className="delete-btn text-danger ms-5 border-0 bg-transparent">
                         <RiDeleteBin6Line size={20} className="mb-1" />
                       </button>
@@ -126,12 +171,11 @@ const Cart = () => {
                   </Row>
                 </Col>
               </Row>
-             
             </div>
           </Col>
-          <Col md={3}>
-            <div className="border px-3 py-4 rounded-3">
-              <span className="fw-medium fs-5"> Total: </span>{" "}
+          <Col lg={3} md={12} className="mt-4 mt-lg-0">
+            <div className="border px-3 py-4 rounded-3 text-center text-md-start">
+              <span className="fw-medium fs-5">Total: </span>
               <span className="fw-bold fs-5">&#8377; 2000</span>
               <div>
                 <Button

@@ -1,45 +1,47 @@
 export const adminRoutesConstants = {
   dashboard: "/dashboard",
   categoryManagement: {
-    viewCategory: "/category-management",
-    addCategory: "/category-management/add-category",
-    editCategory: "/category-management/edit-category",
+    view: "/category-management",
+    add: "/category-management/add",
+    edit: "/category-management/edit/:id",
   },
-  manageProduct: {
-    viewProduct: "/manage-product",
-    addProduct: "/manage-product/add-product",
-    editProduct: "/manage-product/edit-product",
-
+  productManagement: {
+    view: "/product-management",
+    add: "/product-management/add",
+    edit: "/product-management/edit/:id",
   },
   dealsAndOffers: {
-    viewDeals: "/deals-offers",
-    createOffer:"/deals-offers/create-offer"
+    view: "/deals-and-offers",
+    create: "/deals-and-offers/create",
   },
-  orderManagement: "/order-management",
+  orderManagement: {
+    viewAll: "/order-management",
+    view: "/order-management/view/:id", 
+  },
   users: "/users",
-  notifications:"/notifications"
+  notifications: "/notifications",
 };
 
 export const redirectAdminRoutes = {
   dashboard: "/admin/dashboard",
   categoryManagement: {
-    viewCategory: "/admin/category-management",
-    addCategory: "/admin/category-management/add-category",
-    editCategory: "/admin/category-management/edit-category",
+    view: "/admin/category-management",
+    add: "/admin/category-management/add",
+    edit: "/admin/category-management/edit/", 
   },
-  manageProduct: {
-    viewProduct: "/admin/manage-product",
-    addProduct: "/admin/manage-product/add-product",
-    editProduct: "/admin/manage-product/edit-product",
-
+  productManagement: {
+    view: "/admin/product-management",
+    add: "/admin/product-management/add",
+    edit: "/admin/product-management/edit/", 
   },
   dealsAndOffers: {
-    viewDeals: "/admin/deals-offers",
-    createOffer:"/admin/deals-offers/create-offer"
-
+    view: "/admin/deals-and-offers",
+    create: "/admin/deals-and-offers/create",
   },
-  orderManagement: "/admin/order-management",
+  orderManagement: {
+    viewAll: "/admin/order-management",
+    view: "/admin/order-management/view/", 
+  },
   users: "/admin/users",
-  notifications:"/admin/notifications"
-
+  notifications: "/admin/notifications",
 };

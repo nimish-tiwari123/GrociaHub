@@ -9,22 +9,22 @@ export const sidebarLinks = [
   },
   {
     name: "Category Management",
-    path: redirectAdminRoutes.categoryManagement.viewCategory,
+    path: redirectAdminRoutes.categoryManagement.view,
     icon: <FaTags />,
   },
   {
     name: "Manage Product",
-    path: redirectAdminRoutes.manageProduct.viewProduct,
+    path: redirectAdminRoutes.productManagement.view,
     icon: <FaBoxOpen />,
   },
   {
     name: "Deals & Offers",
-    path: redirectAdminRoutes.dealsAndOffers.viewDeals,
+    path: redirectAdminRoutes.dealsAndOffers.view,
     icon: <FaPercent />,
   },
   {
     name: "Order Management",
-    path: redirectAdminRoutes.orderManagement,
+    path: redirectAdminRoutes.orderManagement.viewAll,
     icon: <FaShoppingCart />,
   },
   {

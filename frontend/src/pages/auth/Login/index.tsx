@@ -2,12 +2,14 @@ import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesCons
 import { AuthTextInput, Button } from "../../../components/common";
 import { Link } from "react-router-dom";
 import useLogin from "./useLogin";
+import { Loader } from "../../../components/common";
 
 const Login = () => {
-  const { formik } = useLogin();
+  const { formik, isLoading } = useLogin();
 
   return (
     <div className="login-container">
+      {isLoading && <Loader/>}
       <h1 className="fw-bold my-3 fs-3 text-center">Login to your account</h1>
       <form onSubmit={formik.handleSubmit}>
         <AuthTextInput

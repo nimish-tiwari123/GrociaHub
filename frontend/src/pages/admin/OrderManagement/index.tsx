@@ -1,18 +1,21 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable } from "../../../components/common";
+import { CustomTable } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteModal, OfferModal } from "../../../Modals";
+import { DeleteModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBin5Fill } from "react-icons/ri";
-import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+import { LuArrowRightLeft } from "react-icons/lu";
 import { image1, image2, image3 } from "../../../assets/categories";
-const DealsOffers: React.FC = () => {
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { MdOutlineEdit } from "react-icons/md";
+import { TbShoppingCartX } from "react-icons/tb";
+import { FaRegFilePdf } from "react-icons/fa6";
+import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+
+const OrderManagement: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,23 +40,21 @@ const DealsOffers: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
   };
-  const handleCreateOffer = () => {
-    navigate(redirectAdminRoutes.dealsAndOffers.createOffer);
-  };
+
   type ColumnType = {
     key: string;
     header: string;
-    type: "checkbox" | "text" | "toggler" | "action";
-    togglerHandler?: (value: boolean, row: DataType) => void;
+    type: "checkbox" | "text" | "status" | "action";
+    statusStyles?: (status: string) => void;
   };
 
   type DataType = {
     index: string;
-    offerTitle: string;
-    startDate: string;
-    endDate: string;
-    discountType: string;
-    status: boolean;
+    customerName: string;
+    orderId: string;
+    orderDate: string;
+    totalAmount: string;
+    status: string;
   };
 
   type ActionType = {
@@ -65,99 +66,122 @@ const DealsOffers: React.FC = () => {
   const columns: ColumnType[] = [
     { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
-    { key: "offerTitle", header: "Offer Title", type: "text" },
-    { key: "startDate", header: "Start Date", type: "text" },
-    { key: "endDate", header: "End Date", type: "text" },
-    { key: "discountType", header: "Discount Type", type: "text" },
+    { key: "customerName", header: "Customer Name", type: "text" },
+    { key: "orderId", header: "Order Id", type: "text" },
+    { key: "orderDate", header: "Order Date", type: "text" },
+    { key: "totalAmount", header: "Total Amount", type: "text" },
+
     {
       key: "status",
       header: "Status",
-      type: "toggler",
-      togglerHandler: (value, row) => {
-        row.status = value;
-        console.log("Toggled:", row);
+      type: "status",
+      statusStyles: (status: string) => {
+        let buttonClass = "";
+        let buttonText = "";
+
+        switch (status) {
+          case "Completed":
+            buttonClass = "status-success-btn";
+            buttonText = "Completed";
+            break;
+          case "Pending":
+            buttonClass = "status-warning-btn";
+            buttonText = "Pending";
+            break;
+          case "Cancelled":
+            buttonClass = "status-danger-btn";
+            buttonText = "Cancelled";
+            break;
+          default:
+            buttonClass = "status-default-btn";
+            buttonText = "Unknown";
+        }
+
+        return (
+          <button
+            className={`status-btn ${buttonClass} border-0 py-1 px-3 rounded-pill fw-medium`}
+          >
+            {buttonText}
+          </button>
+        );
       },
     },
   ];
-
   const data: DataType[] = [
     {
       index: "01",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      customerName: "Sumit Chouhan",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹677",
+      status: "Pending",
     },
     {
       index: "02",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      customerName: "Raja Prajapati",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹789",
+      status: "Completed",
     },
     {
       index: "03",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      customerName: "Aavesh Khanna",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹999",
+      status: "Cancelled",
     },
     {
       index: "04",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      customerName: "Sapna Trivedi",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹125",
+      status: "Pending",
     },
     {
       index: "05",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Percentage(%)",
-      status: false,
+      customerName: "Prashant Yadav",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹5",
+      status: "Completed",
     },
     {
       index: "06",
-      offerTitle: "Holiday Mega Sale",
-      startDate: "14/08/2024",
-      endDate: "14/08/2024",
-      discountType: "Fixed",
-      status: true,
+      customerName: "Nimish Obroy",
+      orderId: "123456CDFbr",
+      orderDate: "14/08/2024",
+      totalAmount: "₹2000",
+      status: "Cancelled",
     },
   ];
 
   const actions: ActionType[] = [
     {
-      label: "View",
-      onClick: (row) => handleOpenModal(),
+      label: "View Details",
+      onClick: (row) => navigate(redirectAdminRoutes.orderManagement.viewOrder),
       icon: <MdOutlineRemoveRedEye />,
     },
+
     {
-      label: "Edit",
-      onClick: (row) => navigate("/"),
+      label: "Update Status",
+      onClick: (row) => setShowDeleteModal(true),
       icon: <MdOutlineEdit />,
     },
     {
-      label: "Delete",
+      label: "Cancel Order",
+      onClick: (row) => handleOpenModal(),
+      icon: <TbShoppingCartX />,
+    },
+
+    {
+      label: "Download",
       onClick: (row) => setShowDeleteModal(true),
-      icon: <RiDeleteBinLine />,
+      icon: <FaRegFilePdf />,
     },
   ];
-
-  const toggleStatus = (row: DataType) => {
-    const togglerColumn = columns.find((col) => col.type === "toggler");
-    if (togglerColumn?.togglerHandler) {
-      togglerColumn.togglerHandler(!row.status, row);
-    }
-  };
-
-  // Example usage
-  data.forEach((row) => toggleStatus(row));
 
   const offer = {
     title: "Holiday Mega Sale - 25% Off!",
@@ -179,7 +203,8 @@ const DealsOffers: React.FC = () => {
         name: "Apple",
         category: "Fruits",
         productImg: image2,
-      }, {
+      },
+      {
         name: "Kiwi",
         category: "Fruits",
         productImg: image3,
@@ -203,7 +228,7 @@ const DealsOffers: React.FC = () => {
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
           </Link>
-          <h1 className="fw-bold fs-3 m-0 mt-md-3">Discount & Offers</h1>
+          <h1 className="fw-bold fs-3 m-0 mt-md-3">Order Management</h1>
         </Col>
         <Col
           md={7}
@@ -216,7 +241,7 @@ const DealsOffers: React.FC = () => {
             Home
           </Link>
           <span> | </span>
-          <span>Discount & Offers</span>
+          <span>Order Management</span>
         </Col>
       </Row>
       <Row className="mt-4">
@@ -235,11 +260,6 @@ const DealsOffers: React.FC = () => {
           <button className="d-flex align-items-center justify-content-center rounded border bg-white text-danger me-3 p-2">
             <RiDeleteBin5Fill size={16} />
           </button>
-          <Button
-            btnLabel="+ Create Offer"
-            btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2 "
-            onClick={handleCreateOffer}
-          />
         </Col>
       </Row>
       <Row className="mt-3 px-2 px-md-1">
@@ -263,13 +283,8 @@ const DealsOffers: React.FC = () => {
         onDelete={handleConfirmDelete}
         onCancel={handleCancel}
       />
-      <OfferModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        offer={offer}
-      />
     </Container>
   );
 };
 
-export default DealsOffers;
+export default OrderManagement;

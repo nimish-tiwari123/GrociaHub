@@ -1,12 +1,12 @@
 // components/DeleteModal.tsx
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
 
 interface DeleteModalProps {
   show: boolean;
   heading: string;
-  subheading: string;
+  subheading: ReactNode;
   onDelete: () => void;
   onCancel: () => void;
 }
@@ -28,9 +28,9 @@ const DeleteModal: FC<DeleteModalProps> = ({
               <IoMdClose size={24} />
             </button>
             <Modal.Title className="fw-bold">{heading}</Modal.Title>
-            <p className="fw-medium opacity-50 my-4 fs-5">
+            <p className="fw-medium my-4">
               {subheading}
-            </p>{" "}
+            </p>
             <div className="d-flex justify-content-end gap-3 mt-4">
               <button
                 className="bg-custom-secondary py-2 px-4 border rounded fw-medium"

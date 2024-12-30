@@ -1,4 +1,4 @@
-import { useForgotPasswordMutation } from "../../../../api";
+import { useForgotPasswordMutation } from "../../../api";
 import { forgotPasswordSchema } from "../../../schema/auth";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";

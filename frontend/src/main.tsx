@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import App from "./App.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
-import api from "../api/index.ts";
+import api from "./api/index.ts";
 import "react-toastify/dist/ReactToastify.css";
 
 createRoot(document.getElementById("root")!).render(
