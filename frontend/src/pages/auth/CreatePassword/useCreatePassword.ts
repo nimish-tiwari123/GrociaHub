@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { createPasswordSchema } from "../../../schema/auth";
 import { toast } from "react-toastify";
-import { useResetPasswordMutation } from "../../../../api";
+import { useResetPasswordMutation } from "../../../api";
 import { useNavigate } from "react-router-dom";
 import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
 

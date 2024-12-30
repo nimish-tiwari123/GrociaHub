@@ -1,10 +1,10 @@
 import { loginSchema } from "../../../schema/auth";
-import { useLoginMutation } from "../../../../api";
+import { useLoginMutation } from "../../../api";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const useLogin = () => {
-  const [login, {isLoading}] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -28,7 +28,7 @@ const useLogin = () => {
   });
   return {
     formik,
-    isLoading
+    isLoading,
   };
 };
 

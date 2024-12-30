@@ -1,10 +1,10 @@
 import { signUpSchema } from "../../../schema/auth";
-import { useRegisterMutation } from "../../../../api";
+import { useRegisterMutation } from "../../../api";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
 const useSignUp = () => {
-  const [register, {isLoading}] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +33,7 @@ const useSignUp = () => {
   });
   return {
     formik,
-    isLoading
+    isLoading,
   };
 };
 

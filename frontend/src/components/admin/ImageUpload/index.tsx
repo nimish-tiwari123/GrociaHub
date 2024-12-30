@@ -21,7 +21,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
       };
       reader.readAsDataURL(file);
     }
-    
+
     formik.setFieldTouched(name, true);
   };
 
@@ -40,8 +40,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
         onClick={handleImageClick}
         style={{ cursor: "pointer" }}
       >
-        {image ? (
-          <img src={image} alt="Selected" className="img-fluid" />
+        {formik?.values[name] || image ? (
+          <img
+            src={formik?.values[name] || image}
+            alt="Selected"
+            className="img-fluid"
+          />
         ) : (
           <div className="upload-placeholder p-5">
             <IoCloudUploadOutline size={30} />
@@ -50,6 +54,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
             </span>
           </div>
         )}
+
         <input
           id={name}
           name={name}

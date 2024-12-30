@@ -3,38 +3,28 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
 import { TextInput } from "../../../../components/admin";
-import { useFormik } from "formik";
 import { ImageUpload } from "../../../../components/admin";
-import { Button } from "../../../../components/common";
+import { Button, Loader } from "../../../../components/common";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { addCategorySchema } from "../../../../schema/admin/CategoryManagement";
-
+import useAddCategory from "./useAddCategory";
 
 const AddCategory: React.FC = () => {
-  const formik = useFormik({
-    initialValues: {
-      categoryName: "",
-      categoryImage: null,
-    },
-    validationSchema: addCategorySchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const { formik, isLoading } = useAddCategory();
 
   return (
     <Container
       fluid
       className="main-CategoryManagement-container dash-container px-2 px-md-4"
     >
+      {isLoading && <Loader/>}
       <Row className="my-2">
         <Col md={5}>
           <h1 className="fw-bold fs-3 m-0 mt-3">
             <Link
-              to={redirectAdminRoutes.categoryManagement.viewCategory}
+              to={redirectAdminRoutes.categoryManagement.view}
               className="text-decoration-none text-custom-primary d-md-none"
             >
-              <IoIosArrowRoundBack size={28} className="me-2"/>
+              <IoIosArrowRoundBack size={28} className="me-2" />
             </Link>
             Add Category
           </h1>
@@ -44,7 +34,7 @@ const AddCategory: React.FC = () => {
           className="d-md-flex align-items-center justify-content-end pt-4 gap-lg-2 gap-md-1 d-none"
         >
           <Link
-            to={redirectAdminRoutes.categoryManagement.viewCategory}
+            to={redirectAdminRoutes.categoryManagement.view}
             className="text-decoration-none text-custom-primary"
           >
             Category Management
@@ -57,7 +47,7 @@ const AddCategory: React.FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <TextInput
             type="text"
-            name="categoryName"
+            name="name"
             label="Category Name"
             placeholder="Enter Category"
             formik={formik}
@@ -65,7 +55,7 @@ const AddCategory: React.FC = () => {
 
           <ImageUpload
             label="Category Image"
-            name="categoryImage"
+            name="image"
             formik={formik}
           />
           <Button

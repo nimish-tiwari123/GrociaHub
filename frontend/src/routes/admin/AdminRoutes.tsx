@@ -25,43 +25,43 @@ const AdminRoutes = () => {
         <Route path={adminRoutesConstants.dashboard} element={<Dashboard />} />
         {/* Category Management */}
         <Route
-          path={adminRoutesConstants.categoryManagement.viewCategory}
+          path={adminRoutesConstants.categoryManagement.view}
           element={<CategoryManagement />}
         />
         <Route
-          path={adminRoutesConstants.categoryManagement.addCategory}
+          path={adminRoutesConstants.categoryManagement.add}
           element={<AddCategory />}
         />
         <Route
-          path={adminRoutesConstants.categoryManagement.editCategory}
+          path={adminRoutesConstants.categoryManagement.edit}
           element={<EditCategory />}
         />
         <Route
-          path={adminRoutesConstants.manageProduct.viewProduct}
+          path={adminRoutesConstants.productManagement.view}
           element={<ProductManagement />}
         />
         <Route
-          path={adminRoutesConstants.manageProduct.addProduct}
+          path={adminRoutesConstants.productManagement.add}
           element={<AddProduct />}
         />
         <Route
-          path={adminRoutesConstants.manageProduct.editProduct}
+          path={adminRoutesConstants.productManagement.edit}
           element={<EditProduct />}
         />
         <Route
-          path={adminRoutesConstants.dealsAndOffers.viewDeals}
+          path={adminRoutesConstants.dealsAndOffers.view}
           element={<DealsOffers />}
         />
           <Route
-          path={adminRoutesConstants.dealsAndOffers.createOffer}
+          path={adminRoutesConstants.dealsAndOffers.create}
           element={<CreateOffer />}
         />
         <Route
-          path={adminRoutesConstants.orderManagement.viewAllOrders}
+          path={adminRoutesConstants.orderManagement.viewAll}
           element={<OrderManagement/>}
         />
          <Route
-          path={adminRoutesConstants.orderManagement.viewOrder}
+          path={adminRoutesConstants.orderManagement.view}
           element={<ViewOrder/>}
         />
         <Route

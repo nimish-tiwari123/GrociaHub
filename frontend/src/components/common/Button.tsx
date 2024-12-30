@@ -6,7 +6,7 @@ type ButtonProps = {
   btnLabel: string;
   btnStyle?: string;
   rightIcon?: React.ReactNode;
-  onClick?: () => void; 
+  onClick?: () => void;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,8 +18,9 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
+      type="submit"
       className={`d-flex align-items-center gap-2 btn-hover ${btnStyle || ""}`}
-      onClick={onClick}  
+      onClick={onClick}
     >
       {leftIcon}
       {btnLabel}
