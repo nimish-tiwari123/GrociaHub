@@ -40,14 +40,14 @@ const OrderManagement: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
   };
- 
+
   type ColumnType = {
     key: string;
     header: string;
     type: "checkbox" | "text" | "status" | "action";
     statusStyles?: (status: string) => void;
   };
-  
+
   type DataType = {
     index: string;
     customerName: string;
@@ -56,13 +56,13 @@ const OrderManagement: React.FC = () => {
     totalAmount: string;
     status: string;
   };
-  
+
   type ActionType = {
     label: string;
     onClick: (row: DataType) => void;
     icon: ReactNode;
   };
-  
+
   const columns: ColumnType[] = [
     { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
@@ -80,15 +80,14 @@ const OrderManagement: React.FC = () => {
         let buttonText = "";
 
         switch (status) {
-         
           case "Completed":
             buttonClass = "status-success-btn";
             buttonText = "Completed";
             break;
-            case "Pending":
-                buttonClass = "status-warning-btn";
-                buttonText = "Pending";
-                break;
+          case "Pending":
+            buttonClass = "status-warning-btn";
+            buttonText = "Pending";
+            break;
           case "Cancelled":
             buttonClass = "status-danger-btn";
             buttonText = "Cancelled";
@@ -113,9 +112,9 @@ const OrderManagement: React.FC = () => {
       index: "01",
       customerName: "Sumit Chouhan",
       orderId: "123456CDFbr",
-      orderDate: "14/08/2024", 
-      totalAmount: "₹677",  
-      status: "Pending",         
+      orderDate: "14/08/2024",
+      totalAmount: "₹677",
+      status: "Pending",
     },
     {
       index: "02",
@@ -158,31 +157,30 @@ const OrderManagement: React.FC = () => {
       status: "Cancelled",
     },
   ];
-  
-  
+
   const actions: ActionType[] = [
     {
       label: "View Details",
       onClick: (row) => navigate(redirectAdminRoutes.orderManagement.viewOrder),
       icon: <MdOutlineRemoveRedEye />,
     },
-    
+
     {
       label: "Update Status",
       onClick: (row) => setShowDeleteModal(true),
       icon: <MdOutlineEdit />,
     },
     {
-        label: "Cancel Order",
-        onClick: (row) => handleOpenModal(),
-        icon: <TbShoppingCartX />,
-      },
-      
-      {
-        label: "Download",
-        onClick: (row) => setShowDeleteModal(true),
-        icon: <FaRegFilePdf />,
-      },
+      label: "Cancel Order",
+      onClick: (row) => handleOpenModal(),
+      icon: <TbShoppingCartX />,
+    },
+
+    {
+      label: "Download",
+      onClick: (row) => setShowDeleteModal(true),
+      icon: <FaRegFilePdf />,
+    },
   ];
 
   const offer = {
@@ -205,7 +203,8 @@ const OrderManagement: React.FC = () => {
         name: "Apple",
         category: "Fruits",
         productImg: image2,
-      }, {
+      },
+      {
         name: "Kiwi",
         category: "Fruits",
         productImg: image3,
@@ -259,8 +258,8 @@ const OrderManagement: React.FC = () => {
           className="d-flex justify-content-end align-items-center mt-3 mt-md-0"
         >
           <button className="d-flex align-items-center justify-content-center rounded border bg-white text-danger me-3 p-2">
-                    <RiDeleteBin5Fill size={16} />
-                  </button>
+            <RiDeleteBin5Fill size={16} />
+          </button>
         </Col>
       </Row>
       <Row className="mt-3 px-2 px-md-1">
@@ -284,7 +283,6 @@ const OrderManagement: React.FC = () => {
         onDelete={handleConfirmDelete}
         onCancel={handleCancel}
       />
-     
     </Container>
   );
 };
