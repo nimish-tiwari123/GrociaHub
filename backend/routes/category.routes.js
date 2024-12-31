@@ -12,6 +12,10 @@ router.post(
 router.get("/", categoryControllers.getCategories);
 router.get("/:id", categoryControllers.getCategoryById);
 router.delete("/:id", categoryControllers.deleteCategory);
-router.patch("/:id", categoryControllers.updateCategory);
+router.patch(
+  "/:id",
+  multerMiddleware.upload.single("image"),
+  categoryControllers.updateCategory
+);
 
 module.exports = router;

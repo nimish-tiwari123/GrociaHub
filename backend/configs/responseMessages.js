@@ -24,6 +24,14 @@ const responseMessages = {
   CATEGORY_DELETED: "Category deleted successfully",
   CATEGORIES_RETRIEVED: "Categories retrieved successfully",
   CATEGORY_RETRIEVED: "Category retrieved successfully",
+
+  PRODUCT_CREATED: "Product created successfully",
+  PRODUCT_ALREADY_EXISTS: "Product already exists",
+  PRODUCT_NOT_FOUND: "Product not found",
+  PRODUCT_UPDATED: "Product updated successfully",
+  PRODUCT_DELETED: "Product deleted successfully",
+  PRODUCTS_RETRIEVED: "Products retrieved successfully",
+  PRODUCT_RETRIEVED: "Product retrieved successfully",
 };
 
 module.exports = responseMessages;

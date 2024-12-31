@@ -1,11 +1,11 @@
 const { responseMessages } = require("../configs");
-const { categoryServices } = require("../services");
+const { productServices } = require("../services");
 const { cloudinaryUtils } = require("../utils");
-const { categoryValidations } = require("../validations");
+const { productValidations } = require("../validations");
 
-const createCategory = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
-    const { error } = categoryValidations.createValidation.validate(req.body);
+    const { error } = productValidations.createValidation.validate(req.body);
 
     if (error) {
       return res
@@ -13,39 +13,37 @@ const createCategory = async (req, res) => {
         .json({ status: false, message: error.details[0].message });
     }
 
-    const categoryExists = await categoryServices.getCategoryByName(
-      req.body.name
-    );
+    const productExists = await productServices.getProductByName(req.body.name);
 
-    if (categoryExists) {
+    if (productExists) {
       return res.status(409).json({
         status: false,
-        message: responseMessages.CATEGORY_ALREADY_EXISTS,
+        message: responseMessages.PRODUCT_ALREADY_EXISTS,
       });
     }
-    if (!req.file) {
+
+    if (!req.files || req.files.length === 0) {
       return res
         .status(400)
-        .json({ status: false, message: "Image is a required field" });
+        .json({ status: false, message: "At least one image is required" });
     }
 
-    const image = req.file.path;
-
-    const imageUrl = await cloudinaryUtils.upload(
-      image,
-      "grociaHub/categories"
+    const imageUrls = await Promise.all(
+      req.files.map((file) =>
+        cloudinaryUtils.upload(file.path, "grociaHub/products")
+      )
     );
 
-    const newCategory = {
+    const newProduct = {
       ...req.body,
-      image: imageUrl,
+      images: imageUrls,
     };
 
-    const createdCategory = await categoryServices.saveCategory(newCategory);
+    const createdProduct = await productServices.saveProduct(newProduct);
 
     return res
       .status(201)
-      .json({ status: true, message: responseMessages.CATEGORY_CREATED });
+      .json({ status: true, message: responseMessages.PRODUCT_CREATED });
   } catch (error) {
     console.log(error);
     return res
@@ -54,17 +52,17 @@ const createCategory = async (req, res) => {
   }
 };
 
-const getCategories = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
     const queries = {
       search: req.query.search || "",
     };
 
-    const categories = await categoryServices.getCategories(queries);
+    const categories = await productServices.getProducts(queries);
 
     return res.status(200).json({
       status: true,
-      message: responseMessages.CATEGORIES_RETRIEVED,
+      message: responseMessages.PRODUCTS_RETRIEVED,
       categories,
     });
   } catch (error) {
@@ -75,21 +73,21 @@ const getCategories = async (req, res) => {
   }
 };
 
-const getCategoryById = async (req, res) => {
+const getProductById = async (req, res) => {
   try {
-    const category = await categoryServices.getCategoryById(req.params.id);
+    const product = await productServices.getProductById(req.params.id);
 
-    if (!category) {
+    if (!product) {
       return res.status(404).json({
         status: false,
-        message: responseMessages.CATEGORY_NOT_FOUND,
+        message: responseMessages.PRODUCT_NOT_FOUND,
       });
     }
 
     return res.status(200).json({
       status: true,
-      message: responseMessages.CATEGORY_RETRIEVED,
-      category,
+      message: responseMessages.PRODUCT_RETRIEVED,
+      product,
     });
   } catch (error) {
     return res.status(500).json({
@@ -99,27 +97,27 @@ const getCategoryById = async (req, res) => {
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
-    const category = await categoryServices.getCategoryById(req.params.id);
+    const product = await productServices.getProductById(req.params.id);
 
-    if (!category) {
+    if (!product) {
       return res.status(404).json({
         status: false,
-        message: responseMessages.CATEGORY_NOT_FOUND,
+        message: responseMessages.PRODUCT_NOT_FOUND,
       });
     }
 
     await cloudinaryUtils.deleteOnCloudinary(
-      category.image,
-      "grociaHub/categories"
+      product.image,
+      "grociaHub/products"
     );
 
-    await categoryServices.deleteCategoryById(req.params.id);
+    await productServices.deleteProductById(req.params.id);
 
     return res.status(200).json({
       status: true,
-      message: responseMessages.CATEGORY_DELETED,
+      message: responseMessages.PRODUCT_DELETED,
     });
   } catch (error) {
     return res.status(500).json({
@@ -129,16 +127,16 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-const updateCategory = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const categoryExists = await categoryServices.getCategoryById(id);
+    const productExists = await productServices.getProductById(id);
 
-    if (!categoryExists) {
+    if (!productExists) {
       return res.status(404).json({
         status: false,
-        message: responseMessages.CATEGORY_NOT_FOUND,
+        message: responseMessages.PRODUCT_NOT_FOUND,
       });
     }
 
@@ -147,26 +145,26 @@ const updateCategory = async (req, res) => {
 
     if (req.file) {
       await cloudinaryUtils.deleteOnCloudinary(
-        categoryExists.image,
-        "grociaHub/categories"
+        productExists.image,
+        "grociaHub/products"
       );
       const imageUrl = await cloudinaryUtils.upload(
         image.path,
-        "grociaHub/categories"
+        "grociaHub/products"
       );
       req.body.image = imageUrl;
     }
 
-    const updatedCategory = {
+    const updatedProduct = {
       name,
       image: req.body.image,
     };
 
-    await categoryServices.updateCategory(id, updatedCategory);
+    await productServices.updateProduct(id, updatedProduct);
 
     return res
       .status(200)
-      .json({ status: true, message: responseMessages.CATEGORY_UPDATED });
+      .json({ status: true, message: responseMessages.PRODUCT_UPDATED });
   } catch (error) {
     console.log(error);
     return res
@@ -176,9 +174,9 @@ const updateCategory = async (req, res) => {
 };
 
 module.exports = {
-  createCategory,
-  getCategories,
-  getCategoryById,
-  deleteCategory,
-  updateCategory,
+  createProduct,
+  getProducts,
+  getProductById,
+  deleteProduct,
+  updateProduct,
 };

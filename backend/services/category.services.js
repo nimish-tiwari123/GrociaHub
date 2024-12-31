@@ -9,9 +9,11 @@ const saveCategory = async (payload) => {
   }
 };
 
-const updateCategory = async (payload) => {
+const updateCategory = async (id, payload) => {
   try {
-    const category = await Category.findOneAndUpdate(payload);
+    const category = await Category.findOneAndUpdate({ _id: id }, payload, {
+      new: true,
+    });
     return category;
   } catch (error) {
     throw new Error("Error while saving category");
