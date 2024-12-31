@@ -35,7 +35,7 @@ type categoryType ={
       )}
       <Row className="d-xl-flex category-home-row">
         {data?.categories?.slice(0,6).map((item:categoryType, index:number) => (
-          <Col key={index} className="col-6" sm={4} md={3} lg={2}>
+          <Col key={index} className="col-6" sm={4} md={4} lg={2}>
             <div
               style={{
                 backgroundColor: categoriesColor[index] || "transparent",
