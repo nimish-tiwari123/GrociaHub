@@ -70,7 +70,7 @@ const AddProduct: React.FC = () => {
           </Link>
           <span> | </span>
           <Link
-            to={redirectAdminRoutes.manageProduct.viewProduct}
+            to={redirectAdminRoutes.productManagement.view}
             className="text-decoration-none text-custom-primary"
           >
             Manage Product

@@ -38,7 +38,7 @@ const ProductManagement: React.FC = () => {
     setShowDeleteModal(false);
   };
   const handleAddProduct = () => {
-    navigate(redirectAdminRoutes.manageProduct.addProduct);
+    navigate(redirectAdminRoutes.productManagement.add);
   };
   type ColumnType = {
     key: string;
@@ -143,7 +143,7 @@ const ProductManagement: React.FC = () => {
     },
     {
       label: "Edit",
-      onClick: (row) => navigate(redirectAdminRoutes.manageProduct.editProduct),
+      onClick: (row) => navigate(redirectAdminRoutes.productManagement.edit),
       icon: <MdOutlineEdit />,
     },
     {

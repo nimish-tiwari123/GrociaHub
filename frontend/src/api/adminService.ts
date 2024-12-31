@@ -33,6 +33,37 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Category"],
     }),
+    addProduct: builder.mutation({
+      query: (productData) => ({
+        url: "/products",
+        method: "POST",
+        body: productData,
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    viewProducts: builder.query({
+      query: (searchTerm) => `/products?search=${searchTerm}`,
+      providesTags: ["Product"],
+    }),
+    viewProductById: builder.query({
+      query: (productId) => `/products/${productId}`,
+      providesTags: ["Product"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `/products/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ id, productData }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        body: productData,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -43,4 +74,9 @@ export const {
   useDeleteCategoryMutation,
   useEditCategoryMutation,
   useViewCategoryByIdQuery,
+  useAddProductMutation,
+  useViewProductsQuery,
+  useViewProductByIdQuery,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
 } = adminService;
