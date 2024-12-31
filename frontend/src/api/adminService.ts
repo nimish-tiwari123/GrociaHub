@@ -26,13 +26,12 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Category"],
     }),
     editCategory: builder.mutation({
-      query: ({ categoryId, body }) => ({
-        url: `/categories/${categoryId}`,
+      query: ({ id, categoryData }) => ({
+        url: `/categories/${id}`,
         method: "PATCH",
-        body: body,
+        body: categoryData,
       }),
       invalidatesTags: ["Category"],
-
     }),
   }),
   overrideExisting: false,
@@ -43,5 +42,5 @@ export const {
   useViewCategoryQuery,
   useDeleteCategoryMutation,
   useEditCategoryMutation,
-  useViewCategoryByIdQuery
+  useViewCategoryByIdQuery,
 } = adminService;

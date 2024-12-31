@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import "./style.css";
 
@@ -9,17 +9,26 @@ type ImageUploadProps = {
 };
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
-  const [image, setImage] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check if formik already has an image URL or path
+    if (formik.values[name] && typeof formik.values[name] === "string") {
+      setImagePreview(formik.values[name]);
+    }
+  }, [formik.values[name]]);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string);
-        formik.setFieldValue(name, file);
+        setImagePreview(reader.result as string); // Set preview for the new image
       };
       reader.readAsDataURL(file);
+
+      // Store the new file in Formik
+      formik.setFieldValue(name, file);
     }
 
     formik.setFieldTouched(name, true);
@@ -27,7 +36,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
 
   const handleImageClick = () => {
     const input = document.getElementById(name) as HTMLInputElement;
-    input?.click(); // Trigger file input click
+    input?.click();
   };
 
   return (
@@ -40,9 +49,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
         onClick={handleImageClick}
         style={{ cursor: "pointer" }}
       >
-        {formik?.values[name] || image ? (
+        {imagePreview ? (
           <img
-            src={formik?.values[name] || image}
+            src={imagePreview}
             alt="Selected"
             className="img-fluid"
           />
