@@ -4,6 +4,10 @@
 .category-home-row{
     justify-content: space-between;
 }
+.home-category{
+    height: 120px;
+    object-fit: contain;
+}
 @media screen and (max-width:768px) {
     .view-all-btn{
         justify-content: start;

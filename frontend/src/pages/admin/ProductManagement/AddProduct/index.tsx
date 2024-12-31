@@ -4,34 +4,18 @@ import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
-import { useFormik } from "formik";
 import {
   TextInput,
   SelectField,
   TextArea,
   MultiImageUpload,
 } from "../../../../components/admin";
-import { Button } from "../../../../components/common";
-import { productSchema } from "../../../../schema/admin/ProductManagement";
+import { Button, Loader } from "../../../../components/common";
 import "./style.css";
+import { useAddProduct } from "./useAddProduct";
 
 const AddProduct: React.FC = () => {
-  const formik = useFormik({
-    initialValues: {
-      productName: "",
-      category: "",
-      productDescription: "",
-      price: "",
-      discountPrice: "",
-      stockQuantity: "",
-      status: "",
-      images: [],
-    },
-    validationSchema: productSchema,
-    onSubmit: (values) => {
-      console.log("Form Submitted", values);
-    },
-  });
+  const { formik, isLoading, isActive, setIsActive } = useAddProduct();
 
   const categories = [
     { value: "electronics", label: "Electronics" },
@@ -39,15 +23,17 @@ const AddProduct: React.FC = () => {
     { value: "groceries", label: "Groceries" },
   ];
 
-  const statuses = [
-    { value: "active", label: "Active" },
-    { value: "inactive", label: "Inactive" },
+  const stockStatuses = [
+    { value: "inStock", label: "In Stock" },
+    { value: "outOfStock", label: "Out of Stock" },
   ];
+
   return (
     <Container
       fluid
       className="main-ProductManagement-container dash-container px-2 px-md-4"
     >
+      {isLoading && <Loader />}
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
@@ -137,10 +123,10 @@ const AddProduct: React.FC = () => {
             </Col>
             <Col md={6}>
               <SelectField
-                name="status"
-                label="Status"
-                options={statuses}
-                placeholder="Select Status"
+                name="stockStatus"
+                label="Stock Status"
+                options={stockStatuses}
+                placeholder="Select Stock Status"
                 formik={formik}
               />
             </Col>
@@ -151,6 +137,30 @@ const AddProduct: React.FC = () => {
                 formik={formik}
                 maxImages={3}
               />
+            </Col>
+            <Col md={12} className="mt-3">
+              <div className="d-flex align-items-center cursor-pointer">
+                <label htmlFor="isActive" className=" me-3 fw-medium">
+                  Is Active (Product Live):
+                </label>
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={isActive}
+                  onChange={() => setIsActive(!isActive)}
+                  className="cursor-pointer"
+                />
+              </div>
+              {isActive && (
+                <p className="text-success fs-7 mt-1 fw-medium">
+                  The product will be live once you save it.
+                </p>
+              )}
+              {!isActive && (
+                <p className="text-muted fs-7 mt-1 fw-medium">
+                  Check the toggle to make the product live.
+                </p>
+              )}
             </Col>
           </Row>
 

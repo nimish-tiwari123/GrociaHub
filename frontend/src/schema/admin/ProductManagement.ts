@@ -7,7 +7,7 @@ export const productSchema = Yup.object({
   price: Yup.number().required("Price is required"),
   discountPrice: Yup.number(),
   stockQuantity: Yup.number().required("Stock Quantity is required"),
-  status: Yup.string().required("Status is required"),
+  stockStatus: Yup.string().required("Status is required"),
   images: Yup.array()
     .min(1, "At least 1 image is required")
     .max(3, "You can upload a maximum of 3 images"),

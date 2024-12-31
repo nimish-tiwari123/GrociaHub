@@ -41,7 +41,7 @@ const CategoryCard: FC<CategoryCardProps> = ({
         className="w-75 d-block m-auto mt-4 category-admin-img"
       />
       <h5 className="text-center mt-2 mb-3 fs-6">
-        {name.split(" ").slice(0, 3).join(" ")}
+        {name.length > 20 ? `${name.slice(0, 20)}...` : name}
       </h5>
 
       <div className="position-absolute top-0 end-0 p-2 d-flex gap-2">

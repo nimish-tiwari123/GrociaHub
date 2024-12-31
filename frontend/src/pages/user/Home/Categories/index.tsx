@@ -1,27 +1,16 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { Button } from "../../../../components/common";
+import { Button, CategorySkeleton } from "../../../../components/common";
 import { categoriesColor } from "../../../../constants/userConstants";
-import {
-  image1,
-  image2,
-  image3,
-  image4,
-  image5,
-  image6,
-  image7,
-} from "../../../../assets/categories";
+import { useViewUserCategoryQuery } from "../../../../api/userService";
 import "./style.css";
+
 const Categories = () => {
-  const CategoriesImg = [
-    { name: "Fruits", img: image1, totalProducts: 20 },
-    { name: "Fruits", img: image2, totalProducts: 20 },
-    { name: "Fruits", img: image3, totalProducts: 20 },
-    { name: "Fruits", img: image4, totalProducts: 20 },
-    { name: "Fruits", img: image5, totalProducts: 20 },
-    { name: "Fruits", img: image6, totalProducts: 20 },
-    { name: "Fruits", img: image7, totalProducts: 20 },
-    { name: "Fruits", img: image3, totalProducts: 20 },
-  ];
+  const { data, isLoading } = useViewUserCategoryQuery("");
+type categoryType ={
+  name: string,
+  image:string,
+  totalProducts:number
+}
   return (
     <Container>
       <Row className=" pt-5 pb-4">
@@ -35,10 +24,18 @@ const Categories = () => {
           />
         </Col>
       </Row>
-
+      {(isLoading) && (
+        <Row className="d-xl-flex category-home-row">
+          {Array.from({ length: 6 }).map((_, index: number) => (
+            <Col md={4} lg={2} key={index} className="col-6 p-1 p-md-2">
+              <CategorySkeleton />
+            </Col>
+          ))}
+        </Row>
+      )}
       <Row className="d-xl-flex category-home-row">
-        {CategoriesImg.map((item, index) => (
-          <Col key={index} className="col-6" sm={4} md={3} xl="auto">
+        {data?.categories?.slice(0,6).map((item:categoryType, index:number) => (
+          <Col key={index} className="col-6" sm={4} md={3} lg={2}>
             <div
               style={{
                 backgroundColor: categoriesColor[index] || "transparent",
@@ -46,13 +43,17 @@ const Categories = () => {
               className="rounded-2 p-3 mt-3"
             >
               <img
-                src={item.img}
+                src={item.image}
                 alt="category"
-                className="w-75 m-auto d-block"
+                className="home-category m-auto d-block w-75"
               />
-              <h5 className="text-center">{item.name}</h5>
+              <h5 className="text-center  fs-6">
+                {item.name.length > 20
+                  ? `${item.name.slice(0, 20)}...`
+                  : item.name}
+              </h5>
               <p className="text-center opacity-75 fs-7">
-                {item.totalProducts} Products
+                Products
               </p>
             </div>
           </Col>

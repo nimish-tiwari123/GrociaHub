@@ -1,12 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { SearchField, CategoryCard } from "../../../components/admin";
-import { Button, Loader, NoData } from "../../../components/common";
+import { Button, NoData } from "../../../components/common";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { Link, useNavigate } from "react-router-dom";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useCategoryManagement } from "./useCategoryManagement";
+import { CategorySkeleton } from "../../../components/common";
 import "./style.css";
 
 type categoryType = {
@@ -32,14 +33,12 @@ const CategoryManagement: React.FC = () => {
   const handleEdit = (categoryId: string) => {
     navigate(`${redirectAdminRoutes.categoryManagement.edit}${categoryId}`);
   };
-  
+
   return (
     <Container
       fluid
       className="main-CategoryManagement-container dash-container px-2 px-md-4"
     >
-      {isLoading && <Loader />}
-
       <Row className="my-2">
         <Col md={5}>
           <h1 className="fw-bold fs-3 m-0 mt-3">
@@ -86,6 +85,16 @@ const CategoryManagement: React.FC = () => {
           />
         </Col>
       </Row>
+      {(isLoading) && (
+        <Row className="mt-3 px-2 px-md-1">
+          {Array.from({ length: 12 }).map((_, index: number) => (
+            <Col md={4} lg={2} key={index} className="col-6 p-1 p-md-2">
+              <CategorySkeleton />
+            </Col>
+          ))}
+        </Row>
+      )}
+
       <Row className="mt-3 px-2 px-md-1">
         {categories.length === 0 ? (
           <NoData />
@@ -95,7 +104,7 @@ const CategoryManagement: React.FC = () => {
               <CategoryCard
                 image={category.image}
                 name={category.name}
-                onEdit={()=>handleEdit(category._id)}
+                onEdit={() => handleEdit(category._id)}
                 onDelete={() => handleDelete(category._id)}
               />
             </Col>

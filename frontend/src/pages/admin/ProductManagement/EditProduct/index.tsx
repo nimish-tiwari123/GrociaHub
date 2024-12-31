@@ -24,7 +24,7 @@ const EditProduct: React.FC = () => {
       price: "",
       discountPrice: "",
       stockQuantity: "",
-      status: "",
+      stockStatus: "",
       images: [],
     },
     validationSchema: productSchema,
@@ -137,8 +137,8 @@ const EditProduct: React.FC = () => {
             </Col>
             <Col md={6}>
               <SelectField
-                name="status"
-                label="Status"
+                name="stockStatus"
+                label="Stock Status"
                 options={statuses}
                 placeholder="Select Status"
                 formik={formik}

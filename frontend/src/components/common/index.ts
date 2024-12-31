@@ -4,4 +4,6 @@ import AuthTextInput from "./AuthTextInput";
 import CustomTable from "./CustomTable";
 import Loader from "./Loader";
 import NoData from "./NoData";
-export { Button, NotFound,AuthTextInput,CustomTable, Loader, NoData };
+//skelton
+import CategorySkeleton from "./Skelton/CategorySkelton";
+export { Button, NotFound,AuthTextInput,CustomTable, Loader, NoData, CategorySkeleton };

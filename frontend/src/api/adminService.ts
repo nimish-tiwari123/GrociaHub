@@ -33,6 +33,8 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Category"],
     }),
+
+    // Product mutation and query
     addProduct: builder.mutation({
       query: (productData) => ({
         url: "/products",
