@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { LuShoppingCart } from "react-icons/lu";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
+import { useCartStore } from "../../../store/useCartStore";
 import "./style.css";
 
 type ProductDataType = {
@@ -20,6 +23,37 @@ type ProductCardProps = {
 
 const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const navigate = useNavigate();
+  const addToCart = useCartStore((state) => state.addToCart);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
+  const productKey = `${productData.name}-${productData.weight}`;
+
+  useEffect(() => {
+    // Check if the product is already in localStorage
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const isProductInCart = cart.some(
+      (item: ProductDataType) => item.name === productData.name && item.weight === productData.weight
+    );
+    setIsAddedToCart(isProductInCart);
+  }, [productData]);
+
+  const handleAddToCart = () => {
+    if (isAddedToCart) {
+      toast.info("This product is already in the cart!");
+      return;
+    }
+
+    // Add product to Zustand store
+    addToCart(productData);
+
+    // Update localStorage
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.push(productData);
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    setIsAddedToCart(true);
+    toast.success("Product added to cart!");
+  };
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -36,10 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   };
 
   return (
-    <div
-      className="border mt-3 rounded p-3 cursor-pointer"
-      onClick={() => navigate(userRoutesConstants.viewProduct)}
-    >
+    <div className="border mt-3 rounded p-3 cursor-pointer">
       <img
         src={productData.image}
         alt={productData.name}
@@ -62,10 +93,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
             &#8377;{productData.discountPrice}
           </span>
         </div>
-        <button className=" fs-7 border-0 px-2 py-1 rounded-1 bg-cart-btn">
-          <LuShoppingCart /> Add
+        <button
+          className={`fs-7 border-0 px-2 py-1 rounded-1 ${
+            isAddedToCart ? "bg-success text-white" : "bg-cart-btn"
+          }`}
+          onClick={handleAddToCart}
+        >
+          <LuShoppingCart /> {isAddedToCart ? "Added" : "Add"}
         </button>
       </div>
+      <button
+        className="p-2 rounded view-product-btn w-100 mt-3 text-custom-primary fw-medium"
+        onClick={() => navigate(userRoutesConstants.viewProduct)}
+      >
+        view
+      </button>
     </div>
   );
 };

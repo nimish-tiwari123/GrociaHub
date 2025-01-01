@@ -30,7 +30,7 @@ export const useAddProduct = () => {
         formData.append("description", values.productDescription);
         formData.append("price", values.price);
         formData.append("discount", values.discountPrice);
-        formData.append("stockQuantity", values.stockQuantity);
+        formData.append("quantity", values.stockQuantity);
         formData.append("stockStatus", values.stockStatus);
         formData.append("isActive", isActive ? "true" : "false");
 

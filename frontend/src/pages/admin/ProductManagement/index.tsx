@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable } from "../../../components/common";
+import { Button, CustomTable, TableSkeleton } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteModal, ProductModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
@@ -232,6 +232,7 @@ const ProductManagement: React.FC = () => {
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
+            {/* <TableSkeleton/> */}
             <CustomTable columns={columns} data={data} actions={actions} />
             <div className="mt-5 mb-3 d-flex justify-content-center">
               <Pagination

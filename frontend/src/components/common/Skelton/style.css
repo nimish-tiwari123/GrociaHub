@@ -34,3 +34,87 @@
     }
   }
   
+
+  /* Table Skeleton Container */
+.table-skeleton {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+/* Skeleton Header */
+.table-skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-skeleton-header-cell {
+  width: calc(100% / 7);
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  position: relative;
+}
+
+.table-skeleton-header-cell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: table-skeleton-shimmer 1.5s infinite;
+}
+
+/* Skeleton Body Rows */
+.table-skeleton-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.table-skeleton-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-skeleton-cell {
+  width: calc(100% / 7);
+  height: 16px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  position: relative;
+}
+
+.table-skeleton-cell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: table-skeleton-shimmer 1.5s infinite;
+}
+
+/* Shimmer Effect Animation */
+@keyframes table-skeleton-shimmer {
+  100% {
+    left: 100%;
+  }
+}
