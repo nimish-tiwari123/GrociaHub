@@ -108,9 +108,10 @@ const deleteProduct = async (req, res) => {
       });
     }
 
-    await cloudinaryUtils.deleteOnCloudinary(
-      product.image,
-      "grociaHub/products"
+    await Promise.all(
+      product.images.map((image) =>
+        cloudinaryUtils.deleteOnCloudinary(image, "grociaHub/products")
+      )
     );
 
     await productServices.deleteProductById(req.params.id);
