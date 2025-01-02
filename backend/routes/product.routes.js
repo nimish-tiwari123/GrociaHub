@@ -14,7 +14,7 @@ router.get("/:id", productControllers.getProductById);
 router.delete("/:id", productControllers.deleteProduct);
 router.patch(
   "/:id",
-  multerMiddleware.upload.single("image"),
+  multerMiddleware.upload.single("images", 3),
   productControllers.updateProduct
 );
 

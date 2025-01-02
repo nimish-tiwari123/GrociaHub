@@ -58,12 +58,12 @@ const getProducts = async (req, res) => {
       search: req.query.search || "",
     };
 
-    const categories = await productServices.getProducts(queries);
+    const products = await productServices.getProducts(queries);
 
     return res.status(200).json({
       status: true,
       message: responseMessages.PRODUCTS_RETRIEVED,
-      categories,
+      products,
     });
   } catch (error) {
     return res.status(500).json({
@@ -141,27 +141,7 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    const { name } = req.body;
-    const image = req.file;
-
-    if (req.file) {
-      await cloudinaryUtils.deleteOnCloudinary(
-        productExists.image,
-        "grociaHub/products"
-      );
-      const imageUrl = await cloudinaryUtils.upload(
-        image.path,
-        "grociaHub/products"
-      );
-      req.body.image = imageUrl;
-    }
-
-    const updatedProduct = {
-      name,
-      image: req.body.image,
-    };
-
-    await productServices.updateProduct(id, updatedProduct);
+    await productServices.updateProduct(id, req.body);
 
     return res
       .status(200)
