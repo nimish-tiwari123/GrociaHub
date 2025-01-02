@@ -80,7 +80,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                 <Form.Check
                   type="checkbox"
                   onChange={handleHeaderCheckboxChange}
-                  checked={selectedRows.length === data.length && data.length > 0}
+                  checked={selectedRows?.length === data?.length && data?.length > 0}
                 />
               </div>
             );
@@ -97,7 +97,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
       </div>
 
       <div className="custom-table-body">
-        {data.map((row, rowIndex) => (
+        {data?.map((row, rowIndex) => (
           <div key={rowIndex} className="custom-table-row">
             {columns.map((col) => {
               const value = row[col.key];
