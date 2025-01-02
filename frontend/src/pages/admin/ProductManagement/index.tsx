@@ -50,14 +50,19 @@ const ProductManagement: React.FC = () => {
   };
 
   type DataType = {
+    name:string;
+    category:{
+      name:string;
+    }
     index: string;
     product: string;
-    category: string;
-    image: string;
+    images: string;
     price: string;
     stock: string;
-    status: boolean;
-    created: string;
+    stockStatus: String;
+    createdAt: string;
+    quantity:string;
+    status:Boolean;
   };
 
   type ActionType = {
@@ -125,8 +130,8 @@ const ProductManagement: React.FC = () => {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-  function convertProductsToCustomFormat(products) {
-    return products?.map((product: DataType[], index: number) => ({
+  function convertProductsToCustomFormat(products:DataType[]) {
+    return products?.map((product , index: number) => ({
       index: String(index + 1).padStart(2, "0"),
       product: product.name || "Unknown Product",
       category: product.category?.name || "Unknown Category",
