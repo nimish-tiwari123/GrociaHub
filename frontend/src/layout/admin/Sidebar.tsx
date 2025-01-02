@@ -47,7 +47,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
         </NavLink>
       ))}
       <div className="px-3 position-absolute bottom-0 mb-5">
-        <button className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center" onClick={()=> setShow(true)}>
+        <button
+          className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center"
+          onClick={() => setShow(true)}
+        >
           <MdLogout />
           {!isCollapsed && <span>Logout</span>}
         </button>

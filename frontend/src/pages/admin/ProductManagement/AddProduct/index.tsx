@@ -15,30 +15,35 @@ import "./style.css";
 import { useAddProduct } from "./useAddProduct";
 
 const AddProduct: React.FC = () => {
-  const { formik, isLoading, isActive, setIsActive } = useAddProduct();
-
-  const categories = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "groceries", label: "Groceries" },
-  ];
+  const {
+    formik,
+    isActive,
+    setIsActive,
+    isLoadingAdd,
+    isLoadingFetch,
+    categoryData,
+  } = useAddProduct();
 
   const stockStatuses = [
     { value: "inStock", label: "In Stock" },
     { value: "outOfStock", label: "Out of Stock" },
   ];
+  const transformedArray = categoryData?.categories?.map((item: { name: any; _id: any; }) => ({
+    label: item.name,
+    value: item._id,
+  }));
 
   return (
     <Container
       fluid
       className="main-ProductManagement-container dash-container px-2 px-md-4"
     >
-      {isLoading && <Loader />}
+      {(isLoadingAdd || isLoadingFetch) && <Loader />}
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
             to={userRoutesConstants.home}
-            className="text-decoration-none text-custom-primary d-md-none"
+            className="text-decoration-none text-custom-primary d-lg-none"
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
           </Link>
@@ -46,7 +51,7 @@ const AddProduct: React.FC = () => {
         </Col>
         <Col
           md={7}
-          className="d-md-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
+          className="d-lg-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
         >
           <Link
             to={userRoutesConstants.home}
@@ -81,7 +86,7 @@ const AddProduct: React.FC = () => {
               <SelectField
                 name="category"
                 label="Category"
-                options={categories}
+                options={transformedArray}
                 placeholder="Select Category"
                 formik={formik}
               />

@@ -7,6 +7,15 @@
     color: white;
     transition: 0.5s;
 }
+.view-product-btn{
+  border: 1px solid var(--primary);
+  background-color: white;
+  transition: 0.5s;
+}
+.view-product-btn:hover{
+  background-color: var(--primary);
+  color: white !important;
+}
 @media screen and (max-width: 340px) {
   .flex-card-bottom {
     flex-direction: column;

@@ -36,7 +36,7 @@ const SelectField: FC<SelectFieldProps> = ({
         <option value="" disabled>
           {placeholder}
         </option>
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
           </option>

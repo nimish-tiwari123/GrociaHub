@@ -6,4 +6,5 @@ import Loader from "./Loader";
 import NoData from "./NoData";
 //skelton
 import CategorySkeleton from "./Skelton/CategorySkelton";
-export { Button, NotFound,AuthTextInput,CustomTable, Loader, NoData, CategorySkeleton };
+import TableSkeleton from "./Skelton/TableSkeleton";
+export { Button, NotFound,AuthTextInput,CustomTable, Loader, NoData, CategorySkeleton,TableSkeleton };

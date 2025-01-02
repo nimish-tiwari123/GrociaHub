@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable } from "../../../components/common";
+import { Button, CustomTable, TableSkeleton } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteModal, ProductModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
@@ -12,11 +12,13 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { image1, image2, image3 } from "../../../assets/categories";
+import { useViewProductsQuery } from "../../../api/adminService";
 const ProductManagement: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: productData, isLoading, isFetching } = useViewProductsQuery(searchTerm);
   const totalPages = 10;
 
   const handlePageChange = (page: number) => {
@@ -48,14 +50,19 @@ const ProductManagement: React.FC = () => {
   };
 
   type DataType = {
+    name:string;
+    category:{
+      name:string;
+    }
     index: string;
     product: string;
-    category: string;
-    image: string;
+    images: string;
     price: string;
     stock: string;
-    status: boolean;
-    created: string;
+    stockStatus: String;
+    createdAt: string;
+    quantity:string;
+    status:Boolean;
   };
 
   type ActionType = {
@@ -80,59 +87,6 @@ const ProductManagement: React.FC = () => {
       },
     },
     { key: "created", header: "Created", type: "text" },
-  ];
-
-  const data: DataType[] = [
-    {
-      index: "01",
-      product: "Oranges Gaga",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
-      status: false,
-      created: "14/08/2024",
-    },
-    {
-      index: "02",
-      product: "Red Strawberry",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
-      status: true,
-      created: "14/08/2024",
-    },
-    {
-      index: "03",
-      product: "Gala Apple",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
-      status: false,
-      created: "14/08/2024",
-    },
-    {
-      index: "04",
-      product: "Bhaji",
-      category: "Vegetables",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
-      status: true,
-      created: "14/08/2024",
-    },
-    {
-      index: "05",
-      product: "Peach",
-      category: "Fruits",
-      image: "https://via.placeholder.com/50",
-      price: "₹400",
-      stock: "7500",
-      status: true,
-      created: "14/08/2024",
-    },
   ];
 
   const actions: ActionType[] = [
@@ -160,7 +114,7 @@ const ProductManagement: React.FC = () => {
     }
   };
 
-  data.forEach((row) => toggleStatus(row));
+  // data.forEach((row) => toggleStatus(row));
 
   const product = {
     name: "Oranges Gaga",
@@ -176,7 +130,20 @@ const ProductManagement: React.FC = () => {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+  function convertProductsToCustomFormat(products:DataType[]) {
+    return products?.map((product , index: number) => ({
+      index: String(index + 1).padStart(2, "0"),
+      product: product.name || "Unknown Product",
+      category: product.category?.name || "Unknown Category",
+      image: product.images?.[0] || "https://via.placeholder.com/50",
+      price: `₹${product.price}`,
+      stock: String(product.quantity),
+      status: product.stockStatus === "inStock",
+      created: new Date(product.createdAt).toLocaleDateString("en-GB"),
+    }));
+  }
 
+  const convertedData = convertProductsToCustomFormat(productData?.products);
   return (
     <Container
       fluid
@@ -232,7 +199,16 @@ const ProductManagement: React.FC = () => {
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
-            <CustomTable columns={columns} data={data} actions={actions} />
+            {isLoading || isFetching ? (
+              <TableSkeleton />
+            ) : (
+              <CustomTable
+                columns={columns}
+                data={convertedData}
+                actions={actions}
+              />
+            )}
+
             <div className="mt-5 mb-3 d-flex justify-content-center">
               <Pagination
                 currentPage={currentPage}

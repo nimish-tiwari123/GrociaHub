@@ -23,6 +23,10 @@ const CustomNavbar = () => {
   const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const productData = localStorage.getItem("cart");
+  const parsedData = productData ? JSON.parse(productData) : []; 
+  
+  
   return (
     <>
       <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100">
@@ -34,7 +38,7 @@ const CustomNavbar = () => {
             <div className="cart position-relative">
               <GrCart size={20} />
               <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                2
+              {parsedData.length}
               </span>
             </div>
             <button className="bg-transparent border-0 " onClick={handleShow}>
@@ -68,8 +72,8 @@ const CustomNavbar = () => {
                   <div className="cart position-relative">
                     <GrCart size={24} />
                     <span className="ms-2 fs-7 fw-medium">My Cart</span>
-                    <span className="cart-badge bg-custom-primary fw-bold text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
-                      2
+                    <span className="cart-badge bg-custom-primary fw-medium text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
+                     {parsedData.length}
                     </span>
                   </div>
                 </NavLink>

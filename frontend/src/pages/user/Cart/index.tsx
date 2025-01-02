@@ -1,22 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { image1, image2 } from "../../../assets/categories";
-import Header from "./Header";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import "./style.css";
+import Header from "./Header";
 import { Button } from "../../../components/common";
+import "./style.css";
 
-const Cart = () => {
-  const [quantity, setQuantity] = useState(1);
+// Define the ProductDataType
+type ProductDataType = {
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+const Cart: React.FC = () => {
+  const [cart, setCart] = useState<ProductDataType[]>([]);
+
+  // Load cart data from localStorage on initial render
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart") || "[]") as ProductDataType[];
+    setCart(storedCart.map((item) => ({ ...item, quantity: item.quantity || 1 }))); // Ensure quantity defaults to 1
+  }, []);
+
+  // Update localStorage whenever the cart changes
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const increaseQuantity = (index: number) => {
+    const updatedCart = [...cart];
+    updatedCart[index].quantity += 1;
+    setCart(updatedCart);
   };
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+  const decreaseQuantity = (index: number) => {
+    const updatedCart = [...cart];
+    if (updatedCart[index].quantity > 1) {
+      updatedCart[index].quantity -= 1;
+      setCart(updatedCart);
     }
+  };
+
+  const removeItem = (index: number) => {
+    const updatedCart = cart.filter((_, i) => i !== index);
+    setCart(updatedCart);
+  };
+
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
@@ -27,20 +58,10 @@ const Cart = () => {
           <Col lg={9} md={12}>
             <div className="p-4 border rounded-3 cart-main-container m-auto">
               <Row>
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={4}
-                  className="ps-3 text-center text-md-start"
-                >
+                <Col xs={12} sm={12} md={4} className="ps-3 text-center text-md-start">
                   <span className="fs-6 fw-bold opacity-50">Product</span>
                 </Col>
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={8}
-                  className="text-center text-md-start"
-                >
+                <Col xs={12} sm={12} md={8} className="text-center text-md-start">
                   <Row>
                     <Col xs={3}>
                       <span className="fs-6 fw-bold opacity-50">Price</span>
@@ -54,129 +75,61 @@ const Cart = () => {
                   </Row>
                 </Col>
               </Row>
-              <Row className="align-items-center">
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={4}
-                  className="text-center text-md-start"
-                >
-                  <img
-                    src={image1}
-                    alt="Product"
-                    className="cart-img img-fluid"
-                  />
-                  <span className="ms-3 fw-medium d-block d-md-inline">
-                    Orange
-                  </span>
-                </Col>
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={8}
-                  className="text-center text-md-start"
-                >
-                  <Row className="align-items-center">
-                    <Col xs={3}>
-                      <span className="fw-medium">&#8377; 500</span>
-                    </Col>
-                    <Col xs={3}>
-                      <div className="product-quantity">
+
+              {cart.map((item, index) => (
+                <Row key={index} className="align-items-center">
+                  <Col xs={12} sm={12} md={4} className="text-center text-md-start">
+                    <img src={item.image} alt="Product" className="cart-img img-fluid" />
+                    <span className="ms-3 fw-medium d-block d-md-inline">{item.name}</span>
+                  </Col>
+                  <Col xs={12} sm={12} md={8} className="text-center text-md-start">
+                    <Row className="align-items-center">
+                      <Col xs={3}>
+                        <span className="fw-medium">&#8377; {item.price}</span>
+                      </Col>
+                      <Col xs={3}>
+                        <div className="product-quantity">
+                          <button
+                            className="quantity-btn rounded-circle border fs-5"
+                            onClick={() => decreaseQuantity(index)}
+                            disabled={item.quantity <= 1}
+                          >
+                            -
+                          </button>
+                          <span className="quantity-number mx-2 fw-medium">
+                            {item.quantity}
+                          </span>
+                          <button
+                            className="quantity-btn rounded-circle border fs-5"
+                            onClick={() => increaseQuantity(index)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </Col>
+                      <Col xs={3}>
+                        <div className="fw-bold">
+                          &#8377; <span>{item.quantity * item.price}</span>
+                        </div>
+                      </Col>
+                      <Col xs={3}>
                         <button
-                          className="quantity-btn rounded-circle border fs-5"
-                          onClick={decreaseQuantity}
+                          className="delete-btn text-danger ms-5 border-0 bg-transparent"
+                          onClick={() => removeItem(index)}
                         >
-                          -
+                          <RiDeleteBin6Line size={20} className="mb-1" />
                         </button>
-                        <span className="quantity-number mx-2 fw-medium">
-                          {quantity}
-                        </span>
-                        <button
-                          className="quantity-btn rounded-circle border fs-5"
-                          onClick={increaseQuantity}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </Col>
-                    <Col xs={3}>
-                      <div className="fw-bold">
-                        &#8377; <span>{quantity * 100}</span>
-                      </div>
-                    </Col>
-                    <Col xs={3}>
-                      <button className="delete-btn text-danger ms-5 border-0 bg-transparent">
-                        <RiDeleteBin6Line size={20} className="mb-1" />
-                      </button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              <hr />
-              <Row className="align-items-center">
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={4}
-                  className="text-center text-md-start"
-                >
-                  <img
-                    src={image2}
-                    alt="Product"
-                    className="cart-img img-fluid"
-                  />
-                  <span className="ms-3 fw-medium d-block d-md-inline">
-                    Bhaji Methi
-                  </span>
-                </Col>
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={8}
-                  className="text-center text-md-start"
-                >
-                  <Row className="align-items-center">
-                    <Col xs={3}>
-                      <span className="fw-medium">&#8377; 500</span>
-                    </Col>
-                    <Col xs={3}>
-                      <div className="product-quantity">
-                        <button
-                          className="quantity-btn rounded-circle border fs-5"
-                          onClick={decreaseQuantity}
-                        >
-                          -
-                        </button>
-                        <span className="quantity-number mx-2 fw-medium">
-                          {quantity}
-                        </span>
-                        <button
-                          className="quantity-btn rounded-circle border fs-5"
-                          onClick={increaseQuantity}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </Col>
-                    <Col xs={3}>
-                      <div className="fw-bold">
-                        &#8377; <span>{quantity * 100}</span>
-                      </div>
-                    </Col>
-                    <Col xs={3}>
-                      <button className="delete-btn text-danger ms-5 border-0 bg-transparent">
-                        <RiDeleteBin6Line size={20} className="mb-1" />
-                      </button>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              ))}
             </div>
           </Col>
           <Col lg={3} md={12} className="mt-4 mt-lg-0">
             <div className="border px-3 py-4 rounded-3 text-center text-md-start">
               <span className="fw-medium fs-5">Total: </span>
-              <span className="fw-bold fs-5">&#8377; 2000</span>
+              <span className="fw-bold fs-5">&#8377; {calculateTotal()}</span>
               <div>
                 <Button
                   btnLabel="Checkout to Proceed"
