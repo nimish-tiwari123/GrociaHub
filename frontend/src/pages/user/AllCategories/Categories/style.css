@@ -1,15 +1,18 @@
-.view-all-btn{
-    justify-content: right;
+.view-all-btn {
+  justify-content: right;
 }
-.category-home-row{
-    justify-content: space-between;
+.category-home-row {
+  justify-content: space-between;
 }
-
-@media screen and (max-width:768px) {
-    .view-all-btn{
-        justify-content: start;
-    }
-    .category-home-row{
-        justify-content: none;
-    }
+.category-card:hover {
+  transition: 0.5s;
+  box-shadow: 1px 5px 10px 5px rgba(223, 251, 223, 0.681);
+}
+@media screen and (max-width: 768px) {
+  .view-all-btn {
+    justify-content: start;
+  }
+  .category-home-row {
+    justify-content: none;
+  }
 }

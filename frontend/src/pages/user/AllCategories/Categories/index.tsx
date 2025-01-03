@@ -21,7 +21,7 @@ const Categories = () => {
           ))}
         {data?.categories?.map((item: categoryType, index: number) => (
           <Col key={index} className="col-6" sm={4} md={3} lg={2}>
-            <div className="rounded-2 p-3 mt-3 border">
+            <div className="rounded-2 p-3 mt-3 border category-card">
               <img
                 src={item.image}
                 alt="category"
