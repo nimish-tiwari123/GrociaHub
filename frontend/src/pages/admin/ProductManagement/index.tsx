@@ -12,13 +12,17 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { image1, image2, image3 } from "../../../assets/categories";
-import { useViewProductsQuery } from "../../../api/adminService";
+import { useViewProductsQuery, useDeleteProductMutation } from "../../../api/adminService";
+import { toast } from "react-toastify";
+
 const ProductManagement: React.FC = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { data: productData, isLoading, isFetching } = useViewProductsQuery(searchTerm);
+  const [deleteProduct, { isLoading: deleteLoading }] =
+      useDeleteProductMutation();
   const totalPages = 10;
 
   const handlePageChange = (page: number) => {
@@ -36,8 +40,14 @@ const ProductManagement: React.FC = () => {
     setShowDeleteModal(false);
   };
 
-  const handleConfirmDelete = () => {
-    setShowDeleteModal(false);
+  const handleConfirmDelete = async (id:string) => {
+        try {
+          const response = await deleteProduct(id).unwrap();
+          toast.success(response?.message);
+        } catch (err: any) {
+          console.error(err);
+          toast.error(err?.data?.message);
+        }
   };
   const handleAddProduct = () => {
     navigate(redirectAdminRoutes.productManagement.add);
@@ -199,7 +209,7 @@ const ProductManagement: React.FC = () => {
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
-            {isLoading || isFetching ? (
+            {isLoading || isFetching || deleteLoading ? (
               <TableSkeleton />
             ) : (
               <CustomTable
