@@ -149,7 +149,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         }}
                       >
                         <img
-                          src={row.image}
+                          src={row.image? row.image : row.images}
                           alt=""
                           style={{
                             width: "50px",

@@ -4,14 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { redirectAdminRoutes } from "../../routes/admin/adminRoutesConstants";
 
 interface Product {
+  _id: string;
+  id: string;
   name: string;
-  category: string;
+  category: {
+    name: string;
+  };
+  index: string;
+  product: string;
+  images: string [];
+  price: string;
+  stock: string;
+  isActive: Boolean;
+  createdAt: string;
+  quantity: string;
+  status: Boolean;
   description: string;
-  price: number;
-  discountPrice: number;
-  stockQuantity: number;
-  createdDate: string;
-  images: string[];
+  discount: string;
 }
 
 interface ProductModalProps {
@@ -25,7 +34,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
   handleClose,
   product,
 }) => {
-  const [mainImage, setMainImage] = useState(product.images[0]);
+  const [mainImage, setMainImage] = useState(product?.images[0]);
   const navigate = useNavigate();
   return (
     <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -38,11 +47,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <Col md={5}>
               <img
                 src={mainImage}
-                alt={product.name}
+                alt={product?.name}
                 className="rounded border w-100"
               />
               <div className="d-flex mt-3 justify-content-between">
-                {product.images.map((image, index) => (
+                {product?.images?.map((image: string, index: number) => (
                   <img
                     key={index}
                     src={image}
@@ -51,7 +60,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
                       width: "88px",
                       height: "88px",
                     }}
-                    className={`cursor-pointer rounded ${(mainImage== product.images[index])? `success-border`:`border`}`}
+                    className={`cursor-pointer rounded ${
+                      mainImage == product.images[index]
+                        ? `success-border`
+                        : `border`
+                    }`}
                     onClick={() => setMainImage(product.images[index])}
                   />
                 ))}
@@ -59,29 +72,27 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </Col>
             <Col md={7}>
               <div className="mt-2">
-                <h2 className="fs-4 fw-bold">{product.name}</h2>
+                <h2 className="fs-4 fw-bold">{product?.name}</h2>
                 <h5 className="opacity-75 fs-6 fw-medium">
-                  {product.category}
+                  {product?.category?.name}
                 </h5>
-                <p className="opacity-75 fs-7">{product.description}</p>
+                <p className="opacity-75 fs-7">{product?.description}</p>
                 <div className="d-flex align-items-center">
                   <h5 className="me-2 text-muted text-decoration-line-through fs-6 opacity-75">
-                    ₹{product.price}
+                    ₹{product?.price}
                   </h5>
-                  <h5 className="text-success fw-bold">
-                    ₹{product.discountPrice}
-                  </h5>
+                  <h5 className="text-success fw-bold">₹{product?.discount}</h5>
                 </div>
-              <div className="d-flex justify-content-between flex-wrap">
-              <p>
-                  Stock Quantity:
-                  <span className="fw-bold"> {product.stockQuantity}</span>
-                </p>
-                <p>Created at: 
-                  <span className="fw-bold"> {product.createdDate}</span>
-                    
-                   </p>
-              </div>
+                <div className="d-flex justify-content-between flex-wrap">
+                  <p>
+                    Stock Quantity:
+                    <span className="fw-bold"> {product?.quantity}</span>
+                  </p>
+                  <p>
+                    Created at:
+                    <span className="fw-bold"> {product?.createdAt}</span>
+                  </p>
+                </div>
               </div>
             </Col>
           </Row>
@@ -91,7 +102,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
         <Button variant="secondary" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="success" onClick={()=>navigate(redirectAdminRoutes.manageProduct.editProduct)}>Edit</Button>
+        <Button
+          variant="success"
+          onClick={() => navigate(redirectAdminRoutes.productManagement.edit)}
+        >
+          Edit
+        </Button>
       </Modal.Footer>
     </Modal>
   );
