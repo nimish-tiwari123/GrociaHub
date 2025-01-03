@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import "./style.css";
 
 type MultiImageUploadProps = {
   label: string;
   name: string;
-  formik: any; // Access the formik object
+  formik: any; // Access the Formik object
   maxImages?: number; // Maximum number of images allowed
 };
 
@@ -16,6 +16,15 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
   maxImages = 3,
 }) => {
   const [images, setImages] = useState<string[]>([]); // Stores image previews
+
+  useEffect(() => {
+    // Check if Formik already has existing images (URLs or paths)
+    if (formik.values[name] && Array.isArray(formik.values[name])) {
+      setImages(formik.values[name].map((img: File | string) =>
+        typeof img === "string" ? img : URL.createObjectURL(img)
+      ));
+    }
+  }, [formik.values[name]]);
 
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -65,7 +74,7 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
     // Remove image preview and file
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     const updatedFiles = (formik.values[name] || []).filter(
-      (_: File, i: number) => i !== index
+      (_: File | string, i: number) => i !== index
     );
     formik.setFieldValue(name, updatedFiles);
   };
@@ -104,13 +113,13 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
                 height: "120px",
                 border: "2px dashed #ccc",
                 position: "relative",
-                borderRadius:"5px"
+                borderRadius: "5px",
               }}
             >
-            <div>
-            <IoCloudUploadOutline size={24} />
-            <span className="fs-7 d-block mt-3">Add Image</span>
-            </div>
+              <div>
+                <IoCloudUploadOutline size={24} />
+                <span className="fs-7 d-block mt-3">Add Image</span>
+              </div>
             </div>
           )}
         </div>

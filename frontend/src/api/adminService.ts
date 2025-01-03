@@ -59,10 +59,10 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation({
-      query: ({ id, productData }) => ({
+      query: ({ id, formData }) => ({
         url: `/products/${id}`,
         method: "PATCH",
-        body: productData,
+        body: formData,
       }),
       invalidatesTags: ["Product"],
     }),

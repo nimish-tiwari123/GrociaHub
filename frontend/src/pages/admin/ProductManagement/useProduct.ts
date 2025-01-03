@@ -74,7 +74,7 @@ const useProduct = () => {
 
     try {
       const updatedRow = { isActive: status };
-      await updateProduct({ id: row.id, productData: updatedRow }).unwrap();
+      await updateProduct({ id: row.id, formData: updatedRow }).unwrap();
       toast.success("Product status updated successfully");
     } catch (err: any) {
       console.error(err);

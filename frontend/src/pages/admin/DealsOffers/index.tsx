@@ -63,7 +63,6 @@ const DealsOffers: React.FC = () => {
   };
 
   const columns: ColumnType[] = [
-    { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
     { key: "offerTitle", header: "Offer Title", type: "text" },
     { key: "startDate", header: "Start Date", type: "text" },

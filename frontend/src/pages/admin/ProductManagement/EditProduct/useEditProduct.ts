@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  useAddProductMutation,
+  useUpdateProductMutation,
   useViewCategoryQuery,
+  useViewProductByIdQuery,
 } from "../../../../api/adminService";
 import { productSchema } from "../../../../schema/admin/ProductManagement";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
-export const useAddProduct = () => {
-  const [addProduct, { isLoading: isLoadingAdd }] = useAddProductMutation();
+export const useEditProduct = () => {
+  const { id } = useParams();
+
+  const [updateProduct, { isLoading: isLoadingAdd }] =
+    useUpdateProductMutation();
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
-  const { data: categoryData, isLoading: isLoadingFetch } =
+  const { data: productData, isLoading: isLoadingFetch } =
+    useViewProductByIdQuery(id);
+  const { data: categoryData, isLoading: isLoadingFetchCategory } =
     useViewCategoryQuery("");
   const formik = useFormik({
     initialValues: {
@@ -31,7 +37,6 @@ export const useAddProduct = () => {
       try {
         const formData = new FormData();
 
-        // Append each value to FormData
         formData.append("name", values.productName);
         formData.append("category", values.category);
         formData.append("description", values.productDescription);
@@ -41,13 +46,11 @@ export const useAddProduct = () => {
         formData.append("stockStatus", values.stockStatus);
         formData.append("isActive", isActive ? "true" : "false");
         formData.append("unit", values.unit);
-        // Append multiple images
+
         values.images.forEach((image) => {
           formData.append("images", image);
         });
-
-        // Send the FormData payload
-        const response = await addProduct(formData).unwrap();
+        const response = await updateProduct({ id, formData }).unwrap();
         toast.success(response?.message);
         navigate(redirectAdminRoutes.productManagement.view);
       } catch (err: any) {
@@ -58,6 +61,35 @@ export const useAddProduct = () => {
       }
     },
   });
+  useEffect(() => {
+    if (productData) {
+      formik.setFieldValue("productName", productData?.product?.name || "");
+      formik.setFieldValue(
+        "category",
+        productData?.product?.category?.name || ""
+      );
+      formik.setFieldValue(
+        "productDescription",
+        productData?.product?.description || ""
+      );
+      formik.setFieldValue("price", productData?.product?.price || "");
+      formik.setFieldValue(
+        "discountPrice",
+        productData?.product?.discount || "0"
+      );
+      formik.setFieldValue(
+        "stockQuantity",
+        productData?.product?.quantity || ""
+      );
+      formik.setFieldValue(
+        "stockStatus",
+        productData?.product?.stockStatus || ""
+      );
+      formik.setFieldValue("images", productData?.product?.images || "");
+
+      setIsActive(productData?.product?.isActive || false);
+    }
+  }, [productData]);
 
   return {
     formik,
@@ -66,5 +98,6 @@ export const useAddProduct = () => {
     isLoadingAdd,
     isLoadingFetch,
     categoryData,
+    isLoadingFetchCategory,
   };
 };

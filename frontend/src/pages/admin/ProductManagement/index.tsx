@@ -1,13 +1,18 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { ReactNode } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable, TableSkeleton } from "../../../components/common";
+import {
+  Button,
+  CustomTable,
+  TableSkeleton,
+  NoData,
+} from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteModal, ProductModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye, MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBinLine, RiDeleteBin5Fill } from "react-icons/ri";
+import { RiDeleteBinLine } from "react-icons/ri";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import useProduct from "./useProduct";
 import "./style.css";
@@ -69,7 +74,6 @@ const ProductManagement: React.FC = () => {
     icon: ReactNode;
   };
   const columns: ColumnType[] = [
-    { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
     { key: "product", header: "Product", type: "product" },
     { key: "price", header: "Price", type: "text" },
@@ -86,16 +90,16 @@ const ProductManagement: React.FC = () => {
   const actions: ActionType[] = [
     {
       label: "View",
-      onClick: (row) =>{
-        setShowModal(true)
-        setSelectedProduct(row)
-      }
-      ,
+      onClick: (row) => {
+        setShowModal(true);
+        setSelectedProduct(row);
+      },
       icon: <MdOutlineRemoveRedEye />,
     },
     {
       label: "Edit",
-      onClick: () => navigate(redirectAdminRoutes.productManagement.edit),
+      onClick: (row) =>
+        navigate(`${redirectAdminRoutes.productManagement.edit}${row.id}`),
       icon: <MdOutlineEdit />,
     },
     {
@@ -153,7 +157,10 @@ const ProductManagement: React.FC = () => {
           />
         </Col>
 
-        <Col md={8} className="d-flex justify-content-end align-items-center mt-3 mt-lg-0">
+        <Col
+          md={8}
+          className="d-flex justify-content-end align-items-center mt-3 mt-lg-0"
+        >
           <Button
             btnLabel="+ Add Product"
             btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2"
@@ -165,22 +172,26 @@ const ProductManagement: React.FC = () => {
       <Row className="mt-3">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border mb-3">
-            {isLoading || isFetching || deleteLoading || isUpdating ? (
+            {convertedData.length == 0 ? (
+              <NoData />
+            ) : isLoading || isFetching || deleteLoading || isUpdating ? (
               <TableSkeleton />
             ) : (
-              <CustomTable
-                columns={columns}
-                data={convertedData}
-                actions={actions}
-              />
+              <>
+                <CustomTable
+                  columns={columns}
+                  data={convertedData}
+                  actions={actions}
+                />
+                <div className="my-4 d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
             )}
-            <div className="my-4 d-flex justify-content-center">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
           </div>
         </Col>
       </Row>

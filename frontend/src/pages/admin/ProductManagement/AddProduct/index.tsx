@@ -3,7 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
+import {
+  redirectAdminRoutes,
+} from "../../../../routes/admin/adminRoutesConstants";
 import {
   TextInput,
   SelectField,
@@ -11,8 +13,9 @@ import {
   MultiImageUpload,
 } from "../../../../components/admin";
 import { Button, Loader } from "../../../../components/common";
-import "./style.css";
 import { useAddProduct } from "./useAddProduct";
+import { units, stockStatuses } from "../../../../constants/admin/product";
+import "./style.css";
 
 const AddProduct: React.FC = () => {
   const {
@@ -24,14 +27,13 @@ const AddProduct: React.FC = () => {
     categoryData,
   } = useAddProduct();
 
-  const stockStatuses = [
-    { value: "inStock", label: "In Stock" },
-    { value: "outOfStock", label: "Out of Stock" },
-  ];
-  const transformedArray = categoryData?.categories?.map((item: { name: any; _id: any; }) => ({
-    label: item.name,
-    value: item._id,
-  }));
+  
+  const transformedArray = categoryData?.categories?.map(
+    (item: { name: any; _id: any }) => ({
+      label: item.name,
+      value: item._id,
+    })
+  );
 
   return (
     <Container
@@ -42,7 +44,7 @@ const AddProduct: React.FC = () => {
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
-            to={userRoutesConstants.home}
+            to={redirectAdminRoutes.productManagement.view}
             className="text-decoration-none text-custom-primary d-lg-none"
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
@@ -118,13 +120,26 @@ const AddProduct: React.FC = () => {
               />
             </Col>
             <Col md={6}>
-              <TextInput
-                name="stockQuantity"
-                label="Stock Quantity"
-                placeholder="Enter Stock Quantity"
-                type="number"
+              <Row>
+                <Col className="col-7">
+                  <TextInput
+                    name="stockQuantity"
+                    label="Stock Quantity"
+                    placeholder="Enter Stock Quantity"
+                    type="number"
+                    formik={formik}
+                  />
+                </Col>
+                <Col className="col-5 ps-0">
+                <SelectField
+                name="unit"
+                label="Unit"
+                options={units}
+                placeholder="Select unit"
                 formik={formik}
               />
+                </Col>
+              </Row>
             </Col>
             <Col md={6}>
               <SelectField

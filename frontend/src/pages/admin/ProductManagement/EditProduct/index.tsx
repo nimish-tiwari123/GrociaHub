@@ -4,55 +4,46 @@ import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
-import { useFormik } from "formik";
+import { units, stockStatuses } from "../../../../constants/admin/product";
 import {
   TextInput,
   SelectField,
   TextArea,
   MultiImageUpload,
 } from "../../../../components/admin";
-import { Button } from "../../../../components/common";
-import { productSchema } from "../../../../schema/admin/ProductManagement";
+import { Button, Loader } from "../../../../components/common";
+import { useEditProduct } from "./useEditProduct";
 import "./style.css";
 
 const EditProduct: React.FC = () => {
-  const formik = useFormik({
-    initialValues: {
-      productName: "",
-      category: "",
-      productDescription: "",
-      price: "",
-      discountPrice: "",
-      stockQuantity: "",
-      stockStatus: "",
-      images: [],
-    },
-    validationSchema: productSchema,
-    onSubmit: (values) => {
-      console.log("Form Submitted", values);
-    },
-  });
+  const {
+    formik,
+    isActive,
+    setIsActive,
+    isLoadingAdd,
+    isLoadingFetch,
+    categoryData,
+    isLoadingFetchCategory,
+  } = useEditProduct();
 
-  const categories = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "groceries", label: "Groceries" },
-  ];
+  const transformedArray = categoryData?.categories?.map(
+    (item: { name: any; _id: any }) => ({
+      label: item.name,
+      value: item._id,
+    })
+  );
 
-  const statuses = [
-    { value: "active", label: "Active" },
-    { value: "inactive", label: "Inactive" },
-  ];
   return (
     <Container
       fluid
       className="main-ProductManagement-container dash-container px-2 px-md-4"
     >
+      {(isLoadingAdd || isLoadingFetch || isLoadingFetchCategory) && <Loader />}
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
-            to={userRoutesConstants.home}
-            className="text-decoration-none text-custom-primary d-md-none"
+            to={redirectAdminRoutes.productManagement.view}
+            className="text-decoration-none text-custom-primary d-lg-none"
           >
             <IoIosArrowRoundBack size={28} className="me-2" />
           </Link>
@@ -60,7 +51,7 @@ const EditProduct: React.FC = () => {
         </Col>
         <Col
           md={7}
-          className="d-md-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
+          className="d-lg-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
         >
           <Link
             to={userRoutesConstants.home}
@@ -95,7 +86,7 @@ const EditProduct: React.FC = () => {
               <SelectField
                 name="category"
                 label="Category"
-                options={categories}
+                options={transformedArray}
                 placeholder="Select Category"
                 formik={formik}
               />
@@ -127,20 +118,33 @@ const EditProduct: React.FC = () => {
               />
             </Col>
             <Col md={6}>
-              <TextInput
-                name="stockQuantity"
-                label="Stock Quantity"
-                placeholder="Enter Stock Quantity"
-                type="number"
-                formik={formik}
-              />
+              <Row>
+                <Col className="col-7">
+                  <TextInput
+                    name="stockQuantity"
+                    label="Stock Quantity"
+                    placeholder="Enter Stock Quantity"
+                    type="number"
+                    formik={formik}
+                  />
+                </Col>
+                <Col className="col-5 ps-0">
+                  <SelectField
+                    name="unit"
+                    label="Unit"
+                    options={units}
+                    placeholder="Select unit"
+                    formik={formik}
+                  />
+                </Col>
+              </Row>
             </Col>
             <Col md={6}>
               <SelectField
                 name="stockStatus"
                 label="Stock Status"
-                options={statuses}
-                placeholder="Select Status"
+                options={stockStatuses}
+                placeholder="Select Stock Status"
                 formik={formik}
               />
             </Col>
@@ -152,6 +156,30 @@ const EditProduct: React.FC = () => {
                 maxImages={3}
               />
             </Col>
+            <Col md={12} className="mt-3">
+              <div className="d-flex align-items-center cursor-pointer">
+                <label htmlFor="isActive" className=" me-3 fw-medium">
+                  Is Active (Product Live):
+                </label>
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={isActive}
+                  onChange={() => setIsActive(!isActive)}
+                  className="cursor-pointer"
+                />
+              </div>
+              {isActive && (
+                <p className="text-success fs-7 mt-1 fw-medium">
+                  The product will be live once you save it.
+                </p>
+              )}
+              {!isActive && (
+                <p className="text-muted fs-7 mt-1 fw-medium">
+                  Check the toggle to make the product live.
+                </p>
+              )}
+            </Col>
           </Row>
 
           <div className="d-flex justify-content-end align-items-center gap-3 mt-3">
@@ -159,13 +187,12 @@ const EditProduct: React.FC = () => {
               Cancel
             </button>
             <Button
-              btnLabel="Update"
+              btnLabel="Save Product"
               btnStyle="bg-custom-primary border-0 text-light p-custom fw-medium rounded d-flex justify-content-center"
             />
           </div>
         </form>
       </div>
-   
     </Container>
   );
 };

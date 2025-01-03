@@ -31,13 +31,13 @@
 
 .custom-table-header .custom-table-column-header:first-child,
 .custom-table-row .custom-table-cell:first-child {
-  flex: 0 0 60px;
-  width: 60px;
+  flex: 0 0 120px;
+  width: 120px;
   text-align: center;
 }
 
-.custom-table-header .custom-table-column-header:nth-child(3),
-.custom-table-row .custom-table-cell:nth-child(3) {
+.custom-table-header .custom-table-column-header:nth-child(2),
+.custom-table-row .custom-table-cell:nth-child(2) {
   flex: 0 0 250px;
   width: 250px;
   text-align: left;
