@@ -11,6 +11,11 @@ const createValidation = Joi.object({
     "string.empty": "Category cannot be an empty field",
     "any.required": "Category is a required field",
   }),
+  stockStatus: Joi.string().required().messages({
+    "string.base": "Stock Status should be a type of text",
+    "string.empty": "Stock Status cannot be an empty field",
+  }),
+  isActive: Joi.boolean().optional().allow(null).messages(),
   description: Joi.string().required().messages({
     "string.base": "Description should be a type of text",
     "string.empty": "Description cannot be an empty field",
@@ -26,10 +31,7 @@ const createValidation = Joi.object({
     "number.empty": "Quantity cannot be an empty field",
     "number.required": "Quantity is a required field",
   }),
-  discount: Joi.number().optional().messages({
-    "number.base": "Discount should be a type of number",
-    "number.empty": "Discount cannot be an empty field",
-  }),
+  discount: Joi.string().optional().allow("").empty(),
 });
 
 module.exports = { createValidation };

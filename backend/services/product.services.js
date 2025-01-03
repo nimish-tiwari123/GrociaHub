@@ -2,9 +2,11 @@ const { Product } = require("../models");
 
 const saveProduct = async (payload) => {
   try {
+    console.log(payload);
     const product = new Product(payload);
     return await product.save();
   } catch (error) {
+    console.log(error);
     throw new Error("Error while saving product");
   }
 };
@@ -27,9 +29,9 @@ const getProducts = async (queries) => {
       const searchTerm = queries.search.trim();
       categories = await Product.find({
         name: { $regex: searchTerm, $options: "i" },
-      });
+      }).populate("category");
     } else {
-      categories = await Product.find({});
+      categories = await Product.find({}).populate("category");
     }
     return categories;
   } catch (error) {
