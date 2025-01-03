@@ -26,7 +26,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ label, name, formik }) => {
         setImagePreview(reader.result as string); // Set preview for the new image
       };
       reader.readAsDataURL(file);
-
       // Store the new file in Formik
       formik.setFieldValue(name, file);
     }

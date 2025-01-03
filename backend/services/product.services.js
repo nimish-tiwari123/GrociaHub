@@ -50,7 +50,7 @@ const deleteProductById = async (id) => {
 
 const getProductById = async (id) => {
   try {
-    const product = await Product.findById({ _id: id });
+    const product = await Product.findById({ _id: id }).populate("category");
     return product;
   } catch (error) {
     throw new Error("Error while fetching product");

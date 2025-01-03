@@ -80,7 +80,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                 <Form.Check
                   type="checkbox"
                   onChange={handleHeaderCheckboxChange}
-                  checked={selectedRows?.length === data?.length && data?.length > 0}
+                  checked={
+                    selectedRows?.length === data?.length && data?.length > 0
+                  }
                 />
               </div>
             );
@@ -104,7 +106,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
               switch (col.type) {
                 case "checkbox":
                   return (
-                    <div key={col.key} className="custom-table-cell checkbox-cell">
+                    <div
+                      key={col.key}
+                      className="custom-table-cell checkbox-cell mt-2"
+                    >
                       <Form.Check
                         type="checkbox"
                         checked={selectedRows.includes(row)}
@@ -115,7 +120,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                 case "status":
                   return (
-                    <div key={col.key} className="custom-table-cell">
+                    <div key={col.key} className="custom-table-cell mt-2">
                       {col.statusStyles ? col.statusStyles(value) : value}
                     </div>
                   );
@@ -125,7 +130,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                 case "image":
                   return (
-                    <div key={col.key} className="custom-table-cell">
+                    <div key={col.key} className="custom-table-cell mt-2">
                       <img
                         src={value}
                         alt=""
@@ -149,7 +154,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         }}
                       >
                         <img
-                          src={row.image? row.image : row.images}
+                          src={row.image ? row.image : row.images}
                           alt=""
                           style={{
                             width: "50px",
@@ -169,11 +174,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                 case "toggler":
                   return (
-                    <div key={col.key} className="custom-table-cell">
+                    <div key={col.key} className="custom-table-cell mt-2">
                       <Form.Check
                         type="switch"
-                      
-                        checked={!row[col.key]}
+                        checked={row[col.key]}
                         onChange={() => handleToggleChange(row, col.key)}
                       />
                     </div>
@@ -181,7 +185,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                 default:
                   return (
-                    <div key={col.key} className="custom-table-cell">
+                    <div key={col.key} className="custom-table-cell mt-2">
                       {col.customRender ? col.customRender(value, row) : value}
                     </div>
                   );
@@ -189,18 +193,23 @@ const CustomTable: React.FC<CustomTableProps> = ({
             })}
 
             {actions && (
-              <div className="custom-table-cell">
-                <Dropdown>
-                  <Dropdown.Toggle variant="link" className="p-0 rounded-circle py-1 px-2 bg-secondary-subtle text-dark opacity-75">
+              <div className="custom-table-cell mt-2 ">
+                <Dropdown className="position-relative">
+                  <Dropdown.Toggle
+                    variant="link"
+                    className="p-0 rounded-circle py-1 px-2 bg-secondary-subtle text-dark opacity-75"
+                  >
                     <BsThreeDotsVertical />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu>
+                  <Dropdown.Menu className="dropdown-menu-end">
                     {actions.map((action, idx) => (
                       <Dropdown.Item
                         key={idx}
                         onClick={() => action.onClick(row)}
                       >
-                        <span className="text-custom-primary me-2">{action.icon}</span>
+                        <span className="text-custom-primary me-2">
+                          {action.icon}
+                        </span>
                         {action.label}
                       </Dropdown.Item>
                     ))}

@@ -244,7 +244,7 @@ const DealsOffers: React.FC = () => {
       </Row>
       <Row className="mt-3 px-2 px-md-1">
         <Col>
-          <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
+          <div className="bg-white p-3 custom-shadow rounded border mb-3">
             <CustomTable columns={columns} data={data} actions={actions} />
             <div className="mt-5 mb-3 d-flex justify-content-center">
               <Pagination

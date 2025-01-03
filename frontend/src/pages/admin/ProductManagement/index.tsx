@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
 import { Button, CustomTable, TableSkeleton } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,80 +9,35 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye, MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBinLine, RiDeleteBin5Fill } from "react-icons/ri";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
-import {
-  useViewProductsQuery,
-  useDeleteProductMutation,
-  useUpdateProductMutation,
-} from "../../../api/adminService";
-import { toast } from "react-toastify";
+import useProduct from "./useProduct";
 import "./style.css";
 
 const ProductManagement: React.FC = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState<DataType | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const {
-    data: productData,
+    searchTerm,
+    currentPage,
+    selectedProduct,
+    showDeleteModal,
+    showModal,
+    productData,
     isLoading,
     isFetching,
-  } = useViewProductsQuery(searchTerm);
-  const [deleteProduct, { isLoading: deleteLoading }] =
-    useDeleteProductMutation();
-  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+    deleteLoading,
+    isUpdating,
+    totalPages,
+    handleSearchChange,
+    handlePageChange,
+    handleAddProduct,
+    handleDeleteConfirm,
+    toggleStatus,
+    setShowDeleteModal,
+    setShowModal,
+    setSelectedProduct,
+    convertProductsToCustomFormat,
+  } = useProduct();
 
-  const totalPages = 10; // Assuming static pagination for now
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handleAddProduct = () => {
-    navigate(redirectAdminRoutes.productManagement.add);
-  };
-
-  const handleDeleteConfirm = async (id: string) => {
-    try {
-      const response = await deleteProduct(id).unwrap();
-      toast.success(response?.message || "Product deleted successfully");
-      setShowDeleteModal(false);
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err?.data?.message || "Failed to delete product");
-    }
-  };
-
-  const toggleStatus = async (row: DataType, status: boolean) => {
-    try {
-      const updatedRow = { ...row, isActive: status };
-      await updateProduct({ id: row.id, productData: updatedRow }).unwrap();
-      toast.success("Product status updated successfully");
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Failed to update product status");
-    }
-  };
-
-  const convertProductsToCustomFormat = (products: DataType[]) => {
-    return products?.map((product, index) => ({
-      id: product._id,
-      index: String(index + 1).padStart(2, "0"),
-      product: product.name || "Unknown Product",
-      category: product.category?.name || "Unknown Category",
-      images: product.images[0] || "https://via.placeholder.com/50",
-      price: `₹${product.price}`,
-      stock: String(product.quantity),
-      status: product.isActive,
-      created: new Date(product.createdAt).toLocaleDateString("en-GB"),
-    }));
-  };
   type ColumnType = {
     key: string;
     header: string;
@@ -131,7 +86,11 @@ const ProductManagement: React.FC = () => {
   const actions: ActionType[] = [
     {
       label: "View",
-      onClick: () => setShowModal(true),
+      onClick: (row) =>{
+        setShowModal(true)
+        setSelectedProduct(row)
+      }
+      ,
       icon: <MdOutlineRemoveRedEye />,
     },
     {
@@ -160,14 +119,28 @@ const ProductManagement: React.FC = () => {
     >
       <Row className="my-2">
         <Col md={5}>
-          <h1 className="fw-bold fs-3">Manage Product</h1>
+          <h1 className="fw-bold fs-3 m-0 mt-3">
+            <Link
+              to={userRoutesConstants.home}
+              className="text-decoration-none text-custom-primary d-md-none"
+            >
+              <IoIosArrowRoundBack size={28} className="me-2" />
+            </Link>
+            Manage Product
+          </h1>
         </Col>
-        <Col md={7} className="d-flex justify-content-end">
-          <Button
-            btnLabel="+ Add Product"
-            btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2"
-            onClick={handleAddProduct}
-          />
+        <Col
+          md={7}
+          className="d-md-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
+        >
+          <Link
+            to={userRoutesConstants.home}
+            className="text-decoration-none text-custom-primary"
+          >
+            Home
+          </Link>
+          <span> | </span>
+          <span>Category Management</span>
         </Col>
       </Row>
 
@@ -179,12 +152,20 @@ const ProductManagement: React.FC = () => {
             placeholder="Type to search..."
           />
         </Col>
+
+        <Col md={8} className="d-flex justify-content-end align-items-center mt-3 mt-lg-0">
+          <Button
+            btnLabel="+ Add Product"
+            btnStyle="bg-custom-primary border-0 text-light fw-medium rounded p-2"
+            onClick={handleAddProduct}
+          />
+        </Col>
       </Row>
 
       <Row className="mt-3">
         <Col>
-          <div className="bg-white p-3 custom-shadow rounded border table-conainer-common position-relative">
-            {isLoading || isFetching || deleteLoading ? (
+          <div className="bg-white p-3 custom-shadow rounded border mb-3">
+            {isLoading || isFetching || deleteLoading || isUpdating ? (
               <TableSkeleton />
             ) : (
               <CustomTable
@@ -193,7 +174,7 @@ const ProductManagement: React.FC = () => {
                 actions={actions}
               />
             )}
-            <div className="pagination-container position-absolute bottom-0 mb-4">
+            <div className="my-4 d-flex justify-content-center">
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -215,7 +196,7 @@ const ProductManagement: React.FC = () => {
       <ProductModal
         show={showModal}
         handleClose={() => setShowModal(false)}
-        product={selectedProduct}
+        productId={selectedProduct?.id}
       />
     </Container>
   );
