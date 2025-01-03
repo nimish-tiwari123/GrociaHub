@@ -75,7 +75,7 @@ const CreateOffer: React.FC = () => {
           </Link>
           <span> | </span>
           <Link
-            to={redirectAdminRoutes.dealsAndOffers.viewDeals}
+            to={redirectAdminRoutes.dealsAndOffers.view}
             className="text-decoration-none text-custom-primary"
           >
             Manage Offers

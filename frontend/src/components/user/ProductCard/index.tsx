@@ -26,7 +26,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
-  const productKey = `${productData.name}-${productData.weight}`;
 
   useEffect(() => {
     // Check if the product is already in localStorage

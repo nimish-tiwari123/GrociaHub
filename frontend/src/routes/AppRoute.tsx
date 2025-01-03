@@ -3,9 +3,12 @@ import UserRoutes from "./user/UserRoutes";
 import AuthRoutes from "./auth/AuthRoutes";
 import { NotFound } from "../components/common";
 import AdminRoutes from "./admin/AdminRoutes";
+import ScrollToTop from "./ScrolledToTop";
 const AppRoute = () => {
   return (
     <BrowserRouter>
+        <ScrollToTop/>
+
       <Routes>
         <Route path="/*" element={<UserRoutes />} />
         <Route path="/auth/*" element={<AuthRoutes />} />

@@ -4,4 +4,5 @@ import notFound from "./notFound.svg";
 import notification from "./notification.png";
 import logoIcon from "./logoIcon.svg";
 import noData from "./noData.svg";
-export { logo, payment, notFound, notification, logoIcon, noData };
+import noCart from "./noCart.svg";
+export { logo, payment, notFound, notification, logoIcon, noData,noCart };

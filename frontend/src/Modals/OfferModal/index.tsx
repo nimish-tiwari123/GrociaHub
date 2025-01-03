@@ -105,7 +105,7 @@ const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => 
         <Button
           variant="success"
           onClick={() =>
-            navigate(redirectAdminRoutes.manageProduct.editProduct)
+            navigate(redirectAdminRoutes.productManagement.edit)
           }
         >
           Edit

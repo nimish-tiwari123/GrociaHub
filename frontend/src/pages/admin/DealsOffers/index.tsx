@@ -26,7 +26,6 @@ const DealsOffers: React.FC = () => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-  const handleEdit = () => {};
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -38,7 +37,7 @@ const DealsOffers: React.FC = () => {
     setShowDeleteModal(false);
   };
   const handleCreateOffer = () => {
-    navigate(redirectAdminRoutes.dealsAndOffers.createOffer);
+    navigate(redirectAdminRoutes.dealsAndOffers.create);
   };
   type ColumnType = {
     key: string;
@@ -133,17 +132,17 @@ const DealsOffers: React.FC = () => {
   const actions: ActionType[] = [
     {
       label: "View",
-      onClick: (row) => handleOpenModal(),
+      onClick: () => handleOpenModal(),
       icon: <MdOutlineRemoveRedEye />,
     },
     {
       label: "Edit",
-      onClick: (row) => navigate("/"),
+      onClick: () => navigate("/"),
       icon: <MdOutlineEdit />,
     },
     {
       label: "Delete",
-      onClick: (row) => setShowDeleteModal(true),
+      onClick: () => setShowDeleteModal(true),
       icon: <RiDeleteBinLine />,
     },
   ];
@@ -164,7 +163,7 @@ const DealsOffers: React.FC = () => {
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.",
     discountType: "fixed",
-    discountValue: 100,
+    discountValue: "100",
     startDate: "14/08/2024",
     endDate: "14/08/2024",
 

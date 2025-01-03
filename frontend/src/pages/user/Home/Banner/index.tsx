@@ -3,7 +3,10 @@ import { home1, home2 } from "../../../../assets/banner";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { Button } from "../../../../components/common";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
+import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 const Banner = () => {
+  const navigate = useNavigate();
   return (
     <Container className="my-5 py-4">
       <Row>
@@ -22,6 +25,8 @@ const Banner = () => {
                   btnLabel="Shop Now"
                   btnStyle="bg-custom-primary text-light py-2 px-3 rounded-1 border-0"
                   rightIcon={<IoIosArrowRoundForward size={24} />}
+                  onClick={()=>navigate(userRoutesConstants.newProducts)}
+
                 />
               </Col>
               <Col className="col-5 d-none d-md-block">
@@ -45,6 +50,7 @@ const Banner = () => {
                   btnLabel="Shop Now"
                   btnStyle="bg-custom-primary text-light py-2 px-3 rounded-1 border-0"
                   rightIcon={<IoIosArrowRoundForward size={24} />}
+                  onClick={()=>navigate(userRoutesConstants.newProducts)}
                 />
               </Col>
               <Col className="col-5 position-relative d-none d-md-block">

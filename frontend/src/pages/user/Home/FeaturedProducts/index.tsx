@@ -2,7 +2,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import { Button } from "../../../../components/common";
 import { products } from "../../../../constants/userConstants";
 import { ProductCard, ProductSkeleton } from "../../../../components/user";
+import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
+import { useNavigate } from "react-router-dom";
 const FeaturedProducts = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Row className=" pt-5 pb-4">
@@ -13,6 +16,7 @@ const FeaturedProducts = () => {
           <Button
             btnLabel="View All Products"
             btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 mb-3 mb-lg-0 rounded"
+            onClick={() => navigate(userRoutesConstants.newProducts)}
           />
         </Col>
       </Row>
