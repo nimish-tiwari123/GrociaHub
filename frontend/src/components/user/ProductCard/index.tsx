@@ -15,6 +15,7 @@ type ProductDataType = {
   rating: number;
   price: number;
   discountPrice: number;
+  quantity: number;
 };
 
 type ProductCardProps = {
@@ -26,15 +27,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
+  // Improved logic to handle cart checking
+  const checkProductInCart = () => {
+    const cart = Array.isArray(JSON.parse(localStorage.getItem("cart") || "[]"))
+      ? JSON.parse(localStorage.getItem("cart") || "[]")
+      : [];
+    return cart.some(
+      (item: ProductDataType) =>
+        item.name === productData.name && item.weight === productData.weight
+    );
+  };
 
   useEffect(() => {
-    // Check if the product is already in localStorage
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const isProductInCart = cart.some(
-      (item: ProductDataType) => item.name === productData.name && item.weight === productData.weight
-    );
-    setIsAddedToCart(isProductInCart);
-  }, [productData]);
+    // Check if the product is already in the cart
+    setIsAddedToCart(checkProductInCart());
+  }, [productData]); // Dependencies for only productData changes
 
   const handleAddToCart = () => {
     if (isAddedToCart) {
@@ -42,14 +49,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
       return;
     }
 
-    // Add product to Zustand store
-    addToCart(productData);
-
-    // Update localStorage
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const cart = Array.isArray(JSON.parse(localStorage.getItem("cart") || "[]"))
+      ? JSON.parse(localStorage.getItem("cart") || "[]")
+      : [];
     cart.push(productData);
     localStorage.setItem("cart", JSON.stringify(cart));
 
+    addToCart(productData);
     setIsAddedToCart(true);
     toast.success("Product added to cart!");
   };
@@ -81,9 +87,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
       </p>
       <div className="d-flex align-items-center mb-2">
         {renderStars(productData.rating)}
-        <span className="fs-7 opacity-50">({productData.rating})</span>
+        <span className="fs-7 opacity-50 ms-2">({productData.rating})</span>
       </div>
-      <div className="d-flex flex-card-bottom justify-content-between align-items-center">
+      <div className="d-flex justify-content-between align-items-center">
         <div>
           <span className="text-custom-primary fw-bold">
             &#8377;{productData.price}
@@ -105,7 +111,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
         className="p-2 rounded view-product-btn w-100 mt-3 text-custom-primary fw-medium"
         onClick={() => navigate(userRoutesConstants.viewProduct)}
       >
-        view
+        View
       </button>
     </div>
   );

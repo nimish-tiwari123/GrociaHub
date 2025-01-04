@@ -1,13 +1,16 @@
+
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type ProductDataType = {
   image: string;
-  name: string; // Assuming the product name is unique
+  name: string;
   category: string;
   weight: string;
   rating: number;
   price: number;
   discountPrice: number;
+  quantity: number;
 };
 
 type CartStoreType = {
@@ -16,18 +19,38 @@ type CartStoreType = {
   deleteFromCart: (productName: string) => void;
 };
 
-export const useCartStore = create<CartStoreType>((set) => ({
-  cart: JSON.parse(localStorage.getItem("cart") || "[]"),
-  addToCart: (product) =>
-    set((state) => {
-      const updatedCart = [...state.cart, product];
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return { cart: updatedCart };
+export const useCartStore = create<CartStoreType>()(
+  persist(
+    (set) => ({
+      cart: [],
+      addToCart: (product) =>
+        set((state) => {
+          const existingProductIndex = state.cart.findIndex(
+            (item) => item.name === product.name
+          );
+
+          let updatedCart;
+
+          if (existingProductIndex >= 0) {
+            updatedCart = [...state.cart];
+            updatedCart[existingProductIndex].quantity += 1; // Only increment by 1
+          } else {
+            updatedCart = [...state.cart, { ...product, quantity: 1 }];
+          }
+
+          return { cart: updatedCart };
+        }),
+      deleteFromCart: (productName) =>
+        set((state) => {
+          const updatedCart = state.cart.filter(
+            (item) => item.name !== productName
+          );
+          return { cart: updatedCart };
+        }),
     }),
-  deleteFromCart: (productName) =>
-    set((state) => {
-      const updatedCart = state.cart.filter((item) => item.name !== productName);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return { cart: updatedCart };
-    }),
-}));
+    {
+      name: "cart",
+    }
+  )
+);
+
