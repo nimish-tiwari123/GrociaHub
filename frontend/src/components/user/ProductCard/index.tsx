@@ -26,7 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const navigate = useNavigate();
   const addToCart = useCartStore((state) => state.addToCart);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
-
+  const userId = localStorage.getItem("userId");
   // Improved logic to handle cart checking
   const checkProductInCart = () => {
     const cart = Array.isArray(JSON.parse(localStorage.getItem("cart") || "[]"))
@@ -47,17 +47,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
     if (isAddedToCart) {
       toast.info("This product is already in the cart!");
       return;
+    } else if (!userId) {
+      toast.info("Please Login first!");
+    } else {
+      const cart = Array.isArray(
+        JSON.parse(localStorage.getItem("cart") || "[]")
+      )
+        ? JSON.parse(localStorage.getItem("cart") || "[]")
+        : [];
+      cart.push(productData);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      addToCart(productData);
+      setIsAddedToCart(true);
+      toast.success("Product added to cart!");
     }
-
-    const cart = Array.isArray(JSON.parse(localStorage.getItem("cart") || "[]"))
-      ? JSON.parse(localStorage.getItem("cart") || "[]")
-      : [];
-    cart.push(productData);
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    addToCart(productData);
-    setIsAddedToCart(true);
-    toast.success("Product added to cart!");
   };
 
   const renderStars = (rating: number) => {

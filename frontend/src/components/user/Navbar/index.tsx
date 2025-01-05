@@ -32,7 +32,7 @@ const CustomNavbar = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/auth/login");
+    navigate("/");
   };
   return (
     <>
