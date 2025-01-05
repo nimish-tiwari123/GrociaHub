@@ -17,7 +17,7 @@ const useLogin = () => {
       try {
         const response = await login(values).unwrap();
         toast.success(response?.message);
-        console.log(response?.message);
+        localStorage.setItem("userId", response?.userId);
         resetForm();
         navigate("/");
       } catch (error: any) {

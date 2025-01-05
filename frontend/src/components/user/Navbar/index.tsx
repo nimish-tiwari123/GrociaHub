@@ -1,4 +1,4 @@
-import { Container, Navbar } from "react-bootstrap";
+import { Container, Navbar, Dropdown } from "react-bootstrap";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logo } from "../../../assets";
@@ -16,6 +16,7 @@ import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesCons
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+import { FiUser } from "react-icons/fi";
 import "./style.css";
 
 const CustomNavbar = () => {
@@ -24,9 +25,15 @@ const CustomNavbar = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const productData = localStorage.getItem("cart");
-  const parsedData = productData ? JSON.parse(productData) : []; 
-  
-  
+  const parsedData = productData ? JSON.parse(productData) : [];
+  const userRole = localStorage.getItem("userRole") || "User";
+  const userName = localStorage.getItem("userName") || "Guest";
+  const userId = localStorage.getItem("userId");
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/auth/login");
+  };
   return (
     <>
       <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100">
@@ -35,12 +42,33 @@ const CustomNavbar = () => {
             <img src={logo} alt="Logo" className="logo-nav" />
           </Navbar.Brand>
           <div className="d-flex gap-3 d-lg-none">
-            <div className="cart position-relative">
-              <GrCart size={20} />
-              <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-              {parsedData.length}
-              </span>
-            </div>
+            {userId && (
+              <div className="cart position-relative">
+                <GrCart size={20} />
+                <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
+                  {parsedData.length}
+                </span>
+              </div>
+            )}
+            {userId && (
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-basic"
+                  style={{ width: "30px", height: "30px" }}
+                  className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
+                >
+                  <FiUser size={50} />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => navigate("/profile")}>
+                    View Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
             <button className="bg-transparent border-0 " onClick={handleShow}>
               <SlMenu size={20} />
             </button>
@@ -57,35 +85,66 @@ const CustomNavbar = () => {
                   <IoSearchOutline size={24} />
                 </button>
               </div>
-              <button
-                className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 d-flex gap-2 align-items-center fw-medium"
-                onClick={() => navigate(redirectAdminRoutes.dashboard)}
-              >
-                <MdAdminPanelSettings size={20} />
-                Admin Panel
-              </button>
+              {userId && (
+                <button
+                  className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 d-flex gap-2 align-items-center fw-medium"
+                  onClick={() => navigate(redirectAdminRoutes.dashboard)}
+                >
+                  <MdAdminPanelSettings size={20} />
+                  Admin Panel
+                </button>
+              )}
               <div className="right d-flex gap-4 align-items-center">
-                <NavLink
-                  to={userRoutesConstants.cart}
-                  className="text-decoration-none text-dark"
-                >
-                  <div className="cart position-relative">
-                    <GrCart size={24} />
-                    <span className="ms-2 fs-7 fw-medium">My Cart</span>
-                    <span className="cart-badge bg-custom-primary fw-medium text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
-                     {parsedData.length}
-                    </span>
-                  </div>
-                </NavLink>
-                <NavLink
-                  to={redirectAuthRoutesConstants.login}
-                  className="text-decoration-none"
-                >
-                  <Button
-                    btnLabel="Login"
-                    btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium rounded"
-                  />
-                </NavLink>
+                {userId && (
+                  <NavLink
+                    to={userRoutesConstants.cart}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div className="cart position-relative">
+                      <GrCart size={24} />
+                      <span className="ms-2 fs-7 fw-medium">My Cart</span>
+                      <span className="cart-badge bg-custom-primary fw-medium text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
+                        {parsedData.length}
+                      </span>
+                    </div>
+                  </NavLink>
+                )}
+                {userId ? (
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="light"
+                      id="dropdown-basic"
+                      className="d-flex align-items-center gap-2 border-0 bg-transparent"
+                    >
+                      <div
+                        className="border rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: "32px", height: "32px" }}
+                      >
+                        <FiUser size={20} />
+                      </div>
+                      <span className="fw-medium">{userName}</span>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => navigate("/profile")}>
+                        View Profile
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={handleLogout}>
+                        Logout
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                ) : (
+                  <NavLink
+                    to={redirectAuthRoutesConstants.login}
+                    className="text-decoration-none"
+                  >
+                    <Button
+                      btnLabel="Login"
+                      btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium rounded"
+                    />
+                  </NavLink>
+                )}
               </div>
             </div>
           </Navbar.Collapse>
