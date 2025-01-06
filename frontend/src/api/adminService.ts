@@ -44,7 +44,7 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     viewProducts: builder.query({
-      query: (searchTerm) => `/products?search=${searchTerm}`,
+      query: ({searchTerm, currentPage, totalPages}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}`,
       providesTags: ["Product"],
     }),
     viewProductById: builder.query({

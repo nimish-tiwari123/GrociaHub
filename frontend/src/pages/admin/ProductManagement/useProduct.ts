@@ -34,17 +34,17 @@ const useProduct = () => {
   const [selectedProduct, setSelectedProduct] = useState<DataType | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const totalPages = 5; 
 
   const {
     data: productData,
     isLoading,
     isFetching,
-  } = useViewProductsQuery(searchTerm);
+  } = useViewProductsQuery({searchTerm, currentPage, totalPages});
   const [deleteProduct, { isLoading: deleteLoading }] =
     useDeleteProductMutation();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
 
-  const totalPages = 10; 
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);

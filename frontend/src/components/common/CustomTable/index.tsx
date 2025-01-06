@@ -161,9 +161,15 @@ const CustomTable: React.FC<CustomTableProps> = ({
                             height: "50px",
                             objectFit: "cover",
                           }}
+                          className="rounded"
                         />
                         <div>
-                          <div className="fw-bold">{value}</div>
+                          <div className="fw-bold">
+                            {value.split(" ").length > 3
+                              ? `${value.split(" ").slice(0, 3).join(" ")}...`
+                              : value}
+                          </div>
+
                           <small className="fw-medium opacity-50">
                             {row.category}
                           </small>

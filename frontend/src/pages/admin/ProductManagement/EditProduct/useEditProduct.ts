@@ -85,6 +85,10 @@ export const useEditProduct = () => {
         "stockStatus",
         productData?.product?.stockStatus || ""
       );
+      formik.setFieldValue(
+        "unit",
+        productData?.product?.unit || ""
+      );
       formik.setFieldValue("images", productData?.product?.images || "");
 
       setIsActive(productData?.product?.isActive || false);
