@@ -6,5 +6,5 @@ export const userRoutesConstants = {
   allCategories: "/all-categories",
   viewProduct: "/view-product",
   profile: "/profile",
+  search: "/search",
 };
-

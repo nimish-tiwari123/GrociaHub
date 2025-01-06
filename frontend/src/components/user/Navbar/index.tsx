@@ -17,18 +17,20 @@ import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
 import { FiUser } from "react-icons/fi";
+import { useCartStore } from "../../../store/useCartStore";
+import { LogoutModal } from "../../../Modals";
 import "./style.css";
 
 const CustomNavbar = () => {
   const [show, setShow] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+
   const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const productData = localStorage.getItem("cart");
-  const parsedData = productData ? JSON.parse(productData) : [];
-  const userRole = localStorage.getItem("userRole") || "User";
   const userName = localStorage.getItem("userName") || "Guest";
   const userId = localStorage.getItem("userId");
+  const cart = useCartStore((state) => state.cart);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -46,28 +48,37 @@ const CustomNavbar = () => {
               <div className="cart position-relative">
                 <GrCart size={20} />
                 <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                  {parsedData.length}
+                  {cart.length}
                 </span>
               </div>
             )}
             {userId && (
-              <Dropdown>
-                <Dropdown.Toggle
-                  variant="light"
-                  id="dropdown-basic"
-                  style={{ width: "30px", height: "30px" }}
-                  className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
-                >
-                  <FiUser size={50} />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => navigate("/profile")}>
-                    View Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+             <Dropdown>
+             <Dropdown.Toggle
+               variant="light"
+               id="dropdown-basic"
+               style={{ width: "30px", height: "30px" }}
+               className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
+             >
+               <FiUser size={50} />
+             </Dropdown.Toggle>
+           
+             <Dropdown.Menu align="end">
+               <Dropdown.Item
+                 onClick={() => navigate("/profile")}
+                 className="fs-7 "
+               >
+                 View Profile
+               </Dropdown.Item>
+               <Dropdown.Item
+                 onClick={() => setShowLogout(true)}
+                 className="fs-7"
+               >
+                 Logout
+               </Dropdown.Item>
+             </Dropdown.Menu>
+           </Dropdown>
+           
             )}
             <button className="bg-transparent border-0 " onClick={handleShow}>
               <SlMenu size={20} />
@@ -80,6 +91,7 @@ const CustomNavbar = () => {
                   type="text"
                   placeholder="Search for items..."
                   className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
+                  onClick={() => navigate(userRoutesConstants.search)}
                 />
                 <button className="bg-custom-primary border-0 text-light px-3 rounded-end">
                   <IoSearchOutline size={24} />
@@ -104,7 +116,7 @@ const CustomNavbar = () => {
                       <GrCart size={24} />
                       <span className="ms-2 fs-7 fw-medium">My Cart</span>
                       <span className="cart-badge bg-custom-primary fw-medium text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
-                        {parsedData.length}
+                        {cart.length}
                       </span>
                     </div>
                   </NavLink>
@@ -213,6 +225,11 @@ const CustomNavbar = () => {
         show={show}
         handleClose={handleClose}
         handleShow={handleShow}
+      />
+      <LogoutModal
+        show={showLogout}
+        handleClose={() => setShowLogout(false)}
+        handleLogout={handleLogout}
       />
     </>
   );

@@ -5,4 +5,14 @@ import notification from "./notification.png";
 import logoIcon from "./logoIcon.svg";
 import noData from "./noData.svg";
 import noCart from "./noCart.svg";
-export { logo, payment, notFound, notification, logoIcon, noData,noCart };
+import grocery from "./grocery.svg";
+export {
+  logo,
+  payment,
+  notFound,
+  notification,
+  logoIcon,
+  noData,
+  noCart,
+  grocery,
+};
