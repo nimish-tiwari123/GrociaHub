@@ -114,7 +114,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                       {(data?.product?.discount) ==0 ? "":`₹${data?.product?.discount}`}
                     </h5>
                     <h5 className="text-success fw-bold">
-                      ₹{data?.product?.price}
+                      ₹{data?.product?.price-data?.product?.discount}
                     </h5>
                   </div>
                   <div className="d-flex justify-content-between flex-wrap">

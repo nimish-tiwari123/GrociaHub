@@ -63,6 +63,7 @@ const useProduct = () => {
       const response = await deleteProduct(id).unwrap();
       toast.success(response?.message || "Product deleted successfully");
       setShowDeleteModal(false);
+      setCurrentPage(1);
     } catch (err: any) {
       console.error(err);
       toast.error(err?.data?.message || "Failed to delete product");
