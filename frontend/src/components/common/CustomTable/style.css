@@ -38,8 +38,8 @@
 
 .custom-table-header .custom-table-column-header:nth-child(2),
 .custom-table-row .custom-table-cell:nth-child(2) {
-  flex: 0 0 250px;
-  width: 250px;
+  flex: 0 0 260px;
+  width: 260px;
   text-align: left;
 }
 

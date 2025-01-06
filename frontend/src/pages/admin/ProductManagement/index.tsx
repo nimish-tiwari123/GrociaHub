@@ -81,7 +81,7 @@ const ProductManagement: React.FC = () => {
     { key: "stock", header: "Stock", type: "text" },
     {
       key: "status",
-      header: "Status",
+      header: "IsActive",
       type: "toggler",
       togglerHandler: (value, row) => toggleStatus(row, value),
     },
