@@ -22,3 +22,18 @@
     
   }
 }
+/* Fixed size for the product image */
+.product-image {
+  height: 200px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.product-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Show only two lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}

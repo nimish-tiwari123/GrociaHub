@@ -7,15 +7,25 @@ import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { useCartStore } from "../../../store/useCartStore";
 import "./style.css";
 
-type ProductDataType = {
-  image: string;
+// Type Definitions
+type CategoryType = {
+  _id: string;
   name: string;
-  category: string;
-  weight: string;
-  rating: number;
+  image: string;
+};
+
+type ProductDataType = {
+  _id: string;
+  name: string;
+  category: CategoryType; // Referring to the Category type
+  description: string;
   price: number;
-  discountPrice: number;
+  discount: number;
+  images: string[]; // Array of image URLs
   quantity: number;
+  rating: number;
+  stockStatus: string;
+  unit: string;
 };
 
 type ProductCardProps = {
@@ -27,21 +37,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const userId = localStorage.getItem("userId");
-  // Improved logic to handle cart checking
+
+  // Check if the product is already in the cart
   const checkProductInCart = () => {
     const cart = Array.isArray(JSON.parse(localStorage.getItem("cart") || "[]"))
       ? JSON.parse(localStorage.getItem("cart") || "[]")
       : [];
     return cart.some(
       (item: ProductDataType) =>
-        item.name === productData.name && item.weight === productData.weight
+        item.name === productData.name && item.unit === productData.unit
     );
   };
 
   useEffect(() => {
-    // Check if the product is already in the cart
     setIsAddedToCart(checkProductInCart());
-  }, [productData]); // Dependencies for only productData changes
+  }, [productData]);
 
   const handleAddToCart = () => {
     if (isAddedToCart) {
@@ -64,6 +74,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
     }
   };
 
+  // Render star ratings
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -80,27 +91,32 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
 
   return (
     <div className="border mt-3 rounded p-3 cursor-pointer">
+      {/* Product Image */}
       <img
-        src={productData.image}
+        src={productData.images[0]}
         alt={productData.name}
-        className="d-block w-75 m-auto"
+        className="product-image w-100"
       />
-      <p className="m-0 opacity-75 fs-7">{productData.category}</p>
-      <p className="fw-bold">
-        {productData.name} {productData.weight}
-      </p>
+      {/* Product Category */}
+      <p className="m-0 opacity-75 fs-7">{productData.category.name}</p>
+      {/* Product Name */}
+      <p className="product-name">{productData.name}</p>
+      {/* Product Rating */}
       <div className="d-flex align-items-center mb-2">
         {renderStars(productData.rating)}
         <span className="fs-7 opacity-50 ms-2">({productData.rating})</span>
       </div>
+      {/* Product Price and Discount */}
       <div className="d-flex justify-content-between align-items-center">
         <div>
           <span className="text-custom-primary fw-bold">
             &#8377;{productData.price}
           </span>
-          <span className="text-decoration-line-through opacity-50 ms-1">
-            &#8377;{productData.discountPrice}
-          </span>
+          {productData.discount > 0 && (
+            <span className="text-decoration-line-through opacity-50 ms-1">
+              &#8377;{productData.discount}
+            </span>
+          )}
         </div>
         <button
           className={`fs-7 border-0 px-2 py-1 rounded-1 ${
@@ -111,6 +127,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
           <LuShoppingCart /> {isAddedToCart ? "Added" : "Add"}
         </button>
       </div>
+      {/* View Product Button */}
       <button
         className="p-2 rounded view-product-btn w-100 mt-3 text-custom-primary fw-medium"
         onClick={() => navigate(userRoutesConstants.viewProduct)}
