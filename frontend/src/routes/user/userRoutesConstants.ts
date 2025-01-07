@@ -4,7 +4,7 @@ export const userRoutesConstants = {
   hotDeals: "/hot-deals",
   cart: "/cart",
   allCategories: "/all-categories",
-  viewProduct: "/view-product",
+  viewProduct: "/view-product/:id",
   profile: "/profile",
   search: "/search",
 };

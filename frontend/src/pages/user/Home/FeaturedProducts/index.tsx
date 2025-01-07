@@ -10,7 +10,7 @@ const FeaturedProducts = () => {
     data: productData,
     isLoading,
     isFetching,
-  } = useViewUserProductsQuery(""); // You can pass query parameters here if needed.
+  } = useViewUserProductsQuery(""); 
   const navigate = useNavigate();
 
   return (
@@ -45,20 +45,21 @@ const FeaturedProducts = () => {
           ))}
         </Row>
       ) : (
-        // Display the dynamic products fetched from API
         <Row>
-          {productData?.products?.map((item, index) => (
-            <Col
-              xl={2}
-              lg={3}
-              md={4}
-              sm={6}
-              className="col-6 p-2 p-md-auto py-0"
-              key={item.id} // Ensure unique key based on product ID
-            >
-              <ProductCard productData={item} />
-            </Col>
-          ))}
+          {productData?.products
+            ?.filter((item) => item.isActive) 
+            .map((item, index) => (
+              <Col
+                xl={2}
+                lg={3}
+                md={4}
+                sm={6}
+                className="col-6 p-2 p-md-auto py-0"
+                key={item._id} 
+              >
+                <ProductCard productData={item} />
+              </Col>
+            ))}
         </Row>
       )}
     </Container>

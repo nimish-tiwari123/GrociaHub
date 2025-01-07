@@ -21,6 +21,7 @@ interface Product {
   price: number;
   description: string;
   imageUrl: string;
+  isActive: boolean; // Add isActive field to product type
 }
 
 interface CategoryResponse {
@@ -71,6 +72,9 @@ const NewProducts: React.FC = () => {
   const handleLoadMore = () => {
     setCurrentPage((prev) => prev + 1);
   };
+
+  // Filter products to show only active ones
+  const activeProducts = productData?.products?.filter((product) => product.isActive);
 
   return (
     <div>
@@ -179,7 +183,7 @@ const NewProducts: React.FC = () => {
             <Row className="mt-3">
               <Col md={6}>
                 <span className="fw-bold fs-3">
-                  Products ({productData?.products?.length})
+                  Products ({activeProducts?.length})
                 </span>
               </Col>
               <Col md={6}>
@@ -195,13 +199,13 @@ const NewProducts: React.FC = () => {
               {productLoading || productFetching ? (
                 <Row>
                   {Array.from({ length: 12 }).map((_, index) => (
-                    <Col xl={3} lg={4} md={6} sm={6}>
+                    <Col xl={3} lg={4} md={6} sm={6} key={index}>
                       <ProductSkeleton />
                     </Col>
                   ))}
                 </Row>
-              ) : productData?.products?.length > 0 ? (
-                productData.products.map((item) => (
+              ) : activeProducts?.length > 0 ? (
+                activeProducts.map((item) => (
                   <Col
                     xl={3}
                     lg={4}

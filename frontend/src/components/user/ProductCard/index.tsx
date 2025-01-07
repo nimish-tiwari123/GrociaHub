@@ -3,7 +3,6 @@ import { LuShoppingCart } from "react-icons/lu";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { useCartStore } from "../../../store/useCartStore";
 import "./style.css";
 
@@ -130,7 +129,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
       {/* View Product Button */}
       <button
         className="p-2 rounded view-product-btn w-100 mt-3 text-custom-primary fw-medium"
-        onClick={() => navigate(userRoutesConstants.viewProduct)}
+        onClick={() => navigate(`/view-product/${productData._id}`)}
       >
         View
       </button>

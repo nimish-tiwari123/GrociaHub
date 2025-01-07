@@ -1,15 +1,30 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { image1, image2, image3 } from "../../../assets/categories";
-import "./style.css";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useViewUserProductByIdQuery } from "../../../api/userService";
 import { Button } from "../../../components/common";
 import { MdDeliveryDining } from "react-icons/md";
 import { SiOrganicmaps } from "react-icons/si";
 import { MdCurrencyRupee } from "react-icons/md";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useCartStore } from "../../../store/useCartStore";
+import { toast } from "react-toastify";
+
 const ViewProduct = () => {
-  const [activeImg, setActiveImg] = useState<string>(image1);
+  const { id } = useParams();
+
+  const { data, isLoading, isFetching } = useViewUserProductByIdQuery(id);
+  const [activeImg, setActiveImg] = useState<string>(
+    data?.product?.images[0] || ""
+  );
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useCartStore();
+
+  useEffect(() => {
+    setActiveImg(data?.product?.images[0]);
+  }, [data]);
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -20,10 +35,63 @@ const ViewProduct = () => {
       setQuantity(quantity - 1);
     }
   };
+
   const handleImg = (imgUrl: string) => {
     setActiveImg(imgUrl);
-    console.log(imgUrl, activeImg);
   };
+
+  // Handle Add to Cart
+  const handleAddToCart = () => {
+    if (data) {
+      const product = {
+        image: data.product.images[0],
+        name: data.product.name,
+        category: data.product.category.name,
+        weight: data.product.unit,
+        rating: 4, // Assuming 4 stars or adjust based on your data
+        price: data.product.price,
+        discountPrice: data.product.discount,
+        quantity,
+      };
+
+      addToCart(product);
+      toast.success("Product added in cart");
+    }
+  };
+
+  // Handle Buy Now
+  const handleBuyNow = () => {
+    // Redirect to checkout or handle "Buy Now" logic here
+    console.log("Proceeding to checkout...");
+  };
+
+  if (isLoading || isFetching) {
+    // Skeleton loader while data is fetching
+    return (
+      <Container fluid>
+        <Container className="my-4">
+          <div className="custom-breadcrumb d-flex">
+            <Skeleton width={80} />
+            <span className="breadcrumb-separator mx-2">/</span>
+            <Skeleton width={60} />
+          </div>
+        </Container>
+        <Container className="rounded-3 mb-5 p-0 p-md-5 position-relative product-view-container">
+          <Row>
+            <Col md={6}>
+              <Skeleton height={200} />
+            </Col>
+            <Col md={6}>
+              <Skeleton height={150} />
+              <Skeleton count={3} height={20} />
+              <Skeleton height={40} />
+              <Skeleton width={120} height={40} />
+            </Col>
+          </Row>
+        </Container>
+      </Container>
+    );
+  }
 
   return (
     <Container fluid>
@@ -38,40 +106,25 @@ const ViewProduct = () => {
       </Container>
 
       <Container className="rounded-3 mb-5 p-0 p-md-5 position-relative product-view-container">
-        <button className="btn btn-primary position-absolute top-0 end-0 mt-5 me-2 m-md-4 fs-7 btn-sm ">
-          10% off
-        </button>
+       
         <Row>
           <Col md={6}>
-            <h2 className="fs-3 fw-bold m-0">Fresh Organic Oranges (1kg)</h2>
-            <p className="opacity-50">Fruits & Vegetables</p>
+            <h2 className="fs-3 fw-bold m-0">{data?.product?.name}</h2>
+            <p className="opacity-50">{data?.product?.category?.name}</p>
             <Row className="mt-2 mt-md-4 pt-3">
               <Col className="col-3 col-md-2 ">
                 <div className="d-flex flex-column gap-4">
-                  <img
-                    src={image1}
-                    alt="product"
-                    className={`w-100 rounded-2 cursor-pointer ${
-                      activeImg == image1 ? "active-border" : "border"
-                    }`}
-                    onClick={() => handleImg(image1)}
-                  />
-                  <img
-                    src={image2}
-                    alt="product"
-                    className={`w-100 rounded-2 cursor-pointer ${
-                      activeImg == image2 ? "active-border" : "border"
-                    }`}
-                    onClick={() => handleImg(image2)}
-                  />
-                  <img
-                    src={image3}
-                    alt="product"
-                    className={`w-100 rounded-2 cursor-pointer ${
-                      activeImg == image3 ? "active-border" : "border"
-                    }`}
-                    onClick={() => handleImg(image3)}
-                  />
+                  {data?.product?.images?.map((img:string, index:number) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt="product"
+                      className={`w-100 rounded-2 cursor-pointer  ${
+                        activeImg === img ? "success-border" : "border"
+                      }`}
+                      onClick={() => handleImg(img)}
+                    />
+                  ))}
                 </div>
               </Col>
               <Col className="col-9 col-md-10">
@@ -86,26 +139,26 @@ const ViewProduct = () => {
           <Col md={6}>
             <Container className="p-2 p-md-5 mt-4">
               <div>
-                <span className="discount-price fs-5 fw-medium opacity-50">
-                  &#8377;3000
+                <span className="discount-price fs-5 fw-medium opacity-50 text-decoration-line-through">
+                  {data?.product?.discount == 0 ? (
+                    ""
+                  ) : (
+                    <span>&#8377;{data?.product?.discount}</span>
+                  )}
                 </span>
+
                 <span className="price ms-2 fs-4 fw-bold text-custom-primary">
-                  &#8377;2000
+                  &#8377;{data?.product?.price}
                 </span>
               </div>
               <div className="mt-3">
                 <button className="stock-status-btn text-custom-primary rounded-pill py-2 px-3 border-0 fw-medium fs-7">
-                  IN STOCK
+                  {data?.product?.stockStatus.toUpperCase()}
                 </button>
               </div>
-              <p className="opacity-50 mt-3">
-                Enjoy the natural sweetness of freshly picked organic apples.
-                Perfect for snacking, baking, or adding to your favorite dishes.
-                Grown without harmful pesticides, ensuring a healthy and
-                delicious experience.
-              </p>
+              <p className="opacity-75 mt-3">{data?.product?.description}</p>
               <div className="row mb-4">
-                <div className="product-quantity col-lg-4 col-md-6 mt-3">
+                <div className="product-quantity col-lg-12 col-md-12 mt-3">
                   <button
                     className="quantity-btn rounded-circle border fs-5"
                     onClick={decreaseQuantity}
@@ -122,20 +175,37 @@ const ViewProduct = () => {
                     +
                   </button>
                 </div>
-                <div className="col-lg-8 col-md-6 mt-3"><Button
-                  btnLabel="Add To Cart"
-                  btnStyle="bg-custom-primary border-0 text-light px-5 fw-medium py-2 rounded-pill fs-7"
-                /></div>
+                <div className="d-flex flex-wrap gap-2 mt-4">
+                  <Button
+                    btnLabel="Add To Cart"
+                    btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 rounded-pill fs-7"
+                    onClick={handleAddToCart}
+                  />
+                  <Button
+                    btnLabel="Buy Now"
+                    btnStyle="btn btn-primary border-0 text-light px-3 fw-medium py-2 rounded-pill fs-7"
+                    onClick={handleBuyNow}
+                  />
+                </div>
               </div>
               <div className="product-service-card mt-5 rounded bg-custom-secondary p-3">
                 <div className="d-flex my-3">
-                  <MdDeliveryDining size={40} className="opacity-75"/> <span className="ms-3 fs-7 fw-medium">Free Shipping apply to all orders over &#8377;100</span>
+                  <MdDeliveryDining size={40} className="opacity-75" />
+                  <span className="ms-3 fs-7 fw-medium">
+                    Free Shipping apply to all orders over &#8377;100
+                  </span>
                 </div>
                 <div className="d-flex my-3">
-                  <SiOrganicmaps size={40} className="opacity-75"/> <span className="ms-3 fs-7 fw-medium">Guranteed 100% Organic from natural farmas</span>
+                  <SiOrganicmaps size={40} className="opacity-75" />
+                  <span className="ms-3 fs-7 fw-medium">
+                    Guaranteed 100% Organic from natural farms
+                  </span>
                 </div>
                 <div className="d-flex my-3">
-                  <MdCurrencyRupee size={40} className="opacity-75"/> <span className="ms-3 fs-7 fw-medium">1 Day Returns if you change your mind</span>
+                  <MdCurrencyRupee size={40} className="opacity-75" />
+                  <span className="ms-3 fs-7 fw-medium">
+                    1 Day Returns if you change your mind
+                  </span>
                 </div>
               </div>
             </Container>
