@@ -56,14 +56,17 @@ const getProducts = async (req, res) => {
   try {
     const queries = {
       search: req.query.search || "",
+      pageSize: parseInt(req.query.pageSize) || 10,
+      pageNo: parseInt(req.query.pageNo) - 1 || 0,
     };
 
-    const products = await productServices.getProducts(queries);
+    const { products, pagination } = await productServices.getProducts(queries);
 
     return res.status(200).json({
       status: true,
       message: responseMessages.PRODUCTS_RETRIEVED,
       products,
+      pagination,
     });
   } catch (error) {
     return res.status(500).json({

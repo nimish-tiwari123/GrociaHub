@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema(
     stockStatus: { type: String, default: "inStock" },
     discount: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true },
+    unit: { type: String },
     images: [{ type: String }],
   },
   { timestamps: true, versionKey: false }
