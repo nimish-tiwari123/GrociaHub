@@ -32,6 +32,11 @@ const createValidation = Joi.object({
     "number.required": "Quantity is a required field",
   }),
   discount: Joi.string().optional().allow("").empty(),
+  unit: Joi.string().required().messages({
+    "string.base": "Unit should be a type of text",
+    "string.empty": "Unit cannot be an empty field",
+    "any.required": "Unit is a required field",
+  }),
 });
 
 module.exports = { createValidation };
