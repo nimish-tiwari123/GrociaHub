@@ -102,10 +102,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
       {/* Product Name */}
       <p className="product-name">{productData.name}</p>
       {/* Product Rating */}
-      <div className="d-flex align-items-center mb-2">
+      {/* <div className="d-flex align-items-center mb-2">
         {renderStars(productData.rating)}
         <span className="fs-7 opacity-50 ms-2">({productData.rating})</span>
-      </div>
+      </div> */}
       {/* Product Price and Discount */}
       <div className="d-flex justify-content-between align-items-center">
         <div>

@@ -6,7 +6,7 @@ const userService = api.injectEndpoints({
       query: () => `/categories`,
     }),
     viewUserProducts: builder.query({
-      query: ({searchTerm, currentPage, totalPages}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}`,
+      query: ({searchTerm="", currentPage="", totalPages=""}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}`,
       providesTags: ["Product"],
     }),
   }),

@@ -1,16 +1,23 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Button } from "../../../../components/common";
-import { products } from "../../../../constants/userConstants";
 import { ProductCard, ProductSkeleton } from "../../../../components/user";
 import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 import { useNavigate } from "react-router-dom";
+import { useViewUserProductsQuery } from "../../../../api/userService";
+
 const FeaturedProducts = () => {
+  const {
+    data: productData,
+    isLoading,
+    isFetching,
+  } = useViewUserProductsQuery(""); // You can pass query parameters here if needed.
   const navigate = useNavigate();
+
   return (
     <Container>
-      <Row className=" pt-5 pb-4">
+      <Row className="pt-5 pb-4">
         <Col md={6}>
-          <h2>Featured Products</h2>
+          <h2 className="fw-bold">Featured Products</h2>
         </Col>
         <Col md={6} className="d-flex view-all-btn mt-1 mt-md-auto">
           <Button
@@ -21,35 +28,39 @@ const FeaturedProducts = () => {
         </Col>
       </Row>
 
-      {/* <Row>
-        {Array.from({ length: 12 }).map((_, index) => (
-          <Col
-            xl={2}
-            lg={3}
-            md={4}
-            sm={6}
-            className="col-6 p-2 p-md-auto py-0"
-            key={index}
-          >
-            <ProductSkeleton />
-          </Col>
-        ))}
-      </Row> */}
-
-      <Row>
-        {products.map((item, index) => (
-          <Col
-            xl={2}
-            lg={3}
-            md={4}
-            sm={6}
-            className="col-6 p-2 p-md-auto py-0"
-            key={index}
-          >
-            <ProductCard productData={item} />
-          </Col>
-        ))}
-      </Row>
+      {/* Loading Skeletons */}
+      {isLoading || isFetching ? (
+        <Row>
+          {Array.from({ length: 12 }).map((_, index) => (
+            <Col
+              xl={2}
+              lg={3}
+              md={4}
+              sm={6}
+              className="col-6 p-2 p-md-auto py-0"
+              key={index}
+            >
+              <ProductSkeleton />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        // Display the dynamic products fetched from API
+        <Row>
+          {productData?.products?.map((item, index) => (
+            <Col
+              xl={2}
+              lg={3}
+              md={4}
+              sm={6}
+              className="col-6 p-2 p-md-auto py-0"
+              key={item.id} // Ensure unique key based on product ID
+            >
+              <ProductCard productData={item} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </Container>
   );
 };

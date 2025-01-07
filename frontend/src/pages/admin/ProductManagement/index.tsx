@@ -43,7 +43,6 @@ const ProductManagement: React.FC = () => {
     setSelectedProduct,
     convertProductsToCustomFormat,
   } = useProduct();
-
   type ColumnType = {
     key: string;
     header: string;

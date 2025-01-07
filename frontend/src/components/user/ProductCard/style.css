@@ -22,7 +22,6 @@
     
   }
 }
-/* Fixed size for the product image */
 .product-image {
   height: 200px;
   object-fit: contain;
@@ -36,4 +35,5 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bold;
+  height: 45px;
 }

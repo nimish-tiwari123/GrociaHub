@@ -56,7 +56,6 @@ const NewProducts: React.FC = () => {
       maxPrice: priceRange[1],
     });
 
-  // Debounce the search term to reduce API calls
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);

@@ -18,7 +18,7 @@ const Categories = () => {
     <Container>
       <Row className=" pt-5 pb-4">
         <Col md={6}>
-          <h2>Explore Categories</h2>
+          <h2 className="fw-bold">Explore Categories</h2>
         </Col>
         <Col md={6} className="d-flex view-all-btn mt-1 mt-md-auto">
           <Button
