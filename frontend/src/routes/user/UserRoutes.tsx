@@ -7,6 +7,7 @@ import {
   HotDeals,
   ViewProduct,
   Profile,
+  Search,
 } from "../../pages/user";
 import { HomeLayout } from "../../layout";
 import { Route, Routes } from "react-router-dom";
@@ -32,6 +33,9 @@ const UserRoutes = () => {
           element={<ViewProduct />}
         />
         <Route path={userRoutesConstants.profile} element={<Profile />} />
+        <Route path={userRoutesConstants.search} element={<Search />} />
+
+
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

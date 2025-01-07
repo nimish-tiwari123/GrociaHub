@@ -5,8 +5,12 @@ const userService = api.injectEndpoints({
     viewUserCategory: builder.query({
       query: () => `/categories`,
     }),
+    viewUserProducts: builder.query({
+      query: ({searchTerm, currentPage, totalPages}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}`,
+      providesTags: ["Product"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useViewUserCategoryQuery } = userService;
+export const { useViewUserCategoryQuery, useViewUserProductsQuery } = userService;

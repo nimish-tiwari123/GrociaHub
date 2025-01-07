@@ -138,7 +138,7 @@ const Cart: React.FC = () => {
                 <span className="fw-bold fs-5">&#8377; {calculateTotal()}</span>
                 <Button
                   btnLabel="Checkout to Proceed"
-                  btnStyle="bg-custom-primary border-0 text-light fw-medium py-3 mt-4 rounded-2 w-100"
+                  btnStyle="bg-custom-primary border-0 text-light fw-medium py-3 mt-4 rounded-2 w-100 d-flex justify-content-center align-items-center"
                 />
               </div>
             </Col>

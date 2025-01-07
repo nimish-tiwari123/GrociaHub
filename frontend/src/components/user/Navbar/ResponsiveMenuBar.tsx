@@ -11,6 +11,8 @@ import { Button } from "../../common";
 import { MdAdminPanelSettings } from "react-icons/md";
 
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
+import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
+import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
 interface ResponsiveMenuBarProps {
   show: boolean;
   handleClose: () => void;
@@ -59,13 +61,7 @@ function ResponsiveMenuBar({ show, handleClose }: ResponsiveMenuBarProps) {
               >
                 <TfiAnnouncement /> New products
               </NavLink>
-              {userId && (
-                <Button
-                  btnLabel="Login"
-                  btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium"
-                  onClick={() => navigate("/auth/login")}
-                />
-              )}
+           
             </div>
           </Nav>
           <div className="search-bar d-flex w-100 mt-4">
@@ -73,6 +69,7 @@ function ResponsiveMenuBar({ show, handleClose }: ResponsiveMenuBarProps) {
               type="text"
               placeholder="Search for items..."
               className="bg-custom-secondary border-0 outline fs-7 py-2 px-3 w-100"
+              onClick={() => navigate(userRoutesConstants.search)}
             />
             <button className="bg-custom-primary border-0 text-light px-3">
               <IoSearchOutline size={24} />
@@ -91,17 +88,28 @@ function ResponsiveMenuBar({ show, handleClose }: ResponsiveMenuBarProps) {
             <span className="text-custom-primary fw-bold ms-1">1233-7777</span>
             <span className="fs-7 ms-2 fw-medium">24/7 support center</span>
           </div>
-          {userId && (
+          {userId ? (
             <button
-              className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 d-flex gap-2 align-items-center fw-medium"
+              className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 py-2 mt-3 d-flex gap-2 align-items-center fw-medium"
               onClick={() => navigate(redirectAdminRoutes.dashboard)}
             >
               <MdAdminPanelSettings size={20} />
               Admin Panel
             </button>
+          ) : (
+            <NavLink
+              to={redirectAuthRoutesConstants.login}
+              className="text-decoration-none"
+            >
+              <Button
+                btnLabel="Login"
+                btnStyle="bg-custom-primary border-0 text-light px-4 py-2 fw-medium rounded mt-3"
+              />
+            </NavLink>
           )}
         </Offcanvas.Body>
       </Offcanvas>
+      
     </>
   );
 }

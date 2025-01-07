@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
 import {
   Button,
@@ -19,6 +19,7 @@ import "./style.css";
 
 const ProductManagement: React.FC = () => {
   const navigate = useNavigate();
+  const [skip, setSkip] = useState(true);
 
   const {
     searchTerm,
@@ -80,7 +81,7 @@ const ProductManagement: React.FC = () => {
     { key: "stock", header: "Stock", type: "text" },
     {
       key: "status",
-      header: "Status",
+      header: "IsActive",
       type: "toggler",
       togglerHandler: (value, row) => toggleStatus(row, value),
     },
@@ -91,6 +92,7 @@ const ProductManagement: React.FC = () => {
     {
       label: "View",
       onClick: (row) => {
+        setSkip(false);
         setShowModal(true);
         setSelectedProduct(row);
       },
@@ -170,31 +172,32 @@ const ProductManagement: React.FC = () => {
       </Row>
 
       <Row className="mt-3">
-        <Col>
-          <div className="bg-white p-3 custom-shadow rounded border mb-3">
-            {convertedData.length == 0 ? (
-              <NoData />
-            ) : isLoading || isFetching || deleteLoading || isUpdating ? (
-              <TableSkeleton />
-            ) : (
-              <>
-                <CustomTable
-                  columns={columns}
-                  data={convertedData}
-                  actions={actions}
-                />
-                <div className="my-4 d-flex justify-content-center">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                </div>
-              </>
-            )}
+  <Col>
+    <div className="bg-white p-3 custom-shadow rounded border mb-3">
+      {isLoading || isFetching || deleteLoading || isUpdating ? (
+        <TableSkeleton />
+      ) : convertedData.length === 0 ? (
+        <NoData />
+      ) : (
+        <>
+          <CustomTable
+            columns={columns}
+            data={convertedData}
+            actions={actions}
+          />
+          <div className="mb-2 mt-3 d-flex justify-content-center">
+            <Pagination
+              currentPage={productData.pagination.pageNo}
+              totalPages={productData.pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
-        </Col>
-      </Row>
+        </>
+      )}
+    </div>
+  </Col>
+</Row>
+
 
       <DeleteModal
         show={showDeleteModal}
@@ -208,6 +211,7 @@ const ProductManagement: React.FC = () => {
         show={showModal}
         handleClose={() => setShowModal(false)}
         productId={selectedProduct?.id}
+        skip={skip}
       />
     </Container>
   );

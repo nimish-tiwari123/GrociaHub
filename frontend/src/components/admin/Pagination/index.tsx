@@ -13,7 +13,6 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const maxVisibleButtons = 5;
-
   const handlePageClick = (page: number) => {
     if (page > 0 && page <= totalPages) {
       onPageChange(page);
@@ -22,11 +21,11 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const renderPageNumbers = () => {
     const pages = [];
-    const startPage = Math.max(1, currentPage - Math.floor(maxVisibleButtons / 2));
-    const endPage = Math.min(
-      totalPages,
-      startPage + maxVisibleButtons - 1
+    const startPage = Math.max(
+      1,
+      currentPage - Math.floor(maxVisibleButtons / 2)
     );
+    const endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(
