@@ -24,35 +24,25 @@ const updateProduct = async (id, payload) => {
 
 const getProducts = async (queries) => {
   try {
-    const { search, pageSize = 10, pageNo = 0 } = queries;
-    const limitValue = parseInt(pageSize);
-    const offsetValue = parseInt(pageNo) * limitValue;
+    const { search, pageSize = 10, pageNo = 0, category } = queries;
+    const limitValue = parseInt(pageSize, 10);
+    const offsetValue = parseInt(pageNo, 10) * limitValue;
 
-    let totalProducts;
+    const query = {};
     if (search) {
       const searchTerm = search.trim();
-      totalProducts = await Product.countDocuments({
-        name: { $regex: searchTerm, $options: "i" },
-      });
-    } else {
-      totalProducts = await Product.countDocuments({});
+      query.name = { $regex: searchTerm, $options: "i" };
+    }
+    if (category) {
+      query.category = category;
     }
 
-    let products;
-    if (search) {
-      const searchTerm = search.trim();
-      products = await Product.find({
-        name: { $regex: searchTerm, $options: "i" },
-      })
-        .skip(offsetValue)
-        .limit(limitValue)
-        .populate("category");
-    } else {
-      products = await Product.find({})
-        .skip(offsetValue)
-        .limit(limitValue)
-        .populate("category");
-    }
+    const totalProducts = await Product.countDocuments(query);
+
+    const products = await Product.find(query)
+      .skip(offsetValue)
+      .limit(limitValue)
+      .populate("category");
 
     const totalPages = Math.ceil(totalProducts / limitValue);
     const currentPageNo = Math.floor(offsetValue / limitValue) + 1;
@@ -67,6 +57,7 @@ const getProducts = async (queries) => {
       },
     };
   } catch (error) {
+    console.log(error);
     throw new Error("Error while fetching products");
   }
 };

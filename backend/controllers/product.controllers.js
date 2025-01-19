@@ -58,6 +58,7 @@ const getProducts = async (req, res) => {
       search: req.query.search || "",
       pageSize: parseInt(req.query.pageSize) || 10,
       pageNo: parseInt(req.query.pageNo) - 1 || 0,
+      category: req.query.category || "",
     };
 
     const { products, pagination } = await productServices.getProducts(queries);
@@ -69,6 +70,7 @@ const getProducts = async (req, res) => {
       pagination,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       status: false,
       message: responseMessages.INTERNAL_SERVER_ERROR,
