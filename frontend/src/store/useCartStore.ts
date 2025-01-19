@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type ProductDataType = {
+  images: any;
   image: string;
   name: string;
   category: string;
