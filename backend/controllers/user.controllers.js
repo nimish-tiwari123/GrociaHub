@@ -168,4 +168,29 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-module.exports = { createUser, loginUser, forgotPassword, resetPassword };
+
+const getUsers = async (req, res) => {
+  try {
+    const users = await userServices.getUsers();
+
+    return res.status(200).json({
+      success: true,
+      message: responseMessages.USERS_RETRIEVED,
+      users,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: responseMessages.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+module.exports = {
+  createUser,
+  loginUser,
+  forgotPassword,
+  resetPassword,
+  getUsers,
+};

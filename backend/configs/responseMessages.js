@@ -6,6 +6,8 @@ const responseMessages = {
   USER_NOT_FOUND: "User not found",
   USER_UPDATED: "User updated successfully",
   USER_DELETED: "User deleted successfully",
+  USERS_RETRIEVED: "Users retrieved successfully",
+  USER_RETRIEVED: "User retrieved successfully",
 
   USER_LOGIN_SUCCESS: "User logged in successfully",
   INVALID_PASSWORD: "Invalid password",

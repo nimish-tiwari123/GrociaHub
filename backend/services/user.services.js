@@ -10,6 +10,15 @@ const saveUser = async (payload) => {
   }
 };
 
+const getUsers = async () => {
+  try {
+    const users = await User.find({});
+    return users;
+  } catch (error) {
+    throw new Error("Error while getting all users");
+  }
+};
+
 const getUserById = async (id) => {
   try {
     const user = await User.findOne({ _id: id });
@@ -27,6 +36,7 @@ const getUserByEmail = async (email) => {
     throw new Error("Error while fetching user");
   }
 };
+
 const updateUser = async (id, user) => {
   try {
     const updatedUser = await User.findByIdAndUpdate({ _id: id }, user, {
@@ -38,4 +48,10 @@ const updateUser = async (id, user) => {
   }
 };
 
-module.exports = { saveUser, getUserByEmail, getUserById, updateUser };
+module.exports = {
+  saveUser,
+  getUserByEmail,
+  getUserById,
+  updateUser,
+  getUsers,
+};
