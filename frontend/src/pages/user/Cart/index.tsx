@@ -78,7 +78,7 @@ const Cart: React.FC = () => {
                   <Row key={index} className="align-items-center mb-3">
                     <Col xs={12} md={4} className="text-center text-md-start">
                       <img
-                        src={item.image}
+                        src={item.images[0]}
                         alt={item.name}
                         className="cart-img img-fluid"
                       />

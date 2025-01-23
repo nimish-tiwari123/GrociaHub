@@ -6,30 +6,34 @@ import { toast } from "react-toastify";
 import { useCartStore } from "../../../store/useCartStore";
 import "./style.css";
 
-// Type Definitions
-type CategoryType = {
+// Define types
+interface Category {
   _id: string;
   name: string;
   image: string;
-};
+}
 
-type ProductDataType = {
+interface Product {
   _id: string;
   name: string;
-  category: CategoryType; // Referring to the Category type
-  description: string;
   price: number;
+  description: string;
+  imageUrl: string;
+  isActive: boolean;
+  category: Category;
   discount: number;
-  images: string[]; // Array of image URLs
+  images: [string];
   quantity: number;
   rating: number;
   stockStatus: string;
   unit: string;
-};
-
-type ProductCardProps = {
-  productData: ProductDataType;
-};
+   image: string;
+  weight: number;
+  discountPrice: number;
+}
+interface ProductCardProps {
+  productData: Product; // Define the productData prop
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
   const navigate = useNavigate();
@@ -43,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
       ? JSON.parse(localStorage.getItem("cart") || "[]")
       : [];
     return cart.some(
-      (item: ProductDataType) =>
+      (item: Product) =>
         item.name === productData.name && item.unit === productData.unit
     );
   };
@@ -73,7 +77,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
     }
   };
 
-  // Render star ratings
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {

@@ -11,70 +11,91 @@ import Header from "./Header";
 
 // Define types
 interface Category {
-  id: number;
+  _id: string;
   name: string;
+  image: string;
 }
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
   price: number;
   description: string;
   imageUrl: string;
-  isActive: boolean; // Add isActive field to product type
-}
-
-interface CategoryResponse {
-  categories: Category[];
-}
-
-interface ProductResponse {
-  products: Product[];
-  totalPages: number;
+  isActive: boolean;
+  category: Category;
+  discount: number;
+  images: [string];
+  quantity: number;
+  rating: number;
+  stockStatus: string;
+  unit: string;
 }
 
 // Component
 const NewProducts: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Search term state
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
-  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]); // Price range state
+  const [activeCategories, setActiveCategories] = useState<string[]>([]); // Active category IDs
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages = 10; // Adjust this based on your requirements
+  const totalPages = 10;
 
   // Fetch categories
   const { data: categoryData, isLoading: categoryLoading } =
     useViewUserCategoryQuery("");
 
   // Fetch products with applied filters
-  const { data: productData, isLoading: productLoading, isFetching:productFetching } =
-    useViewUserProductsQuery({
-      searchTerm: debouncedSearchTerm,
-      currentPage,
-      totalPages,
-      categories: activeCategories.join(","), // Pass active categories as comma-separated string
-      minPrice: priceRange[0],
-      maxPrice: priceRange[1],
-    });
+  const {
+    data: productData,
+    isLoading: productLoading,
+    isFetching: productFetching,
+  } = useViewUserProductsQuery({
+    searchTerm: debouncedSearchTerm,
+    currentPage,
+    totalPages,
+    category: activeCategories.join("&"),
+    minPrice: priceRange[0],
+    maxPrice: priceRange[1],
+  });
 
+  // Debounce search input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500); // 500ms debounce delay
+    }, 500);
 
     return () => clearTimeout(handler);
   }, [searchTerm]);
 
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {};
+  // Handle price range change
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setPriceRange([0, value]);
+  };
 
-  const handleCategoryClick = (categoryName: string) => {};
+  // Handle category click
+  const handleCategoryClick = (categoryId: string) => {
+    console.log(categoryId);
+    setActiveCategories(
+      (prev) =>
+        prev.includes(categoryId)
+          ? prev.filter((id) => id !== categoryId) // Remove if already active
+          : [...prev, categoryId] // Add if not active
+    );
+  };
 
   const handleLoadMore = () => {
     setCurrentPage((prev) => prev + 1);
   };
 
-  // Filter products to show only active ones
-  const activeProducts = productData?.products?.filter((product) => product.isActive);
+  // Filter products by price and active status on the frontend
+  const filteredProducts = productData?.products
+    ?.filter((product: Product) => product.isActive)
+    ?.filter(
+      (product: Product) =>
+        product.price >= priceRange[0] && product.price <= priceRange[1]
+    );
 
   return (
     <div>
@@ -91,12 +112,12 @@ const NewProducts: React.FC = () => {
                 {categoryLoading ? (
                   <p>Loading categories...</p>
                 ) : (
-                  categoryData?.categories?.map((category) => (
+                  categoryData?.categories?.map((category: Category) => (
                     <button
-                      key={category.id}
-                      onClick={() => handleCategoryClick(category.name)}
+                      key={category._id}
+                      onClick={() => handleCategoryClick(category._id)}
                       className={`m-2 p-2 btn-sm btn border rounded-pill ${
-                        activeCategories.includes(category.name)
+                        activeCategories.includes(category._id)
                           ? "bg-primary text-white"
                           : ""
                       }`}
@@ -112,7 +133,7 @@ const NewProducts: React.FC = () => {
                 <h5 className="fw-semibold">Price Range</h5>
                 <Form>
                   <Form.Group>
-                    <Form.Label>Up to ${priceRange[1]}</Form.Label>
+                    <Form.Label>Up to &#8377;{priceRange[1]}</Form.Label>
                     <Form.Range
                       min="0"
                       max="500"
@@ -140,12 +161,12 @@ const NewProducts: React.FC = () => {
                       {categoryLoading ? (
                         <p>Loading categories...</p>
                       ) : (
-                        categoryData?.categories?.map((category) => (
+                        categoryData?.categories?.map((category: Category) => (
                           <button
-                            key={category.id}
-                            onClick={() => handleCategoryClick(category.name)}
+                            key={category._id}
+                            onClick={() => handleCategoryClick(category._id)}
                             className={`m-2 p-2 btn-sm btn border rounded-pill ${
-                              activeCategories.includes(category.name)
+                              activeCategories.includes(category._id)
                                 ? "bg-primary text-white"
                                 : ""
                             }`}
@@ -161,7 +182,7 @@ const NewProducts: React.FC = () => {
                       <h5 className="fw-semibold">Price Range</h5>
                       <Form>
                         <Form.Group>
-                          <Form.Label>Up to ${priceRange[1]}</Form.Label>
+                          <Form.Label>Up to &#8377;{priceRange[1]}</Form.Label>
                           <Form.Range
                             min="0"
                             max="500"
@@ -183,7 +204,7 @@ const NewProducts: React.FC = () => {
             <Row className="mt-3">
               <Col md={6}>
                 <span className="fw-bold fs-3">
-                  Products ({activeProducts?.length})
+                  Products ({filteredProducts?.length || 0})
                 </span>
               </Col>
               <Col md={6}>
@@ -204,16 +225,9 @@ const NewProducts: React.FC = () => {
                     </Col>
                   ))}
                 </Row>
-              ) : activeProducts?.length > 0 ? (
-                activeProducts.map((item) => (
-                  <Col
-                    xl={3}
-                    lg={4}
-                    md={6}
-                    sm={6}
-                    key={item.id}
-                    className="mb-4"
-                  >
+              ) : filteredProducts?.length > 0 ? (
+                filteredProducts.map((item: Product, index: React.Key | null | undefined) => (
+                  <Col xl={3} lg={4} md={6} sm={6} key={index} className="mb-4">
                     <ProductCard productData={item} />
                   </Col>
                 ))
