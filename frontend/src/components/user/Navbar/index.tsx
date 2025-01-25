@@ -31,7 +31,13 @@ const CustomNavbar = () => {
   const userName = localStorage.getItem("userName") || "Guest";
   const userId = localStorage.getItem("userId");
   const cart = useCartStore((state) => state.cart);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`${userRoutesConstants.search}?q=${searchQuery}`);
+    }
+  };
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -86,17 +92,25 @@ const CustomNavbar = () => {
           </div>
           <Navbar.Collapse id="basic-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between w-100">
-              <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
-                <input
-                  type="text"
-                  placeholder="Search for items..."
-                  className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
-                  onClick={() => navigate(userRoutesConstants.search)}
-                />
-                <button className="bg-custom-primary border-0 text-light px-3 rounded-end">
-                  <IoSearchOutline size={24} />
-                </button>
-              </div>
+            <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
+  <input
+    type="text"
+    placeholder="Search for items..."
+    className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    onKeyPress={(e) => {
+      if (e.key === "Enter") handleSearch(); // Trigger search on 'Enter' key
+    }}
+  />
+  <button
+    className="bg-custom-primary border-0 text-light px-3 rounded-end"
+    onClick={handleSearch}
+  >
+    <IoSearchOutline size={24} />
+  </button>
+</div>
+
               {userId && (
                 <button
                   className="rounded-pill bg-transparent border text-custom-primary fs-7 px-3 d-flex gap-2 align-items-center fw-medium"
@@ -188,16 +202,7 @@ const CustomNavbar = () => {
                 >
                   <FiHome /> Home
                 </NavLink>
-                <NavLink
-                  to={userRoutesConstants.hotDeals}
-                  className={({ isActive }) =>
-                    `text-decoration-none fw-medium ${
-                      isActive ? "text-custom-primary" : "text-dark"
-                    }`
-                  }
-                >
-                  <MdOutlineLocalFireDepartment size={20} /> Hot deals
-                </NavLink>
+             
                 <NavLink
                   to={userRoutesConstants.newProducts}
                   className={({ isActive }) =>

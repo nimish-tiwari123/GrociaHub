@@ -66,6 +66,10 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
+    getAllUsers: builder.query({
+      query: () => `/users/`,
+      providesTags: ["User"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -81,4 +85,5 @@ export const {
   useViewProductByIdQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetAllUsersQuery
 } = adminService;
