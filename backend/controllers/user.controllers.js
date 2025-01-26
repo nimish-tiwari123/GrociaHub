@@ -171,12 +171,19 @@ const resetPassword = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await userServices.getUsers();
+    const queries = {
+      search: req.query.search || "",
+      pageSize: parseInt(req.query.pageSize) || 10,
+      pageNo: parseInt(req.query.pageNo) - 1 || 0,
+    };
+
+    const { users, pagination } = await userServices.getUsers(queries);
 
     return res.status(200).json({
       success: true,
       message: responseMessages.USERS_RETRIEVED,
       users,
+      pagination,
     });
   } catch (error) {
     console.log(error.message);
@@ -187,7 +194,36 @@ const getUsers = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { error } = userValidations.updateValidation.validate(req.body);
+
+    if (error) {
+      return res.status(400).json({ status: false, message: error.message[0] });
+    }
+
+    const user = await userServices.updateUser(req.params.id, req.body);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: false, message: responseMessages.USER_NOT_FOUND });
+    }
+
+    res.status(200).json({
+      status: true,
+      message: responseMessages.USER_UPDATED,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ status: false, message: responseMessages.INTERNAL_SERVER_ERROR });
+  }
+};
+
 module.exports = {
+  updateUser,
   createUser,
   loginUser,
   forgotPassword,

@@ -33,4 +33,10 @@ const loginValidation = Joi.object({
   }),
 });
 
-module.exports = { createValidation, loginValidation };
+const updateValidation = Joi.object({
+  isActive: Joi.boolean().messages({
+    "boolean.base": "isActive should be a type of boolean",
+  }),
+});
+
+module.exports = { createValidation, loginValidation, updateValidation };

@@ -10,10 +10,34 @@ const saveUser = async (payload) => {
   }
 };
 
-const getUsers = async () => {
+const getUsers = async (queries) => {
   try {
-    const users = await User.find({});
-    return users;
+    const { search, pageSize = 10, pageNo = 0 } = queries;
+    const limitValue = parseInt(pageSize, 10);
+    const offsetValue = parseInt(pageNo, 10) * limitValue;
+
+    const query = {};
+    if (search) {
+      const searchTerm = search.trim();
+      query.name = { $regex: searchTerm, $options: "i" };
+    }
+
+    const totalUsers = await User.countDocuments(query);
+
+    const users = await User.find(query).skip(offsetValue).limit(limitValue);
+
+    const totalPages = Math.ceil(totalUsers / limitValue);
+    const currentPageNo = Math.floor(offsetValue / limitValue) + 1;
+
+    return {
+      users,
+      pagination: {
+        pageNo: currentPageNo,
+        pageSize: limitValue,
+        totalPages,
+        totalUsers,
+      },
+    };
   } catch (error) {
     throw new Error("Error while getting all users");
   }
