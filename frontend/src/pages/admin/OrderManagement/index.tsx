@@ -7,9 +7,6 @@ import { DeleteModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { LuArrowRightLeft } from "react-icons/lu";
-import { image1, image2, image3 } from "../../../assets/categories";
-import { RiDeleteBin5Fill } from "react-icons/ri";
 import { MdOutlineEdit } from "react-icons/md";
 import { TbShoppingCartX } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
@@ -17,7 +14,6 @@ import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants"
 
 const OrderManagement: React.FC = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10;
@@ -29,7 +25,6 @@ const OrderManagement: React.FC = () => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-  const handleEdit = () => {};
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -39,13 +34,6 @@ const OrderManagement: React.FC = () => {
 
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
-  };
-
-  type ColumnType = {
-    key: string;
-    header: string;
-    type: "checkbox" | "text" | "status" | "action";
-    statusStyles?: (status: string) => void;
   };
 
   type DataType = {
@@ -63,7 +51,7 @@ const OrderManagement: React.FC = () => {
     icon: ReactNode;
   };
 
-  const columns: ColumnType[] = [
+  const columns: any = [
     { key: "index", header: "S. No.", type: "text" },
     { key: "customerName", header: "Customer Name", type: "text" },
     { key: "orderId", header: "Order Id", type: "text" },
@@ -160,59 +148,28 @@ const OrderManagement: React.FC = () => {
   const actions: ActionType[] = [
     {
       label: "View Details",
-      onClick: (row) => navigate(redirectAdminRoutes.orderManagement.viewOrder),
+      onClick: () => navigate(redirectAdminRoutes.orderManagement.view),
       icon: <MdOutlineRemoveRedEye />,
     },
 
     {
       label: "Update Status",
-      onClick: (row) => setShowDeleteModal(true),
+      onClick: () => setShowDeleteModal(true),
       icon: <MdOutlineEdit />,
     },
     {
       label: "Cancel Order",
-      onClick: (row) => handleOpenModal(),
+      onClick: () => console.log("Order Cancel"),
       icon: <TbShoppingCartX />,
     },
 
     {
       label: "Download",
-      onClick: (row) => setShowDeleteModal(true),
+      onClick: () => setShowDeleteModal(true),
       icon: <FaRegFilePdf />,
     },
   ];
 
-  const offer = {
-    title: "Holiday Mega Sale - 25% Off!",
-    status: true,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis.",
-    discountType: "fixed",
-    discountValue: 100,
-    startDate: "14/08/2024",
-    endDate: "14/08/2024",
-
-    products: [
-      {
-        name: "Oragne",
-        category: "Fruits",
-        productImg: image1,
-      },
-      {
-        name: "Apple",
-        category: "Fruits",
-        productImg: image2,
-      },
-      {
-        name: "Kiwi",
-        category: "Fruits",
-        productImg: image3,
-      },
-    ],
-  };
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
 
   return (
     <Container

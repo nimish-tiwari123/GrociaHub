@@ -32,7 +32,6 @@ const ProductManagement: React.FC = () => {
     isFetching,
     deleteLoading,
     isUpdating,
-    pageSize,
     handleSearchChange,
     handlePageChange,
     handleAddProduct,

@@ -4,7 +4,6 @@ import {
   NewProducts,
   AllCategories,
   Cart,
-  HotDeals,
   ViewProduct,
   Profile,
   Search,

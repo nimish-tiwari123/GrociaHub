@@ -1,8 +1,8 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { Button, CategorySkeleton } from "../../../../components/common";
-
-import "./style.css";
+import { CategorySkeleton } from "../../../../components/common";
 import { useViewUserCategoryQuery } from "../../../../api/userService";
+import "./style.css";
+
 const Categories = () => {
   const { data, isLoading } = useViewUserCategoryQuery("");
   type categoryType = {

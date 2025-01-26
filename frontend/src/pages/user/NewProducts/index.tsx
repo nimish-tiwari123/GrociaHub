@@ -226,7 +226,7 @@ const NewProducts: React.FC = () => {
                   ))}
                 </Row>
               ) : filteredProducts?.length > 0 ? (
-                filteredProducts.map((item: Product, index: React.Key | null | undefined) => (
+                filteredProducts.map((item: any, index: React.Key | null | undefined) => (
                   <Col xl={3} lg={4} md={6} sm={6} key={index} className="mb-4">
                     <ProductCard productData={item} />
                   </Col>

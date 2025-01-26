@@ -3,7 +3,6 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logo } from "../../../assets";
 import { IoSearchOutline } from "react-icons/io5";
-import { MdOutlineLocalFireDepartment } from "react-icons/md";
 import { GrCart } from "react-icons/gr";
 import { FiPhone } from "react-icons/fi";
 import { FiHome } from "react-icons/fi";

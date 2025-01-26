@@ -6,27 +6,12 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
 import { Table } from "react-bootstrap";
 import { Button } from "../../../../components/common";
-import jsPDF from "jspdf";
 import { FaRegFilePdf } from "react-icons/fa6";
 import "./style.css";
 
 const ViewOrder: React.FC = () => {
   const handleDownload = () => {
-    const doc = new jsPDF({
-      orientation: "portrait",
-      unit: "px",
-      format: "a4", // Ensure A4 page format
-    });
-
-    doc.html(document.getElementById("order-details")!, {
-      callback: function (doc) {
-        doc.save("OrderDetails.pdf");
-      },
-      x: 10,
-      y: 10,
-      width: 190, // Fit content within page width
-      windowWidth: 900, // Match your page container width
-    });
+    console.log("Downloaded Success !");
   };
 
   return (
@@ -56,7 +41,7 @@ const ViewOrder: React.FC = () => {
           </Link>
           <span> | </span>
           <Link
-            to={redirectAdminRoutes.orderManagement.viewAllOrders}
+            to={redirectAdminRoutes.orderManagement.view}
             className="text-decoration-none text-custom-primary"
           >
             Order Management

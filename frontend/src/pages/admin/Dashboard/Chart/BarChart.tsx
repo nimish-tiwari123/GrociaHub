@@ -33,7 +33,7 @@ const BarChart: React.FC = () => {
     ],
   };
 
-  const options = {
+  const options:any = {
     responsive: true,
     plugins: {
       legend: {

@@ -1,12 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import {
-  CustomTable,
-  Loader,
-  NoData,
-  TableSkeleton,
-} from "../../../components/common";
+import { CustomTable, NoData, TableSkeleton } from "../../../components/common";
 import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -54,13 +49,6 @@ const UserManagement: React.FC = () => {
     return `${day}/${month}/${year}`;
   };
 
-  type ColumnType = {
-    key: string;
-    header: string;
-    type: "checkbox" | "text" | "status" | "action";
-    statusStyles?: (status: string) => void;
-  };
-
   type DataType = {
     index: string;
     userName: string;
@@ -69,7 +57,7 @@ const UserManagement: React.FC = () => {
     registrationDate: string;
   };
 
-  const columns: ColumnType[] = [
+  const columns: any = [
     { key: "index", header: "S. No.", type: "text" },
     { key: "emailAddress", header: "Email Address", type: "text" },
     { key: "userName", header: "User", type: "text" },
@@ -78,7 +66,7 @@ const UserManagement: React.FC = () => {
   ];
 
   const data: DataType[] =
-    userData?.users.map((user, index) => ({
+    userData?.users.map((user: any, index: number) => ({
       index: String(index + 1).padStart(2, "0"),
       userName: user.name,
       emailAddress: user.email,
@@ -141,7 +129,6 @@ const UserManagement: React.FC = () => {
               <NoData />
             ) : (
               <>
-              
                 <CustomTable columns={columns} data={data} actions={actions} />
                 <div className="mt-2 mb-1 d-flex justify-content-center">
                   <Pagination

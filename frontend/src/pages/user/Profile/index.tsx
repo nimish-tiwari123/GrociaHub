@@ -11,7 +11,7 @@ import "./style.css";
 const Profile = () => {
   const [profileImg, setProfileImg] = useState(profileImgDefault);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event:any) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();

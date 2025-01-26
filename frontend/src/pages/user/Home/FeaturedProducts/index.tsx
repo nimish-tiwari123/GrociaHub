@@ -47,15 +47,15 @@ const FeaturedProducts = () => {
       ) : (
         <Row>
           {productData?.products
-            ?.filter((item) => item.isActive) 
-            .map((item, index) => (
+            ?.filter((item:any) => item.isActive) 
+            .map((item:any, index:number) => (
               <Col
                 xl={2}
                 lg={3}
                 md={4}
                 sm={6}
                 className="col-6 p-2 p-md-auto py-0"
-                key={item._id} 
+                key={index} 
               >
                 <ProductCard productData={item} />
               </Col>
