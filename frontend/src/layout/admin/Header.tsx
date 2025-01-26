@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar, handleOffcanvasShow }) =
             </div>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href="#/profile">View Profile</Dropdown.Item>
+            <Dropdown.Item href="/profile">View Profile</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>

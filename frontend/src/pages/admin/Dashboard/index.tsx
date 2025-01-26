@@ -4,13 +4,17 @@ import { FaBoxOpen, FaTags, FaShoppingCart, FaUsers } from "react-icons/fa";
 import Card from "./Card";
 import BarChart from "./Chart/BarChart";
 import OrderDetailsChart from "./Chart/OrderDetailsChart";
-import CustomTable from "../../../components/common/CustomTable";
+import {CustomTable,Loader} from "../../../components/common";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
+import { useGetDashboardCountsQuery } from "../../../api/adminService";
+import {  } from "../../../components/common";
 import "./style.css";
 
 const Dashboard: React.FC = () => {
+  const {data : dashboardCounts, isLoading} = useGetDashboardCountsQuery("");
+ 
   const columns = [
     { key: "id", header: "S. No.", type: "text" },
     { key: "customerName", header: "Customer Name", type: "text" },
@@ -94,6 +98,7 @@ const Dashboard: React.FC = () => {
       fluid
       className="main-dashboard-container overflow-auto px-2 px-md-4"
     >
+      {isLoading && <Loader/>}
       <Row className="my-2">
         <Col md={5}>
           <h1 className="fw-bold fs-3 m-0 mt-3">
@@ -125,7 +130,7 @@ const Dashboard: React.FC = () => {
         <Col md={3}>
           <Card
             icon={<FaBoxOpen size={25} />}
-            heading="4,982"
+            heading={dashboardCounts?.counts?.productsCount}
             subHeading="Total Products"
           />
         </Col>
@@ -146,7 +151,8 @@ const Dashboard: React.FC = () => {
         <Col md={3}>
           <Card
             icon={<FaUsers size={25} />}
-            heading="4,981"
+           heading={dashboardCounts?.counts?.usersCount}
+
             subHeading="Total Users"
           />
         </Col>
@@ -159,13 +165,7 @@ const Dashboard: React.FC = () => {
           <OrderDetailsChart />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
-            <CustomTable columns={columns} data={data} />
-          </div>
-        </Col>
-      </Row>
+    
     </Container>
   );
 };

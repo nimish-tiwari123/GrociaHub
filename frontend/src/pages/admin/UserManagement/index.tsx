@@ -1,7 +1,12 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { CustomTable, Loader } from "../../../components/common";
+import {
+  CustomTable,
+  Loader,
+  NoData,
+  TableSkeleton,
+} from "../../../components/common";
 import { Link } from "react-router-dom";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -14,9 +19,13 @@ const UserManagement: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DataType | null>(null);
+  const pageSize = 5;
 
-  const { data: userData, isLoading } = useGetAllUsersQuery("");
-  const totalPages = 10;
+  const {
+    data: userData,
+    isLoading,
+    isFetching,
+  } = useGetAllUsersQuery({ searchTerm, currentPage, pageSize });
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -24,6 +33,7 @@ const UserManagement: React.FC = () => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleViewUser = (user: DataType) => {
@@ -89,7 +99,6 @@ const UserManagement: React.FC = () => {
       fluid
       className="main-ProductManagement-container dash-container px-2 px-md-4"
     >
-      {isLoading && <Loader/>}
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
@@ -126,14 +135,23 @@ const UserManagement: React.FC = () => {
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
-            <CustomTable columns={columns} data={data} actions={actions} />
-            <div className="mt-5 mb-3 d-flex justify-content-center">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            {isLoading || isFetching ? (
+              <TableSkeleton />
+            ) : data.length === 0 ? (
+              <NoData />
+            ) : (
+              <>
+              
+                <CustomTable columns={columns} data={data} actions={actions} />
+                <div className="mt-2 mb-1 d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={userData?.pagination?.totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </Col>
       </Row>
@@ -155,7 +173,8 @@ const UserManagement: React.FC = () => {
                 <strong>Mobile:</strong> {selectedUser.mobileNumber}
               </p>
               <p>
-                <strong>Registration Date:</strong> {selectedUser.registrationDate}
+                <strong>Registration Date:</strong>{" "}
+                {selectedUser.registrationDate}
               </p>
             </div>
           )}

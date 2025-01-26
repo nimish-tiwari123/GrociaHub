@@ -64,7 +64,6 @@ const OrderManagement: React.FC = () => {
   };
 
   const columns: ColumnType[] = [
-    { key: "checkbox", header: "", type: "checkbox" },
     { key: "index", header: "S. No.", type: "text" },
     { key: "customerName", header: "Customer Name", type: "text" },
     { key: "orderId", header: "Order Id", type: "text" },
@@ -252,15 +251,7 @@ const OrderManagement: React.FC = () => {
             placeholder="Type to search..."
           />
         </Col>
-        <Col
-          lg={8}
-          md={4}
-          className="d-flex justify-content-end align-items-center mt-3 mt-md-0"
-        >
-          <button className="d-flex align-items-center justify-content-center rounded border bg-white text-danger me-3 p-2">
-            <RiDeleteBin5Fill size={16} />
-          </button>
-        </Col>
+      
       </Row>
       <Row className="mt-3 px-2 px-md-1">
         <Col>

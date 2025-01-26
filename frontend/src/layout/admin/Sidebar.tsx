@@ -1,12 +1,13 @@
 // Sidebar.tsx
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { sidebarLinks } from "../../constants/admin/SidebarLinks";
 import { Nav } from "react-bootstrap";
 import { logo } from "../../assets";
 import minilogo from "../../../public/favIcon.svg";
 import { MdLogout } from "react-icons/md";
 import { LogoutModal } from "../../Modals";
+import { toast } from "react-toastify";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -14,12 +15,15 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
   const [show, setShow] = useState(false);
-
+const navigate = useNavigate();
   const handleClose = () => {
     setShow(false);
   };
   const handleLogout = () => {
-    console.log("Logout");
+    localStorage.clear();
+    toast.success("Logout Successfully!");
+    navigate("/");
+
   };
   const renderSidebarContent = () => (
     <div>

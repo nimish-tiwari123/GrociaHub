@@ -32,7 +32,7 @@ const ProductManagement: React.FC = () => {
     isFetching,
     deleteLoading,
     isUpdating,
-    totalPages,
+    pageSize,
     handleSearchChange,
     handlePageChange,
     handleAddProduct,
@@ -171,32 +171,31 @@ const ProductManagement: React.FC = () => {
       </Row>
 
       <Row className="mt-3">
-  <Col>
-    <div className="bg-white p-3 custom-shadow rounded border mb-3">
-      {isLoading || isFetching || deleteLoading || isUpdating ? (
-        <TableSkeleton />
-      ) : convertedData.length === 0 ? (
-        <NoData />
-      ) : (
-        <>
-          <CustomTable
-            columns={columns}
-            data={convertedData}
-            actions={actions}
-          />
-          <div className="mb-2 mt-3 d-flex justify-content-center">
-            <Pagination
-              currentPage={productData.pagination.pageNo}
-              totalPages={productData.pagination.totalPages}
-              onPageChange={handlePageChange}
-            />
+        <Col>
+          <div className="bg-white p-3 custom-shadow rounded border mb-3">
+            {isLoading || isFetching || deleteLoading || isUpdating ? (
+              <TableSkeleton />
+            ) : convertedData.length === 0 ? (
+              <NoData />
+            ) : (
+              <>
+                <CustomTable
+                  columns={columns}
+                  data={convertedData}
+                  actions={actions}
+                />
+                <div className="mb-2 mt-3 d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={productData.pagination.totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
-        </>
-      )}
-    </div>
-  </Col>
-</Row>
-
+        </Col>
+      </Row>
 
       <DeleteModal
         show={showDeleteModal}

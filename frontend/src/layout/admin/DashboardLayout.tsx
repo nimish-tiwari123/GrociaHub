@@ -2,17 +2,29 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Offcanvas } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { sidebarLinks } from "../../constants/admin/SidebarLinks";
 import { MdLogout } from "react-icons/md";
 import "./style.css";
+import { toast } from "react-toastify";
+import { LogoutModal } from "../../Modals";
 
 const DashboardLayout: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
+ const [show, setShow] = useState(false);
+ const navigate = useNavigate();
 
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logout Successfully!");
+    navigate("/");
+  };
   const toggleSidebar = (): void => {
     setIsCollapsed((prevState) => !prevState);
   };
@@ -44,15 +56,16 @@ const DashboardLayout: React.FC = () => {
               isActive ? "active-sidebar-link text-custom-primary" : ""
             }`
           }
+          onClick={()=>handleOffcanvasClose()}
         >
           {link.icon}
-          {!isCollapsed && <span>{link.name}</span>}
+         <span>{link.name}</span>
         </NavLink>
       ))}
       <div className="px-3 position-absolute bottom-0 mb-5">
-        <button className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center">
+        <button className="text-danger bg-transparent border-0 fw-medium d-flex gap-2 align-items-center" onClick={() => setShow(true)}>
           <MdLogout />
-          {!isCollapsed && <span>Logout</span>}
+         <span>Logout</span>
         </button>
       </div>
         </Offcanvas.Body>
@@ -66,6 +79,11 @@ const DashboardLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
+      <LogoutModal
+        show={show}
+        handleClose={handleClose}
+        handleLogout={handleLogout}
+      />
     </div>
   );
 };

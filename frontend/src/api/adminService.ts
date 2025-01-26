@@ -44,7 +44,7 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     viewProducts: builder.query({
-      query: ({searchTerm, currentPage, totalPages}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}`,
+      query: ({searchTerm, currentPage, pageSize}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
       providesTags: ["Product"],
     }),
     viewProductById: builder.query({
@@ -67,8 +67,11 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     getAllUsers: builder.query({
-      query: () => `/users/`,
+      query: ({searchTerm, currentPage, pageSize}) => `/users/?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
       providesTags: ["User"],
+    }),
+    getDashboardCounts: builder.query({
+      query: () => `/admin/dashboard-counts`,
     }),
   }),
   overrideExisting: false,
@@ -85,5 +88,6 @@ export const {
   useViewProductByIdQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
-  useGetAllUsersQuery
+  useGetAllUsersQuery,
+  useGetDashboardCountsQuery
 } = adminService;
