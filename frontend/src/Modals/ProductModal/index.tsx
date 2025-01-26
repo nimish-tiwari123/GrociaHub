@@ -10,7 +10,7 @@ interface ProductModalProps {
   show: boolean;
   handleClose: () => void;
   productId?: string;
-  skip: Boolean
+  skip: boolean
 }
 
 const ProductModal: React.FC<ProductModalProps> = ({

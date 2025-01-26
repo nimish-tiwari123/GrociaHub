@@ -9,7 +9,7 @@ import profileImgDefault from "../../../assets/profile.jpg";
 import "./style.css";
 
 const Profile = () => {
-  const [profileImg, setProfileImg] = useState(profileImgDefault);
+  const [profileImg, setProfileImg] = useState<any>(profileImgDefault);
 
   const handleImageChange = (event:any) => {
     const file = event.target.files[0];

@@ -59,14 +59,11 @@ const ViewProduct = () => {
     }
   };
 
-  // Handle Buy Now
   const handleBuyNow = () => {
-    // Redirect to checkout or handle "Buy Now" logic here
     console.log("Proceeding to checkout...");
   };
 
   if (isLoading || isFetching) {
-    // Skeleton loader while data is fetching
     return (
       <Container fluid>
         <Container className="my-4">

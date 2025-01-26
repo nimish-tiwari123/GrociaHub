@@ -31,7 +31,7 @@ const useProduct = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState<DataType | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const pageSize = 5; 
@@ -72,7 +72,7 @@ const useProduct = () => {
     }
   };
 
-  const toggleStatus = async (row: DataType, status: boolean) => {
+  const toggleStatus = async (row: any, status: boolean) => {
     console.log(row)
 
     try {

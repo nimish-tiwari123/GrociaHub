@@ -16,7 +16,7 @@ type ProductDataType = {
 
 type CartStoreType = {
   cart: ProductDataType[];
-  addToCart: (product: ProductDataType) => void;
+  addToCart: (product: any) => void;
   deleteFromCart: (productName: string) => void;
 };
 
