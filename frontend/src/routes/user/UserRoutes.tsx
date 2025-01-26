@@ -22,7 +22,6 @@ const UserRoutes = () => {
           path={userRoutesConstants.newProducts}
           element={<NewProducts />}
         />
-        <Route path={userRoutesConstants.hotDeals} element={<HotDeals />} />
         <Route path={userRoutesConstants.cart} element={<Cart />} />
         <Route
           path={userRoutesConstants.allCategories}

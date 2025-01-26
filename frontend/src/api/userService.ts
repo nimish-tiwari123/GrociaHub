@@ -6,11 +6,22 @@ const userService = api.injectEndpoints({
       query: () => `/categories`,
     }),
     viewUserProducts: builder.query({
-      query: ({ searchTerm = "", currentPage = 1, totalPages = 10, category = "", minPrice = 0, maxPrice = 500 }) => 
+      query: ({
+        searchTerm = "",
+        currentPage = 1,
+        totalPages = 10,
+        category = "",
+        minPrice = 0,
+        maxPrice = 500,
+      }) =>
         `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
       providesTags: ["Product"],
     }),
-    
+    viewSearchProducts: builder.query({
+      query: (searchTerm = "") => `/products?search=${searchTerm}`,
+      providesTags: ["Product"],
+    }),
+
     viewUserProductById: builder.query({
       query: (productId) => `/products/${productId}`,
       providesTags: ["Product"],
@@ -19,4 +30,9 @@ const userService = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useViewUserCategoryQuery, useViewUserProductsQuery, useViewUserProductByIdQuery } = userService;
+export const {
+  useViewUserCategoryQuery,
+  useViewUserProductsQuery,
+  useViewUserProductByIdQuery,
+  useViewSearchProductsQuery
+} = userService;
