@@ -53,10 +53,10 @@ const Cart: React.FC = () => {
             <Col lg={9} md={12}>
               <div className="p-4 border rounded-3 cart-main-container">
                 <Row className="mb-3">
-                  <Col xs={12} md={4} className="text-center text-md-start">
+                  <Col xs={12} md={5} className="text-center text-md-start">
                     <span className="fs-6 fw-bold opacity-50">Product</span>
                   </Col>
-                  <Col xs={12} md={8} className="text-center text-md-start">
+                  <Col xs={12} md={7} className="text-center text-md-start">
                     <Row>
                       <Col xs={3}>
                         <span className="fs-6 fw-bold opacity-50">Price</span>
@@ -76,17 +76,18 @@ const Cart: React.FC = () => {
                 </Row>
                 {cart.map((item, index) => (
                   <Row key={index} className="align-items-center mb-3">
-                    <Col xs={12} md={4} className="text-center text-md-start">
+                    <Col xs={12} md={5} className="text-center text-md-start">
                       <img
                         src={item.images[0]}
                         alt={item.name}
                         className="cart-img img-fluid"
                       />
                       <span className="ms-3 fw-medium d-block d-md-inline">
-                        {item.name}
+                        {item.name.split(" ").slice(0, 3).join(" ") +
+                          (item.name.split(" ").length > 3 ? "..." : "")}
                       </span>
                     </Col>
-                    <Col xs={12} md={8} className="text-center text-md-start">
+                    <Col xs={12} md={7} className="text-center text-md-start">
                       <Row className="align-items-center">
                         <Col xs={3}>
                           <span className="fw-medium">

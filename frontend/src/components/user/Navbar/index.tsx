@@ -50,40 +50,44 @@ const CustomNavbar = () => {
           </Navbar.Brand>
           <div className="d-flex gap-3 d-lg-none">
             {userId && (
-              <div className="cart position-relative">
-                <GrCart size={20} />
-                <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                  {cart.length}
-                </span>
-              </div>
+              <NavLink
+                to={userRoutesConstants.cart}
+                className="text-decoration-none text-dark"
+              >
+                <div className="cart position-relative">
+                  <GrCart size={20} />
+                  <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
+                    {cart.length}
+                  </span>
+                </div>
+              </NavLink>
             )}
             {userId && (
-             <Dropdown>
-             <Dropdown.Toggle
-               variant="light"
-               id="dropdown-basic"
-               style={{ width: "30px", height: "30px" }}
-               className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
-             >
-               <FiUser size={50} />
-             </Dropdown.Toggle>
-           
-             <Dropdown.Menu align="end">
-               <Dropdown.Item
-                 onClick={() => navigate("/profile")}
-                 className="fs-7 "
-               >
-                 View Profile
-               </Dropdown.Item>
-               <Dropdown.Item
-                 onClick={() => setShowLogout(true)}
-                 className="fs-7"
-               >
-                 Logout
-               </Dropdown.Item>
-             </Dropdown.Menu>
-           </Dropdown>
-           
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="light"
+                  id="dropdown-basic"
+                  style={{ width: "30px", height: "30px" }}
+                  className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
+                >
+                  <FiUser size={50} />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu align="end">
+                  <Dropdown.Item
+                    onClick={() => navigate("/profile")}
+                    className="fs-7 "
+                  >
+                    View Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => setShowLogout(true)}
+                    className="fs-7"
+                  >
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             )}
             <button className="bg-transparent border-0 " onClick={handleShow}>
               <SlMenu size={20} />
@@ -91,24 +95,24 @@ const CustomNavbar = () => {
           </div>
           <Navbar.Collapse id="basic-navbar-nav">
             <div className="d-flex flex-column flex-lg-row justify-content-between w-100">
-            <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
-  <input
-    type="text"
-    placeholder="Search for items..."
-    className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    onKeyPress={(e) => {
-      if (e.key === "Enter") handleSearch(); // Trigger search on 'Enter' key
-    }}
-  />
-  <button
-    className="bg-custom-primary border-0 text-light px-3 rounded-end"
-    onClick={handleSearch}
-  >
-    <IoSearchOutline size={24} />
-  </button>
-</div>
+              <div className="search-bar d-flex ms-lg-4 mb-3 mb-lg-0 w-50">
+                <input
+                  type="text"
+                  placeholder="Search for items..."
+                  className="bg-custom-secondary border-0 input-focus fs-7 py-2 px-3 w-100 w-lg-50 rounded-start"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") handleSearch(); // Trigger search on 'Enter' key
+                  }}
+                />
+                <button
+                  className="bg-custom-primary border-0 text-light px-3 rounded-end"
+                  onClick={handleSearch}
+                >
+                  <IoSearchOutline size={24} />
+                </button>
+              </div>
 
               {userId && (
                 <button
@@ -201,7 +205,7 @@ const CustomNavbar = () => {
                 >
                   <FiHome /> Home
                 </NavLink>
-             
+
                 <NavLink
                   to={userRoutesConstants.newProducts}
                   className={({ isActive }) =>
