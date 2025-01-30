@@ -85,7 +85,9 @@ const updateDealsAndOffer = async (req, res) => {
 
 const deleteDealsAndOffer = async (req, res) => {
   try {
-    let dealsAndOffer = await dealsAndOfferServices(req.params.id);
+    let dealsAndOffer = await dealsAndOfferServices.getDealsAndOffer(
+      req.params.id
+    );
 
     if (!dealsAndOffer) {
       return res.status(400).json({
@@ -103,6 +105,7 @@ const deleteDealsAndOffer = async (req, res) => {
       message: responseMessages.DEAL_OFFER_DELETED,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: responseMessages.INTERNAL_SERVER_ERROR });
   }
 };

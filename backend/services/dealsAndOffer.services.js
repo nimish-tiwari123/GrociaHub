@@ -13,7 +13,7 @@ const saveDealsAndOffer = async (data) => {
 
 const getDealsAndOffer = async (id) => {
   try {
-    let dealsAndOffer = await DealsAndOffer.findById(id);
+    let dealsAndOffer = await DealsAndOffer.findById(id).populate("products");
     return dealsAndOffer;
   } catch (error) {
     console.log(error);
@@ -23,7 +23,7 @@ const getDealsAndOffer = async (id) => {
 
 const getDealsAndOffers = async () => {
   try {
-    let dealsAndOffers = await DealsAndOffer.find({});
+    let dealsAndOffers = await DealsAndOffer.find({}).populate("products");
     return dealsAndOffers;
   } catch (error) {
     console.log(error);
