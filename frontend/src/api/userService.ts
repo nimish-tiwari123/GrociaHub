@@ -8,13 +8,11 @@ const userService = api.injectEndpoints({
     viewUserProducts: builder.query({
       query: ({
         searchTerm = "",
-        currentPage = 1,
-        totalPages = 10,
         category = "",
         minPrice = 0,
-        maxPrice = 500,
+        maxPrice = 50000,
       }) =>
-        `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${totalPages}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+        `/products?search=${searchTerm}&categories=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
       providesTags: ["Product"],
     }),
     viewSearchProducts: builder.query({

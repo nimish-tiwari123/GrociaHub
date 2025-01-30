@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Form, Accordion } from "react-bootstrap";
-import { RiLoader4Fill } from "react-icons/ri";
-import { Button } from "../../../components/common";
+import {  NoData } from "../../../components/common";
 import { ProductCard, ProductSkeleton } from "../../../components/user";
 import {
   useViewUserCategoryQuery,
@@ -32,29 +31,22 @@ interface Product {
   unit: string;
 }
 
-// Component
 const NewProducts: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState<string>(""); // Search term state
+  const [searchTerm, setSearchTerm] = useState<string>(""); 
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]); // Price range state
-  const [activeCategories, setActiveCategories] = useState<string[]>([]); // Active category IDs
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages = 10;
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 50000]); 
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
-  // Fetch categories
   const { data: categoryData, isLoading: categoryLoading } =
     useViewUserCategoryQuery("");
 
-  // Fetch products with applied filters
   const {
     data: productData,
     isLoading: productLoading,
     isFetching: productFetching,
   } = useViewUserProductsQuery({
     searchTerm: debouncedSearchTerm,
-    currentPage,
-    totalPages,
-    category: activeCategories.join("&"),
+    category: activeCategories.join(","),
     minPrice: priceRange[0],
     maxPrice: priceRange[1],
   });
@@ -74,22 +66,16 @@ const NewProducts: React.FC = () => {
     setPriceRange([0, value]);
   };
 
-  // Handle category click
   const handleCategoryClick = (categoryId: string) => {
-    console.log(categoryId);
     setActiveCategories(
       (prev) =>
         prev.includes(categoryId)
-          ? prev.filter((id) => id !== categoryId) // Remove if already active
-          : [...prev, categoryId] // Add if not active
+          ? prev.filter((id) => id !== categoryId) 
+          : [...prev, categoryId] 
     );
   };
 
-  const handleLoadMore = () => {
-    setCurrentPage((prev) => prev + 1);
-  };
-
-  // Filter products by price and active status on the frontend
+  
   const filteredProducts = productData?.products
     ?.filter((product: Product) => product.isActive)
     ?.filter(
@@ -100,7 +86,7 @@ const NewProducts: React.FC = () => {
   return (
     <div>
       <Header />
-      <Container>
+      <Container >
         <Row className="pt-5 pb-4">
           {/* Filters Section */}
           <Col md={3} className="mt-3 d-none d-md-block">
@@ -148,7 +134,7 @@ const NewProducts: React.FC = () => {
           </Col>
 
           {/* Accordion for Filters on Small Screens */}
-          <Col xs={12} className="d-block d-md-none mb-3">
+          <Col xs={12} className="d-block d-md-none mb-3 ">
             <Accordion>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>Filters</Accordion.Header>
@@ -200,7 +186,7 @@ const NewProducts: React.FC = () => {
           </Col>
 
           {/* Products Section */}
-          <Col md={9}>
+          <Col md={9} className="vh-100 overflow-auto">
             <Row className="mt-3">
               <Col md={6}>
                 <span className="fw-bold fs-3">
@@ -208,12 +194,14 @@ const NewProducts: React.FC = () => {
                 </span>
               </Col>
               <Col md={6}>
+              {filteredProducts?.length !== 0 &&
                 <Form.Control
                   type="text"
                   placeholder="Search products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+              }
               </Col>
             </Row>
             <Row className="pt-0">
@@ -227,26 +215,18 @@ const NewProducts: React.FC = () => {
                 </Row>
               ) : filteredProducts?.length > 0 ? (
                 filteredProducts.map((item: any, index: React.Key | null | undefined) => (
-                  <Col xl={3} lg={4} md={6} sm={6} key={index} className="mb-4">
+                  <Col xl={3} lg={4} md={6} sm={6} key={index} className="mb-4 col-6">
                     <ProductCard productData={item} />
                   </Col>
                 ))
               ) : (
-                <p>No products found.</p>
+                <NoData/>
               )}
             </Row>
           </Col>
         </Row>
 
-        {/* Load More Button */}
-        <div className="d-flex justify-content-center">
-          <Button
-            btnLabel="Load More"
-            onClick={handleLoadMore}
-            btnStyle="bg-custom-primary border-0 text-light px-3 fw-medium py-2 my-5 fs-7 rounded"
-            rightIcon={<RiLoader4Fill />}
-          />
-        </div>
+    
       </Container>
     </div>
   );
