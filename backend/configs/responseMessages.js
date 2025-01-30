@@ -34,6 +34,14 @@ const responseMessages = {
   PRODUCT_DELETED: "Product deleted successfully",
   PRODUCTS_RETRIEVED: "Products retrieved successfully",
   PRODUCT_RETRIEVED: "Product retrieved successfully",
+
+  DEAL_OFFER_CREATED: "Deal or Offer created successfully",
+  DEAL_OFFER_ALREADY_EXISTS: "Deal or Offer already exists",
+  DEAL_OFFER_NOT_FOUND: "Deal or Offer not found",
+  DEAL_OFFER_UPDATED: "Deal or Offer updated successfully",
+  DEAL_OFFER_DELETED: "Deal or Offer deleted successfully",
+  DEALS_OFFERS_RETRIEVED: "Deals and Offers retrieved successfully",
+  DEAL_OFFER_RETRIEVED: "Deal or Offer retrieved successfully",
 };
 
 module.exports = responseMessages;
