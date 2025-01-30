@@ -54,11 +54,13 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
+    const { categories } = req.body;
+
     const queries = {
       search: req.query.search || "",
       pageSize: parseInt(req.query.pageSize) || 10,
       pageNo: parseInt(req.query.pageNo) - 1 || 0,
-      category: req.query.category || "",
+      categories: categories || [],
     };
 
     const { products, pagination } = await productServices.getProducts(queries);

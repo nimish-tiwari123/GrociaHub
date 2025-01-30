@@ -24,7 +24,7 @@ const updateProduct = async (id, payload) => {
 
 const getProducts = async (queries) => {
   try {
-    const { search, pageSize = 10, pageNo = 0, category } = queries;
+    const { search, pageSize = 10, pageNo = 0, categories } = queries;
     const limitValue = parseInt(pageSize, 10);
     const offsetValue = parseInt(pageNo, 10) * limitValue;
 
@@ -33,8 +33,9 @@ const getProducts = async (queries) => {
       const searchTerm = search.trim();
       query.name = { $regex: searchTerm, $options: "i" };
     }
-    if (category) {
-      query.category = category;
+
+    if (categories && Array.isArray(categories) && categories.length > 0) {
+      query.category = { $in: categories };
     }
 
     const totalProducts = await Product.countDocuments(query);
