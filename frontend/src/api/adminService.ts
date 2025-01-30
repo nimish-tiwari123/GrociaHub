@@ -101,6 +101,14 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Offer"],
     }),
+    updateOfferStatus : builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/dealsAndOffers/${id}`,
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Offer"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -121,5 +129,6 @@ export const {
   useViewAllProductQuery,
   useAddOfferMutation,
   useViewOffersQuery,
-  useDeleteOfferMutation
+  useDeleteOfferMutation,
+  useUpdateOfferStatusMutation
 } = adminService;

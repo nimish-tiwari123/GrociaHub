@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React, { useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { Button, CustomTable } from "../../../components/common";
+import { Button, CustomTable, NoData, TableSkeleton } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteModal, OfferModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
@@ -12,6 +12,7 @@ import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants"
 import {
   useViewOffersQuery,
   useDeleteOfferMutation,
+  useUpdateOfferStatusMutation
 } from "../../../api/adminService";
 import { toast } from "react-toastify";
 
@@ -24,8 +25,8 @@ const DealsOffers: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [offerDataModal, setOfferDataModal] = useState<any>("");
   const pageSize = 5;
-  console.log(offerDataModal);
-  // Fetch data using API
+ const [updateOfferStatus, { isLoading: isUpdating }] = useUpdateOfferStatusMutation();
+ 
   const {
     data: offerData,
     isLoading,
@@ -79,8 +80,7 @@ const DealsOffers: React.FC = () => {
       header: "Status",
       type: "toggler",
       togglerHandler: (value, row) => {
-        row.status = value;
-        console.log("Toggled:", row);
+        toggleStatus(row, value)
       },
     },
   ];
@@ -110,6 +110,7 @@ const DealsOffers: React.FC = () => {
         ? `${offer.discountValue} %`
         : `₹ ${offer.discountValue}`,
     status: offer.status,
+    products:offer.products
   }));
 
   const actions = [
@@ -144,7 +145,17 @@ const DealsOffers: React.FC = () => {
       toast.error(err?.data?.message || "Failed to offer product");
     }
   };
+  const toggleStatus = async (row: any, status: boolean) => {
 
+    try {
+      const updatedRow = { isActive: status };
+      await updateOfferStatus({ id: row.id, formData: updatedRow }).unwrap();
+      toast.success("Offer status updated successfully");
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to update offer status");
+    }
+  };
   return (
     <Container
       fluid
@@ -186,14 +197,15 @@ const DealsOffers: React.FC = () => {
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border mb-3">
-            {isLoading || deleteLoading ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <p className="text-danger">Failed to load offers.</p>
+            {isLoading || deleteLoading || isUpdating? (
+                           <TableSkeleton />
+
+            ) : data?.length ===0 ? (
+             <NoData/>
             ) : (
               <>
                 <CustomTable columns={columns} data={data} actions={actions} />
-                <div className="mt-5 mb-3 d-flex justify-content-center">
+                <div className="mb-2 mt-3 d-flex justify-content-center">
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

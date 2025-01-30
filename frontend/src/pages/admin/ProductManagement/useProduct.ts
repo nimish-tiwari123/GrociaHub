@@ -73,7 +73,6 @@ const useProduct = () => {
   };
 
   const toggleStatus = async (row: any, status: boolean) => {
-    console.log(row)
 
     try {
       const updatedRow = { isActive: status };

@@ -4,14 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { redirectAdminRoutes } from "../../routes/admin/adminRoutesConstants";
 import "./style.css";
 
-interface Product {
-  productImg: string;
-  name: string;
-  category: string;
-}
-
-
-
 interface OfferModalProps {
   show: boolean;
   handleClose: () => void;
@@ -65,27 +57,27 @@ const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => 
               </Col>
             </Row>
             <h3 className="fs-4 mt-4 mb-2 fw-bold">Offer Products</h3>
-            {/* <Row className="mb-4 ps-3">
-              {offer.products.map((item, index) => (
-                <Col md={6} lg={4} key={index}>
+            <Row className="mb-4 ps-3 g-3">
+              {offer?.products?.map((item:any, index:number) => (
+                <Col md={12} lg={6} key={index} >
                   <Row className="offer-products-container p-2 w-100 rounded">
                     <Col className="col-5">
                       <img
-                        src={item.productImg}
+                        src={item.images[0]}
                         alt={`${item.name} Image`}
                         className="w-100"
                       />
                     </Col>
                     <Col className="col-7 d-flex justify-content-center flex-column">
                       <div>
-                        <h5 className="fw-bold m-0">{item.name}</h5>
-                        <p className="m-0 opacity-75">{item.category}</p>
+                        <h5 className="fw-bold m-0 fs-6">{item.name}</h5>
+                        <p className="m-0 text-custom-primary fw-bold mt-2">₹{item.price}</p>
                       </div>
                     </Col>
                   </Row>
                 </Col>
               ))}
-            </Row> */}
+            </Row>
           </div>
         </Container>
       </Modal.Body>
