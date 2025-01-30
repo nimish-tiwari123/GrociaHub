@@ -44,7 +44,13 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     viewProducts: builder.query({
-      query: ({searchTerm, currentPage, pageSize}) => `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
+      query: ({ searchTerm, currentPage, pageSize }) =>
+        `/products?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
+      providesTags: ["Product"],
+    }),
+
+    viewAllProduct: builder.query({
+      query: () => `/products`,
       providesTags: ["Product"],
     }),
     viewProductById: builder.query({
@@ -67,11 +73,33 @@ const adminService = api.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     getAllUsers: builder.query({
-      query: ({searchTerm, currentPage, pageSize}) => `/users/?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
+      query: ({ searchTerm, currentPage, pageSize }) =>
+        `/users/?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
       providesTags: ["User"],
     }),
     getDashboardCounts: builder.query({
       query: () => `/admin/dashboard-counts`,
+    }),
+    //offers
+    addOffer: builder.mutation({
+      query: (offerData) => ({
+        url: "/dealsAndOffers",
+        method: "POST",
+        body: offerData,
+      }),
+      invalidatesTags: ["Offer"],
+    }),
+    viewOffers: builder.query({
+      query: ({ searchTerm, currentPage, pageSize }) =>
+        `/dealsAndOffers?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
+      providesTags: ["Offer"],
+    }),
+    deleteOffer: builder.mutation({
+      query: (offerId) => ({
+        url: `/dealsAndOffers/${offerId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Offer"],
     }),
   }),
   overrideExisting: false,
@@ -89,5 +117,9 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetAllUsersQuery,
-  useGetDashboardCountsQuery
+  useGetDashboardCountsQuery,
+  useViewAllProductQuery,
+  useAddOfferMutation,
+  useViewOffersQuery,
+  useDeleteOfferMutation
 } = adminService;

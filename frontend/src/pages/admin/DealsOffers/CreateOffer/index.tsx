@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userRoutesConstants } from "../../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { redirectAdminRoutes } from "../../../../routes/admin/adminRoutesConstants";
@@ -13,23 +13,44 @@ import {
 } from "../../../../components/admin";
 import { Button } from "../../../../components/common";
 import { offerSchema } from "../../../../schema/admin/DealsOffers";
+import {
+  useViewAllProductQuery,
+  useAddOfferMutation,
+} from "../../../../api/adminService";
+import { Loader } from "../../../../components/common";
+import { toast } from "react-toastify";
 
 const CreateOffer: React.FC = () => {
+  const { data: allProducts, isLoading: isGetLoading } = useViewAllProductQuery("");
+  const [addOffer, { isLoading: isAddLoading,}] =
+    useAddOfferMutation();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      offerTitle: "",
-      offerDescription: "",
+      title: "",
+      description: "",
       discountType: "",
       discountValue: "",
-      selectedProducts: [],
-      status: "",
+      products: [],
+      isActive: "",
       startDate: "",
       endDate: "",
     },
     validationSchema: offerSchema,
-    onSubmit: (values) => {
-      console.log("Form Submitted", values);
+    onSubmit: async (values) => {
+      try {
+        const payload = {
+          ...values,
+          isActive: values.isActive === "active", 
+        };
+        await addOffer(payload).unwrap();
+        toast.success("Offer Created Successfully");
+        navigate(redirectAdminRoutes.dealsAndOffers.view);
+      } catch (err) {
+        console.error("Error adding offer:", err);
+      }
     },
+    
   });
 
   const discountTypes = [
@@ -37,22 +58,22 @@ const CreateOffer: React.FC = () => {
     { value: "fixed", label: "Fixed Amount" },
   ];
 
-  const statuses = [
+  const isActivees = [
     { value: "active", label: "Active" },
     { value: "inactive", label: "Inactive" },
   ];
 
-  const products = [
-    { value: "product1", label: "Product 1" },
-    { value: "product2", label: "Product 2" },
-    { value: "product3", label: "Product 3" },
-  ];
+  const products = allProducts?.products?.map((item: any) => ({
+    value: item._id,
+    label: item.name,
+  }));
 
   return (
     <Container
       fluid
       className="main-OfferManagement-container dash-container px-2 px-md-4"
     >
+    {isGetLoading || isAddLoading && <Loader/>}
       <Row className="my-2">
         <Col md={5} className="d-flex align-items-center mt-3 mt-md-0">
           <Link
@@ -90,7 +111,7 @@ const CreateOffer: React.FC = () => {
           <Row>
             <Col md={12}>
               <TextInput
-                name="offerTitle"
+                name="title"
                 label="Offer Title"
                 placeholder="Enter Offer Title"
                 formik={formik}
@@ -98,7 +119,7 @@ const CreateOffer: React.FC = () => {
             </Col>
             <Col md={12}>
               <TextArea
-                name="offerDescription"
+                name="description"
                 label="Offer Description"
                 placeholder="Enter Offer Description"
                 formik={formik}
@@ -124,7 +145,7 @@ const CreateOffer: React.FC = () => {
             </Col>
             <Col md={12}>
               <MultiSelect
-                name="selectedProducts"
+                name="products"
                 label="Select Products"
                 options={products}
                 placeholder="Select Products"
@@ -133,16 +154,16 @@ const CreateOffer: React.FC = () => {
             </Col>
             <Col md={6}>
               <SelectField
-                name="status"
-                label="Status"
-                options={statuses}
-                placeholder="Select Status"
+                name="isActive"
+                label="isActive"
+                options={isActivees}
+                placeholder="Select status"
                 formik={formik}
               />
             </Col>
             <Col md={6}>
               <TextInput
-              type="date"
+                type="date"
                 name="startDate"
                 label="Start Date"
                 placeholder="Select Start Date"
@@ -151,8 +172,7 @@ const CreateOffer: React.FC = () => {
             </Col>
             <Col md={6}>
               <TextInput
-              type="date"
-
+                type="date"
                 name="endDate"
                 label="End Date"
                 placeholder="Select End Date"
@@ -172,6 +192,9 @@ const CreateOffer: React.FC = () => {
           </div>
         </form>
       </div>
+
+      {/* Show loader when adding offer */}
+      {isAddLoading && <Loader />}
     </Container>
   );
 };

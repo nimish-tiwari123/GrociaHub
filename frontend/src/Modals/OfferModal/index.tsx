@@ -10,21 +10,12 @@ interface Product {
   category: string;
 }
 
-interface Offer {
-  title: string;
-  status: boolean;
-  description: string;
-  discountType: string;
-  discountValue: string;
-  startDate: string;
-  endDate: string;
-  products: Product[]; 
-}
+
 
 interface OfferModalProps {
   show: boolean;
   handleClose: () => void;
-  offer: Offer;
+  offer: any;
 }
 
 const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => {
@@ -74,7 +65,7 @@ const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => 
               </Col>
             </Row>
             <h3 className="fs-4 mt-4 mb-2 fw-bold">Offer Products</h3>
-            <Row className="mb-4 ps-3">
+            {/* <Row className="mb-4 ps-3">
               {offer.products.map((item, index) => (
                 <Col md={6} lg={4} key={index}>
                   <Row className="offer-products-container p-2 w-100 rounded">
@@ -94,7 +85,7 @@ const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => 
                   </Row>
                 </Col>
               ))}
-            </Row>
+            </Row> */}
           </div>
         </Container>
       </Modal.Body>
