@@ -47,10 +47,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    isProfileCompleted: {
-      type: Boolean,
-      default: false,
-    },
   },
   { timestamps: true, versionKey: false }
 );

@@ -1,8 +1,9 @@
-const userServices = require("./user.services");
+const dealsAndOfferServices = require("./dealsAndOffer.services");
 const categoryServices = require("./category.services");
 const productServices = require("./product.services");
 const adminServices = require("./admin.services");
-const dealsAndOfferServices = require("./dealsAndOffer.services");
+const orderServices = require("./order.services");
+const userServices = require("./user.services");
 
 module.exports = {
   userServices,
@@ -10,4 +11,5 @@ module.exports = {
   productServices,
   adminServices,
   dealsAndOfferServices,
+  orderServices,
 };

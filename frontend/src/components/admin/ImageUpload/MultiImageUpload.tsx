@@ -31,7 +31,7 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
   ) => {
     const files = event.target.files;
     if (files) {
-      const fileList = Array.from(files).slice(0, maxImages - images.length); // Limit images based on maxImages
+      const fileList = Array.from(files).slice(0, maxImages - images?.length); // Limit images based on maxImages
       const newImages: string[] = [];
       const newFiles: File[] = [];
 
@@ -104,7 +104,7 @@ const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
               </button>
             </div>
           ))}
-          {images.length < maxImages && (
+          {images?.length < maxImages && (
             <div
               className="upload-placeholder p-3 d-flex align-items-center justify-content-center"
               onClick={handleImageClick}

@@ -1,7 +1,7 @@
 const { userValidations } = require("../validations");
 const { responseMessages } = require("../configs");
 const { userServices } = require("../services");
-const { crypto, jwt, emailUtils } = require("../utils");
+const { crypto, jwt, emailUtils, cloudinaryUtils } = require("../utils");
 
 const createUser = async (req, res) => {
   try {
@@ -196,19 +196,27 @@ const getUsers = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { error } = userValidations.updateValidation.validate(req.body);
-
-    if (error) {
-      return res.status(400).json({ status: false, message: error.message[0] });
-    }
-
-    const user = await userServices.updateUser(req.params.id, req.body);
+    let user = await userServices.getUserById(req.params.id);
 
     if (!user) {
       return res
         .status(404)
         .json({ status: false, message: responseMessages.USER_NOT_FOUND });
     }
+
+    if (req.file) {
+      if (user.profileImage) {
+        await cloudinaryUtils.deleteOnCloudinary(
+          user.profileImage,
+          "grociaHub/users"
+        );
+      }
+      let path = req.file.path;
+      let url = await cloudinaryUtils.upload(path, "grociaHub/users");
+      req.body.profileImage = url;
+    }
+
+    user = await userServices.updateUser(req.params.id, req.body);
 
     res.status(200).json({
       status: true,

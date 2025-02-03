@@ -8,6 +8,7 @@ const {
   productRoutes,
   adminRoutes,
   dealsAndOfferRoutes,
+  orderRoutes,
 } = require("./routes");
 const app = express();
 app.use(express.json());
@@ -24,5 +25,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/dealsAndOffers", dealsAndOfferRoutes);
+app.use("/api/orders", orderRoutes);
 
 module.exports = app;

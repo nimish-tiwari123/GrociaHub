@@ -22,7 +22,7 @@ const createProduct = async (req, res) => {
       });
     }
 
-    if (!req.files || req.files.length === 0) {
+    if (!req.files || req.files?.length === 0) {
       return res
         .status(400)
         .json({ status: false, message: "At least one image is required" });

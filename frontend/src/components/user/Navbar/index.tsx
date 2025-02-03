@@ -57,7 +57,7 @@ const CustomNavbar = () => {
                 <div className="cart position-relative">
                   <GrCart size={20} />
                   <span className="cart-badge bg-custom-primary text-light fs-7 rounded-circle position-absolute d-flex align-items-center justify-content-center p-2">
-                    {cart.length}
+                    {cart?.length}
                   </span>
                 </div>
               </NavLink>
@@ -133,7 +133,7 @@ const CustomNavbar = () => {
                       <GrCart size={24} />
                       <span className="ms-2 fs-7 fw-medium">My Cart</span>
                       <span className="cart-badge bg-custom-primary fw-medium text-light rounded-circle position-absolute d-flex align-items-center justify-content-center ">
-                        {cart.length}
+                        {cart?.length}
                       </span>
                     </div>
                   </NavLink>

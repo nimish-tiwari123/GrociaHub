@@ -30,13 +30,13 @@ const Cart: React.FC = () => {
   };
 
   const calculateTotal = () =>
-    cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    cart.reduce((total, item) => total + item?.price * item?.quantity, 0);
 
   return (
     <div>
       <Header />
       <Container className="my-5">
-        {cart.length === 0 ? (
+        {cart?.length === 0 ? (
           <div className="text-center">
             <img
               src={noCart}
@@ -78,20 +78,20 @@ const Cart: React.FC = () => {
                   <Row key={index} className="align-items-center mb-3">
                     <Col xs={12} md={5} className="text-center text-md-start">
                       <img
-                        src={item.images[0]}
-                        alt={item.name}
+                        src={item?.images && item?.images[0]}
+                        alt={item?.name}
                         className="cart-img img-fluid"
                       />
                       <span className="ms-3 fw-medium d-block d-md-inline">
-                        {item.name.split(" ").slice(0, 3).join(" ") +
-                          (item.name.split(" ").length > 3 ? "..." : "")}
+                        {item?.name.split(" ").slice(0, 3).join(" ") +
+                          (item?.name.split(" ")?.length > 3 ? "..." : "")}
                       </span>
                     </Col>
                     <Col xs={12} md={7} className="text-center text-md-start">
                       <Row className="align-items-center">
                         <Col xs={3}>
                           <span className="fw-medium">
-                            &#8377; {item.price}
+                            &#8377; {item?.price}
                           </span>
                         </Col>
                         <Col xs={3}>
@@ -99,12 +99,12 @@ const Cart: React.FC = () => {
                             <button
                               className="quantity-btn rounded-circle border fs-5"
                               onClick={() => decreaseQuantity(index)}
-                              disabled={item.quantity <= 1}
+                              disabled={item?.quantity <= 1}
                             >
                               -
                             </button>
                             <span className="quantity-number mx-2 fw-medium">
-                              {item.quantity}
+                              {item?.quantity}
                             </span>
                             <button
                               className="quantity-btn rounded-circle border fs-5"
@@ -116,7 +116,7 @@ const Cart: React.FC = () => {
                         </Col>
                         <Col xs={3}>
                           <div className="fw-bold">
-                            &#8377; {item.quantity * item.price}
+                            &#8377; {item?.quantity * item?.price}
                           </div>
                         </Col>
                         <Col xs={3}>

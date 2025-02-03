@@ -1,8 +1,9 @@
-const userControllers = require("./user.controllers");
+const dealsAndOfferControllers = require("./dealsAndOffer.controllers");
 const categoryControllers = require("./category.controllers");
 const productControllers = require("./product.controllers");
 const adminControllers = require("./admin.controllers");
-const dealsAndOfferControllers = require("./dealsAndOffer.controllers");
+const orderControllers = require("./order.controllers");
+const userControllers = require("./user.controllers");
 
 module.exports = {
   dealsAndOfferControllers,
@@ -10,4 +11,5 @@ module.exports = {
   categoryControllers,
   productControllers,
   adminControllers,
+  orderControllers,
 };

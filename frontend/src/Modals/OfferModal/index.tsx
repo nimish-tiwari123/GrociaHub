@@ -63,15 +63,15 @@ const OfferModal: React.FC<OfferModalProps> = ({ show, handleClose, offer }) => 
                   <Row className="offer-products-container p-2 w-100 rounded">
                     <Col className="col-5">
                       <img
-                        src={item.images[0]}
-                        alt={`${item.name} Image`}
+                        src={item?.images[0]}
+                        alt={`${item?.name} Image`}
                         className="w-100"
                       />
                     </Col>
                     <Col className="col-7 d-flex justify-content-center flex-column">
                       <div>
-                        <h5 className="fw-bold m-0 fs-6">{item.name}</h5>
-                        <p className="m-0 text-custom-primary fw-bold mt-2">₹{item.price}</p>
+                        <h5 className="fw-bold m-0 fs-6">{item?.name}</h5>
+                        <p className="m-0 text-custom-primary fw-bold mt-2">₹{item?.price}</p>
                       </div>
                     </Col>
                   </Row>

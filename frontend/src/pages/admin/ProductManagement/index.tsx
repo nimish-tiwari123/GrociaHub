@@ -174,7 +174,7 @@ const ProductManagement: React.FC = () => {
           <div className="bg-white p-3 custom-shadow rounded border mb-3">
             {isLoading || isFetching || deleteLoading || isUpdating ? (
               <TableSkeleton />
-            ) : convertedData.length === 0 ? (
+            ) : convertedData?.length === 0 ? (
               <NoData />
             ) : (
               <>

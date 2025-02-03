@@ -51,7 +51,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   };
 
   const handleHeaderCheckboxChange = () => {
-    const allSelected = selectedRows.length === data.length;
+    const allSelected = selectedRows?.length === data?.length;
     const newSelection = allSelected ? [] : [...data];
     setSelectedRows(newSelection);
     if (onCheckboxChange) onCheckboxChange(newSelection);
@@ -93,7 +93,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
             </div>
           );
         })}
-        {actions && actions.length > 0 && (
+        {actions && actions?.length > 0 && (
           <div className="custom-table-column-header my-2">Action</div>
         )}
       </div>
@@ -165,7 +165,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         />
                         <div>
                           <div className="fw-bold">
-                            {value.split(" ").length > 3
+                            {value.split(" ")?.length > 3
                               ? `${value.split(" ").slice(0, 3).join(" ")}...`
                               : value}
                           </div>

@@ -96,7 +96,7 @@ const CategoryManagement: React.FC = () => {
       )}
 
       <Row className="mt-3 px-2 px-md-1">
-        {categories.length === 0 ? (
+        {categories?.length === 0 ? (
           <NoData />
         ) : (
           categories.map((category: categoryType, index: number) => (

@@ -23,6 +23,7 @@ const createCategory = async (req, res) => {
         message: responseMessages.CATEGORY_ALREADY_EXISTS,
       });
     }
+
     if (!req.file) {
       return res
         .status(400)

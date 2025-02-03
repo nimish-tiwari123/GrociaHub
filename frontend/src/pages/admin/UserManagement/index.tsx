@@ -125,7 +125,7 @@ const UserManagement: React.FC = () => {
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
             {isLoading || isFetching ? (
               <TableSkeleton />
-            ) : data.length === 0 ? (
+            ) : data?.length === 0 ? (
               <NoData />
             ) : (
               <>

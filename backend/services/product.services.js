@@ -34,7 +34,7 @@ const getProducts = async (queries) => {
       query.name = { $regex: searchTerm, $options: "i" };
     }
 
-    if (categories && Array.isArray(categories) && categories.length > 0) {
+    if (categories && Array.isArray(categories) && categories?.length > 0) {
       query.category = { $in: categories };
     }
 

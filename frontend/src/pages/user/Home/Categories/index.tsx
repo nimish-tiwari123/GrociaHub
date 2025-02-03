@@ -54,7 +54,7 @@ const Categories = () => {
                   className="home-category m-auto d-block w-75"
                 />
                 <h5 className="text-center  fs-6">
-                  {item.name.length > 20
+                  {item.name?.length > 20
                     ? `${item.name.slice(0, 20)}...`
                     : item.name}
                 </h5>

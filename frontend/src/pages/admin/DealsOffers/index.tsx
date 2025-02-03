@@ -26,7 +26,7 @@ const DealsOffers: React.FC = () => {
   const [offerDataModal, setOfferDataModal] = useState<any>("");
   const pageSize = 5;
  const [updateOfferStatus, { isLoading: isUpdating }] = useUpdateOfferStatusMutation();
- 
+
   const {
     data: offerData,
     isLoading,
@@ -95,9 +95,9 @@ const DealsOffers: React.FC = () => {
   };
   const truncateTitle = (title: string, wordLimit: number) => {
     const words = title.split(" ");
-    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : title;
+    return words?.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : title;
   };
-  
+
   const data: DataType[] = offers?.map((offer: any, index: number) => ({
     index: (currentPage - 1) * pageSize + index + 1,
     id: offer._id,
