@@ -43,7 +43,7 @@ const CustomNavbar = () => {
   };
   return (
     <>
-      <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100">
+      <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100 z-1">
         <Container>
           <Navbar.Brand href="/">
             <img src={logo} alt="Logo" className="logo-nav" />

@@ -73,7 +73,7 @@ const Profile = () => {
 
   return (
     <div>
-      {isGetLoading || (isUpdateLoading && <Loader />)}
+      {isGetLoading || isUpdateLoading && <Loader />}
       <Container className="my-5">
         <div className="custom-breadcrumb d-flex my-3">
           <Link to="/" className="breadcrumb-link text-decoration-none">

@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")!).render(
   <ApiProvider api={api}>
     <App />
     <ToastContainer
-      position="top-right"
+      position="top-center"
       autoClose={5000}
       pauseOnFocusLoss
       draggable
