@@ -1,46 +1,79 @@
 import { useFormik } from "formik";
 import { Container, Row, Col } from "react-bootstrap";
-import { AuthTextInput, Button } from "../../../components/common";
+import { AuthTextInput, Button, Loader } from "../../../components/common";
 import { Link } from "react-router-dom";
 import { profileSchema } from "../../../schema/user/Profile";
-import { useState } from "react";
-import { FaCamera } from "react-icons/fa"; // Import Camera Icon
-import profileImgDefault from "../../../assets/profile.jpg";
+import { useEffect, useState } from "react";
+import { FaCamera, FaUserCircle } from "react-icons/fa";
+import {
+  useViewUserByIdQuery,
+  useUpdateUserMutation,
+} from "../../../api/userService.ts";
 import "./style.css";
 
 const Profile = () => {
-  const [profileImg, setProfileImg] = useState<any>(profileImgDefault);
-
-  const handleImageChange = (event:any) => {
-    const file = event.target.files[0];
+  const userId = localStorage.getItem("userId");
+  const { data: userData, isLoading: isGetLoading } =
+    useViewUserByIdQuery(userId);
+  const [updateUser, { isLoading: isUpdateLoading }] = useUpdateUserMutation();
+  const [profileImg, setProfileImg] = useState<any>(null
+  );
+  console.log(userData)
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfileImg(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setProfileImg(URL.createObjectURL(file)); // Preview the image
+      formik.setFieldValue("profileImage", file); // Update Formik value
     }
   };
+  useEffect(() => {
+    if(userData?.user?.profileImage){
+      setProfileImg(userData?.user?.profileImage);
 
+    }
+  }, [userData]);
+  
   const formik = useFormik({
     initialValues: {
-      fullName: "Ramzi Cherif",
-      email: "ramziCherif2022@gmail.com",
-      phone: "9988776655",
-      date: "22/07/2004",
-      address: "",
-      city: "",
-      state: "",
-      zipCode: "",
+      fullName: userData?.user?.name || "",
+      email: userData?.user?.email || "",
+      phone: userData?.user?.phoneNumber || "",
+      date:
+        new Date(userData?.user?.createdAt).toLocaleDateString("en-GB") || "",
+      address: userData?.user?.address || "",
+      city: userData?.user?.city || "",
+      state: userData?.user?.state || "",
+      zipCode: userData?.user?.zipCode || "",
+      profileImage: null,
     },
+    enableReinitialize: true,
     validationSchema: profileSchema,
-    onSubmit: (values) => {
-      console.log("Form Submitted", values);
+    onSubmit: async (values) => {
+      try {
+        const formData = new FormData();
+        formData.append("name", values.fullName);
+        formData.append("email", values.email);
+        formData.append("phoneNumber", values.phone);
+        formData.append("date", values.date);
+        formData.append("address", values.address);
+        formData.append("city", values.city);
+        formData.append("state", values.state);
+        formData.append("zipCode", values.zipCode);
+        if (values.profileImage) {
+          formData.append("image", values.profileImage); // Add the image
+        }
+
+        const response = await updateUser({ id: userId, formData });
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
     },
   });
 
   return (
     <div>
+      {isGetLoading || (isUpdateLoading && <Loader />)}
       <Container className="my-5">
         <div className="custom-breadcrumb d-flex my-3">
           <Link to="/" className="breadcrumb-link text-decoration-none">
@@ -54,15 +87,25 @@ const Profile = () => {
             <div className="profile-bg w-100"></div>
             <form onSubmit={formik.handleSubmit} className="p-3 p-md-4">
               <div className="text-center profile-img-container position-relative w-100">
-                <img
-                  src={profileImg}
-                  alt="profile"
-                  className="profile-img-user rounded-circle border"
-                />
-                <div className="camera-icon-container position-absolute rounded-circle ">
-                <label htmlFor="imageUpload" className="camera-icon-label d-flex align-items-center justify-content-center w-100 h-100 cursor-pointer">
-                  <FaCamera className="camera-icon text-custom-primary" />
-                </label>
+                {profileImg ? (
+                  <img
+                    src={profileImg}
+                    alt="profile"
+                    className="profile-img-user rounded-circle border"
+                  />
+                ) : (
+                  <FaUserCircle
+                    size={100}
+                    className="text-secondary opacity-50"
+                  />
+                )}
+                <div className="camera-icon-container position-absolute rounded-circle">
+                  <label
+                    htmlFor="imageUpload"
+                    className="camera-icon-label d-flex align-items-center justify-content-center w-100 h-100 cursor-pointer"
+                  >
+                    <FaCamera className="camera-icon text-custom-primary" />
+                  </label>
                   <input
                     type="file"
                     id="imageUpload"
@@ -71,8 +114,8 @@ const Profile = () => {
                     onChange={handleImageChange}
                   />
                 </div>
-            
-                <h5 className="fw-bold m-0 mt-3">Ramzi Cherif</h5>
+
+                <h5 className="fw-bold m-0 mt-3">{formik.values.fullName}</h5>
                 <p className="opacity-50">Admin</p>
               </div>
               <Row>
@@ -107,6 +150,7 @@ const Profile = () => {
                     label="Date Joined"
                     placeholder="Enter date"
                     formik={formik}
+                    disabled={true}
                   />
                 </Col>
                 <Col md={6}>
@@ -133,7 +177,6 @@ const Profile = () => {
                     formik={formik}
                   />
                 </Col>
-
                 <Col md={6}>
                   <AuthTextInput
                     name="zipCode"
@@ -143,7 +186,6 @@ const Profile = () => {
                   />
                 </Col>
               </Row>
-
               <div className="text-center mt-5 d-flex justify-content-end">
                 <Button
                   btnLabel="Save Changes"

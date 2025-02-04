@@ -24,6 +24,16 @@ const userService = api.injectEndpoints({
       query: (productId) => `/products/${productId}`,
       providesTags: ["Product"],
     }),
+    viewUserById: builder.query({
+      query: (userId) => `/users/${userId}`,
+    }),
+    updateUser: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/users/${id}`,
+        method: "PATCH",
+        body: formData,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -32,5 +42,7 @@ export const {
   useViewUserCategoryQuery,
   useViewUserProductsQuery,
   useViewUserProductByIdQuery,
-  useViewSearchProductsQuery
+  useViewSearchProductsQuery,
+  useViewUserByIdQuery,
+  useUpdateUserMutation
 } = userService;
