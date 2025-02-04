@@ -194,6 +194,30 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const user = await userServices.getUserById(req.params.id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: responseMessages.USER_NOT_FOUND });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: responseMessages.USER_RETRIEVED,
+      user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: responseMessages.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     let user = await userServices.getUserById(req.params.id);
@@ -237,4 +261,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getUsers,
+  getUser,
 };
