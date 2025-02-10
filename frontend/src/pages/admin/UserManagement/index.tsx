@@ -70,7 +70,7 @@ const UserManagement: React.FC = () => {
       index: String(index + 1).padStart(2, "0"),
       userName: user.name,
       emailAddress: user.email,
-      mobileNumber: user.mobile || "N/A",
+      mobileNumber: user.phoneNumber || "N/A",
       registrationDate: formatDate(user.createdAt),
     })) || [];
 

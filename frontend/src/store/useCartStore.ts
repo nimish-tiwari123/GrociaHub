@@ -1,8 +1,8 @@
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type ProductDataType = {
+  _id: string;
   images: any;
   image: string;
   name: string;
@@ -18,6 +18,7 @@ type CartStoreType = {
   cart: ProductDataType[];
   addToCart: (product: any) => void;
   deleteFromCart: (productName: string) => void;
+  clearCart: () => void; 
 };
 
 export const useCartStore = create<CartStoreType>()(
@@ -48,10 +49,13 @@ export const useCartStore = create<CartStoreType>()(
           );
           return { cart: updatedCart };
         }),
+      clearCart: () =>
+        set(() => ({
+          cart: [], // Reset the cart to an empty array
+        })),
     }),
     {
-      name: "cart",
+      name: "cart", 
     }
   )
 );
-

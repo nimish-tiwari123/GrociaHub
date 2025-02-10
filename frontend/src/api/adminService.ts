@@ -109,6 +109,11 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Offer"],
     }),
+    viewOrders: builder.query({
+      query: ({ searchTerm, currentPage, pageSize }) =>
+        `/orders?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
+      providesTags: ["Order"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -130,5 +135,6 @@ export const {
   useAddOfferMutation,
   useViewOffersQuery,
   useDeleteOfferMutation,
-  useUpdateOfferStatusMutation
+  useUpdateOfferStatusMutation,
+  useViewOrdersQuery
 } = adminService;

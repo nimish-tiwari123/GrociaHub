@@ -5,7 +5,7 @@ const api = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: "http://192.168.31.84:9000/api" }),
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api" }),
 
-  tagTypes: ["Category", "Product","User","Offer"],
+  tagTypes: ["Category", "Product","User","Offer","Order"],
 
   endpoints: (build) => ({
     register: build.mutation({

@@ -11,20 +11,28 @@ import { MdOutlineEdit } from "react-icons/md";
 import { TbShoppingCartX } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
-
+import { useViewOrdersQuery } from "../../../api/adminService";
 const OrderManagement: React.FC = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
+  const pageSize = 5;
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    console.log("Current Page:", page);
-  };
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  const {
+    data: orderData,
+    isLoading,
+    isFetching,
+  } = useViewOrdersQuery({ searchTerm, currentPage, pageSize });
+  const navigate = useNavigate();
+
+   const handlePageChange = (page: number) => {
+     setCurrentPage(page);
+   };
+ 
+   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+     setSearchTerm(event.target.value);
+     setCurrentPage(1);
+   };
+ 
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -35,7 +43,13 @@ const OrderManagement: React.FC = () => {
   const handleConfirmDelete = () => {
     setShowDeleteModal(false);
   };
-
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   type DataType = {
     index: string;
     customerName: string;
@@ -53,8 +67,8 @@ const OrderManagement: React.FC = () => {
 
   const columns: any = [
     { key: "index", header: "S. No.", type: "text" },
-    { key: "customerName", header: "Customer Name", type: "text" },
     { key: "orderId", header: "Order Id", type: "text" },
+    { key: "customerName", header: "Customer Name", type: "text" },
     { key: "orderDate", header: "Order Date", type: "text" },
     { key: "totalAmount", header: "Total Amount", type: "text" },
 
@@ -94,57 +108,16 @@ const OrderManagement: React.FC = () => {
       },
     },
   ];
-  const data: DataType[] = [
-    {
-      index: "01",
-      customerName: "Sumit Chouhan",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹677",
-      status: "Pending",
-    },
-    {
-      index: "02",
-      customerName: "Raja Prajapati",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹789",
-      status: "Completed",
-    },
-    {
-      index: "03",
-      customerName: "Aavesh Khanna",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹999",
-      status: "Cancelled",
-    },
-    {
-      index: "04",
-      customerName: "Sapna Trivedi",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹125",
-      status: "Pending",
-    },
-    {
-      index: "05",
-      customerName: "Prashant Yadav",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹5",
-      status: "Completed",
-    },
-    {
-      index: "06",
-      customerName: "Nimish Obroy",
-      orderId: "123456CDFbr",
-      orderDate: "14/08/2024",
-      totalAmount: "₹2000",
-      status: "Cancelled",
-    },
-  ];
-
+  const data: DataType[] =
+  orderData?.orders.map((order: any, index: number) => ({
+    index: String(index + 1).padStart(2, "0"),
+    customerName: order.user.name,
+    orderId: order._id,
+    orderDate: formatDate(order.createdAt),
+    totalAmount: order.totalPrice || "N/A",
+    status: order.status,
+  })) || [];
+  
   const actions: ActionType[] = [
     {
       label: "View Details",
@@ -169,7 +142,6 @@ const OrderManagement: React.FC = () => {
       icon: <FaRegFilePdf />,
     },
   ];
-
 
   return (
     <Container
@@ -208,7 +180,6 @@ const OrderManagement: React.FC = () => {
             placeholder="Type to search..."
           />
         </Col>
-      
       </Row>
       <Row className="mt-3 px-2 px-md-1">
         <Col>
@@ -217,7 +188,7 @@ const OrderManagement: React.FC = () => {
             <div className="mt-5 mb-3 d-flex justify-content-center">
               <Pagination
                 currentPage={currentPage}
-                totalPages={totalPages}
+                totalPages={orderData?.pagination?.totalPages}
                 onPageChange={handlePageChange}
               />
             </div>

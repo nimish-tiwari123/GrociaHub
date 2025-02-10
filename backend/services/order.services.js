@@ -12,7 +12,7 @@ const saveOrder = async (data) => {
 
 const getOrders = async () => {
   try {
-    return await Order.find({});
+    return await Order.find({}).populate("user","name");
   } catch (error) {
     console.log(error.message);
     throw new Error("Error while fetching orders");
