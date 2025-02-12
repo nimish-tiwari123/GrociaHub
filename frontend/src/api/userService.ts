@@ -34,6 +34,14 @@ const userService = api.injectEndpoints({
         body: formData,
       }),
     }),
+    createOrder: builder.mutation({
+      query: (orderData) => ({
+        url: "/orders",
+        method: "POST",
+        body: orderData,
+      }),
+      invalidatesTags: ["Order"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -44,5 +52,6 @@ export const {
   useViewUserProductByIdQuery,
   useViewSearchProductsQuery,
   useViewUserByIdQuery,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useCreateOrderMutation
 } = userService;

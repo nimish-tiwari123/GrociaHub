@@ -8,7 +8,7 @@ import { FiPhone } from "react-icons/fi";
 import { FiHome } from "react-icons/fi";
 import { MdOutlineGridView } from "react-icons/md";
 import { TfiAnnouncement } from "react-icons/tfi";
-import { Button } from "../../common";
+import { Button, Loader } from "../../common";
 import { SlMenu } from "react-icons/sl";
 import ResponsiveMenuBar from "./ResponsiveMenuBar";
 import { redirectAuthRoutesConstants } from "../../../routes/auth/authRoutesConstants";
@@ -18,6 +18,8 @@ import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants"
 import { FiUser } from "react-icons/fi";
 import { useCartStore } from "../../../store/useCartStore";
 import { LogoutModal } from "../../../Modals";
+import { toast } from "react-toastify";
+import { useViewUserByIdQuery } from "../../../api/userService";
 import "./style.css";
 
 const CustomNavbar = () => {
@@ -31,6 +33,7 @@ const CustomNavbar = () => {
   const userId = localStorage.getItem("userId");
   const cart = useCartStore((state) => state.cart);
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: userData, isLoading } = useViewUserByIdQuery(userId);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -40,10 +43,16 @@ const CustomNavbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
+    setShowLogout(false);
+    toast.success("Logout Successfully!");
   };
   return (
     <>
-      <Navbar expand="lg" className="sticky-top bg-white border-bottom w-100 z-1">
+      {isLoading && <Loader />}
+      <Navbar
+        expand="lg"
+        className="sticky-top bg-white border-bottom w-100 z-1"
+      >
         <Container>
           <Navbar.Brand href="/">
             <img src={logo} alt="Logo" className="logo-nav" />
@@ -67,10 +76,17 @@ const CustomNavbar = () => {
                 <Dropdown.Toggle
                   variant="light"
                   id="dropdown-basic"
-                  style={{ width: "30px", height: "30px" }}
-                  className="d-flex align-items-center gap-2 border rounded-circle bg-transparent p-1"
+                  className="d-flex align-items-center border-0 rounded-circle bg-transparent p-1"
                 >
-                  <FiUser size={50} />
+                  {userData?.user?.profileImage ? (
+                    <img
+                      src={userData.user.profileImage}
+                      className="border rounded-circle object-fit-cover"
+                      style={{ width: "30px", height: "30px" }}
+                    />
+                  ) : (
+                    <FiUser size={50} />
+                  )}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu align="end">
@@ -145,20 +161,27 @@ const CustomNavbar = () => {
                       id="dropdown-basic"
                       className="d-flex align-items-center gap-2 border-0 bg-transparent"
                     >
-                      <div
-                        className="border rounded-circle d-flex align-items-center justify-content-center"
-                        style={{ width: "32px", height: "32px" }}
-                      >
-                        <FiUser size={20} />
+                      <div>
+                        {userData?.user?.profileImage ? (
+                          <img
+                            src={userData.user.profileImage}
+                            className="border rounded-circle object-fit-cover"
+                            style={{ width: "32px", height: "32px" }}
+                          />
+                        ) : (
+                          <FiUser size={50} />
+                        )}
                       </div>
-                      <span className="fw-medium">{userName}</span>
+                      <span className="fw-medium">
+                        {userData?.user?.name?.split(" ")[0]}
+                      </span>{" "}
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
                       <Dropdown.Item onClick={() => navigate("/profile")}>
                         View Profile
                       </Dropdown.Item>
-                      <Dropdown.Item onClick={handleLogout}>
+                      <Dropdown.Item onClick={() => setShowLogout(true)}>
                         Logout
                       </Dropdown.Item>
                     </Dropdown.Menu>

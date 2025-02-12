@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useViewUserProductByIdQuery } from "../../../api/userService";
 import { Button } from "../../../components/common";
 import { MdDeliveryDining } from "react-icons/md";
@@ -10,10 +10,11 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useCartStore } from "../../../store/useCartStore";
 import { toast } from "react-toastify";
+import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 
 const ViewProduct = () => {
   const { id } = useParams();
-
+const navigate = useNavigate();
   const { data, isLoading, isFetching } = useViewUserProductByIdQuery(id);
   const [activeImg, setActiveImg] = useState<string>(
     data?.product?.images[0] || ""
@@ -44,7 +45,8 @@ const ViewProduct = () => {
   const handleAddToCart = () => {
     if (data) {
       const product = {
-        image: data.product.images[0],
+        _id:data.product._id,
+        images: data.product.images,
         name: data.product.name,
         category: data.product.category.name,
         weight: data.product.unit,
@@ -60,7 +62,22 @@ const ViewProduct = () => {
   };
 
   const handleBuyNow = () => {
-    console.log("Proceeding to checkout...");
+    if (data) {
+      const product = {
+        _id:data.product._id,
+        images: data.product.images,
+        name: data.product.name,
+        category: data.product.category.name,
+        weight: data.product.unit,
+        rating: 4, // Assuming 4 stars or adjust based on your data
+        price: data.product.price,
+        discountPrice: data.product.discount,
+        quantity,
+      };
+
+      addToCart(product);
+    }
+    navigate(userRoutesConstants.cart);
   };
 
   if (isLoading || isFetching) {
