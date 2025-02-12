@@ -1,15 +1,17 @@
-const { User, Product, Category } = require("../models");
+const { User, Product, Order, DealsAndOffer } = require("../models");
 
 const getCounts = async () => {
   try {
     const usersCount = await User.countDocuments();
     const productsCount = await Product.countDocuments();
-    const categoriesCount = await Category.countDocuments();
+    const ordersCount = await Order.countDocuments();
+    const dealsAndOfferCount = await DealsAndOffer.countDocuments();
 
     return {
       usersCount,
       productsCount,
-      categoriesCount,
+      ordersCount,
+      dealsAndOfferCount,
     };
   } catch (error) {
     throw new Error("Error while fetching counts");
