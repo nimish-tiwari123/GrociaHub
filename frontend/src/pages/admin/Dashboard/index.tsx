@@ -51,28 +51,28 @@ const Dashboard: React.FC = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={3}>
+        <Col md={6} lg={3}>
           <Card
             icon={<FaBoxOpen size={25} />}
             heading={dashboardCounts?.counts?.productsCount}
             subHeading="Total Products"
           />
         </Col>
-        <Col md={3}>
+        <Col md={6} lg={3}>
           <Card
             icon={<FaTags size={25} />}
-            heading="482"
-            subHeading="Active Offers & Discounts"
+            heading={dashboardCounts?.counts?.dealsAndOfferCount}
+            subHeading="Active Offers"
           />
         </Col>
-        <Col md={3}>
+        <Col md={6} lg={3}>
           <Card
             icon={<FaShoppingCart size={25} />}
-            heading="8,890"
-            subHeading="Orders Today"
+            heading={dashboardCounts?.counts?.ordersCount}
+            subHeading="Total Orders"
           />
         </Col>
-        <Col md={3}>
+        <Col md={6} lg={3}>
           <Card
             icon={<FaUsers size={25} />}
             heading={dashboardCounts?.counts?.usersCount}
@@ -81,10 +81,10 @@ const Dashboard: React.FC = () => {
         </Col>
       </Row>
       <Row>
-        <Col md={8}>
+        <Col lg={8}>
           <BarChart />
         </Col>
-        <Col md={4}>
+        <Col lg={4}>
           <OrderDetailsChart />
         </Col>
       </Row>

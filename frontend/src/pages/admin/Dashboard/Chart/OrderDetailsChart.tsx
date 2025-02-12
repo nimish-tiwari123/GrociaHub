@@ -50,7 +50,7 @@ const OrderDetailsChart: React.FC = () => {
   };
 
   return (
-    <div className="order-details-chart mt-0 mb-3 my-md-4 border rounded p-3 bg-white custom-shadow">
+    <div className="order-details-chart mt-0 mb-3 my-lg-4 border rounded p-3 bg-white custom-shadow">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5 className="fw-bold">Order Details</h5>
         <select

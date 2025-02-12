@@ -1,48 +1,78 @@
 import { Container, Row, Col } from "react-bootstrap";
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { SearchField, Pagination } from "../../../components/admin";
-import { CustomTable } from "../../../components/common";
+import { CustomTable, TableSkeleton } from "../../../components/common";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteModal } from "../../../Modals";
 import { userRoutesConstants } from "../../../routes/user/userRoutesConstants";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { MdOutlineEdit } from "react-icons/md";
+import { MdOutlineRemoveRedEye, MdOutlineEdit } from "react-icons/md";
 import { TbShoppingCartX } from "react-icons/tb";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { redirectAdminRoutes } from "../../../routes/admin/adminRoutesConstants";
-import { useViewOrdersQuery } from "../../../api/adminService";
+import {
+  useViewOrdersQuery,
+  useUpdateOrderCancelMutation,
+} from "../../../api/adminService";
+
 const OrderManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
-
-  const {
-    data: orderData,
-    isLoading,
-    isFetching,
-  } = useViewOrdersQuery({ searchTerm, currentPage, pageSize });
-  const navigate = useNavigate();
-
-   const handlePageChange = (page: number) => {
-     setCurrentPage(page);
-   };
- 
-   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-     setSearchTerm(event.target.value);
-     setCurrentPage(1);
-   };
- 
-
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const handleCancel = () => {
-    setShowDeleteModal(false);
+  const navigate = useNavigate();
+
+  // Fetch orders
+  const {
+    data: orderData,
+    isLoading: isLoadingView,
+    isFetching: isFetchingView,
+  } = useViewOrdersQuery({
+    searchTerm,
+    currentPage,
+    pageSize,
+  });
+
+  // Cancel Order API Mutation
+  const [cancelOrder, { isLoading: isCancelLoading }] =
+    useUpdateOrderCancelMutation();
+
+  // Handle Page Change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
-  const handleConfirmDelete = () => {
-    setShowDeleteModal(false);
+  // Handle Search Change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1);
   };
+
+  // Open confirmation modal for order cancellation
+  const handleCancelOrderClick = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setShowDeleteModal(true);
+  };
+
+  // Confirm Cancel Order API Call
+  const handleConfirmCancelOrder = async () => {
+    if (!selectedOrderId) return;
+
+    try {
+      await cancelOrder({
+        id: selectedOrderId,
+        formData: { status: "Cancelled" },
+      }).unwrap();
+
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error("Failed to cancel order:", error);
+    }
+  };
+
+  // Format Date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
@@ -50,6 +80,7 @@ const OrderManagement: React.FC = () => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+
   type DataType = {
     index: string;
     customerName: string;
@@ -62,16 +93,16 @@ const OrderManagement: React.FC = () => {
   type ActionType = {
     label: string;
     onClick: (row: DataType) => void;
-    icon: ReactNode;
+    icon: React.ReactNode;
   };
 
+  // Table Columns
   const columns: any = [
     { key: "index", header: "S. No.", type: "text" },
     { key: "orderId", header: "Order Id", type: "text" },
     { key: "customerName", header: "Customer Name", type: "text" },
     { key: "orderDate", header: "Order Date", type: "text" },
     { key: "totalAmount", header: "Total Amount", type: "text" },
-
     {
       key: "status",
       header: "Status",
@@ -108,16 +139,19 @@ const OrderManagement: React.FC = () => {
       },
     },
   ];
+
+  // Table Data
   const data: DataType[] =
-  orderData?.orders.map((order: any, index: number) => ({
-    index: String(index + 1).padStart(2, "0"),
-    customerName: order.user.name,
-    orderId: order._id,
-    orderDate: formatDate(order.createdAt),
-    totalAmount: order.totalPrice || "N/A",
-    status: order.status,
-  })) || [];
-  
+    orderData?.orders.map((order: any, index: number) => ({
+      index: String(index + 1).padStart(2, "0"),
+      customerName: order.user.name,
+      orderId: order._id,
+      orderDate: formatDate(order.createdAt),
+      totalAmount: order.totalPrice || "N/A",
+      status: order.status,
+    })) || [];
+
+  // Table Actions
   const actions: ActionType[] = [
     {
       label: "View Details",
@@ -126,20 +160,9 @@ const OrderManagement: React.FC = () => {
     },
 
     {
-      label: "Update Status",
-      onClick: () => setShowDeleteModal(true),
-      icon: <MdOutlineEdit />,
-    },
-    {
       label: "Cancel Order",
-      onClick: () => console.log("Order Cancel"),
+      onClick: (row) => handleCancelOrderClick(row.orderId),
       icon: <TbShoppingCartX />,
-    },
-
-    {
-      label: "Download",
-      onClick: () => setShowDeleteModal(true),
-      icon: <FaRegFilePdf />,
     },
   ];
 
@@ -158,20 +181,8 @@ const OrderManagement: React.FC = () => {
           </Link>
           <h1 className="fw-bold fs-3 m-0 mt-md-3">Order Management</h1>
         </Col>
-        <Col
-          md={7}
-          className="d-md-flex align-items-center justify-content-end gap-lg-2 gap-md-1 d-none"
-        >
-          <Link
-            to={userRoutesConstants.home}
-            className="text-decoration-none text-custom-primary"
-          >
-            Home
-          </Link>
-          <span> | </span>
-          <span>Order Management</span>
-        </Col>
       </Row>
+
       <Row className="mt-4">
         <Col lg={4} md={8}>
           <SearchField
@@ -181,26 +192,36 @@ const OrderManagement: React.FC = () => {
           />
         </Col>
       </Row>
+
       <Row className="mt-3 px-2 px-md-1">
         <Col>
           <div className="bg-white p-3 custom-shadow rounded border custom-shadow mb-3">
-            <CustomTable columns={columns} data={data} actions={actions} />
-            <div className="mt-5 mb-3 d-flex justify-content-center">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={orderData?.pagination?.totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            {isFetchingView || isLoadingView || isCancelLoading ? (
+              <TableSkeleton />
+            ) : (
+              <>
+                <CustomTable columns={columns} data={data} actions={actions} />
+                <div className="mt-5 mb-3 d-flex justify-content-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={orderData?.pagination?.totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </Col>
       </Row>
+
+      {/* Delete Confirmation Modal */}
       <DeleteModal
         show={showDeleteModal}
-        heading="Delete Offer"
-        subheading={`Are you sure you want to delete the Offer "${name}"? This action cannot be undone.`}
-        onDelete={handleConfirmDelete}
-        onCancel={handleCancel}
+        heading="Cancel Order"
+        subheading="Are you sure you want to cancel this order? This action cannot be undone."
+        onDelete={handleConfirmCancelOrder}
+        onCancel={() => setShowDeleteModal(false)}
+        btnLabel="Cancel Order"
       />
     </Container>
   );

@@ -101,7 +101,7 @@ const adminService = api.injectEndpoints({
       }),
       invalidatesTags: ["Offer"],
     }),
-    updateOfferStatus : builder.mutation({
+    updateOfferStatus: builder.mutation({
       query: ({ id, formData }) => ({
         url: `/dealsAndOffers/${id}`,
         method: "PATCH",
@@ -113,6 +113,14 @@ const adminService = api.injectEndpoints({
       query: ({ searchTerm, currentPage, pageSize }) =>
         `/orders?search=${searchTerm}&pageNo=${currentPage}&pageSize=${pageSize}`,
       providesTags: ["Order"],
+    }),
+    updateOrderCancel: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/orders/${id}`,
+        method: "PATCH",
+        body: formData,
+      }),
+      invalidatesTags: ["Order"],
     }),
   }),
   overrideExisting: false,
@@ -136,5 +144,6 @@ export const {
   useViewOffersQuery,
   useDeleteOfferMutation,
   useUpdateOfferStatusMutation,
-  useViewOrdersQuery
+  useViewOrdersQuery,
+  useUpdateOrderCancelMutation,
 } = adminService;
